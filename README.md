@@ -3,10 +3,10 @@
 # Systematic comparison of trip distribution laws and models 
 
 <!-- badges: start -->
-[![R build status](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions) 
+[![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions
 [![version](https://img.shields.io/github/v/release/EpiVec/TDLM?label=version&style=flat&logo=github)](https://github.com/EpiVec/TDLM) 
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3) 
-[![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions)
+)
 <!-- badges: end -->
 
 ## 1 Install
