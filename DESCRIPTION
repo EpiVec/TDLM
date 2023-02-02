@@ -29,3 +29,4 @@ VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 BugReports: https://github.com/EpiVec/TDML/issues
 Roxygen: list(markdown = TRUE)
+URL: https://epivec.github.io/TDLM/
