@@ -1,0 +1,45 @@
+---
+title: "Tutorial for TDLM"
+author: "Maxime Lenormand"
+date: "`r Sys.Date()`"
+output: 
+  html_vignette:
+    number_sections: false
+  html_document:
+    toc: true
+    toc_float:
+    collapsed: false
+    smooth_scroll: false
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Tutorial for TDLM}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      fig.width = 8, fig.height = 8)
+# Packages --------------------------------------------------------------------
+suppressPackageStartupMessages({
+  suppressWarnings({
+    library(TDLM)
+  })
+})
+
+options(tinytex.verbose = TRUE)
+
+```
+
+## 0. Brief introduction
+
+
+
+
+
+
+
+
+
+

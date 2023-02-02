@@ -1,0 +1,31 @@
+Package: TDLM
+Type: Package
+Title: Systematic comparison of trip distribution laws and models
+Version: 0.1.0
+Authors@R: 
+    c(person(given = "Maxime",
+              family = "Lenormand",
+              email = "maxime.lenormand@inrae.fr",
+              role = c("aut", "cre"),
+              comment = c(ORCID = "0000-0001-6362-3473"))
+       )
+Description: An R package to compare trip distribution laws and models.
+Depends:
+  R (>= 4.0.0)
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    mathjaxr,
+    Rdpack,
+    rmarkdown,
+    tidyr
+RdMacros: 
+    mathjaxr,
+    Rdpack
+Suggests:
+    knitr
+VignetteBuilder: knitr
+RoxygenNote: 7.2.3
+BugReports: https://github.com/EpiVec/TDML/issues
+Roxygen: list(markdown = TRUE)
