@@ -1,5 +1,5 @@
 /*
- *  Author: Maxime Lenormand (2015)
+ *  Author: Maxime Lenormand (2023)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 3.
@@ -18,43 +18,53 @@ import java.util.Scanner;
 
 public class TDLM {
 
-    static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
+    //static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
 
     public static void main(String[] args) throws FileNotFoundException {
-
+    	
+    	//Parameters: wdin, wdout, law, beta, pijonly, model, repli, writepij
+    	String wdin = args[0];
+    	String wdout = args[1];
+    	String law = args[2];
+    	double beta = Double.parseDouble(args[3]);
+    	boolean pijonly = Boolean.parseBoolean(args[4]);
+    	String model = args[5];
+    	double repli = Integer.parseInt(args[6]);
+    	boolean writepij = Boolean.parseBoolean(args[7]);
+    	
         //Parameters: law, model, beta, repli and writepij
-        Scanner scan = new Scanner(new File(wd + "Parameters.csv"));
-        scan.nextLine();
-        String[] cols = scan.nextLine().split(";");
-        String law = cols[0];
-        String model = cols[1];
-        cols[2] = cols[2].replace(',', '.');
-        double beta = Double.parseDouble(cols[2]);
-        double repli = Integer.parseInt(cols[3]);
-        boolean writepij = Boolean.parseBoolean(cols[4]);
+        //Scanner scan = new Scanner(new File(wd + "Parameters.csv"));
+        //scan.nextLine();
+        //String[] cols = scan.nextLine().split(";");
+        //String law = cols[0];
+        //String model = cols[1];
+        //cols[2] = cols[2].replace(',', '.');
+        //double beta = Double.parseDouble(cols[2]);
+        //double repli = Integer.parseInt(cols[3]);
+        //boolean writepij = Boolean.parseBoolean(cols[4]);
 
         //Check if the law and the model are defined
-        if (!(law.equals("GravExp") || law.equals("NGravExp") || law.equals("GravPow") || law.equals("NGravPow") || law.equals("Schneider") || law.equals("Rad") || law.equals("RadExt") || law.equals("Rand"))) {
-            System.out.print("The law ");
-            System.out.print(law);
-            System.out.println(" is not defined");
-            return;
-        }
+        //if (!(law.equals("GravExp") || law.equals("NGravExp") || law.equals("GravPow") || law.equals("NGravPow") || law.equals("Schneider") || law.equals("Rad") || law.equals("RadExt") || law.equals("Rand"))) {
+        //    System.out.print("The law ");
+        //    System.out.print(law);
+        //    System.out.println(" is not defined");
+        //    return;
+        //}
 
-        if (!(model.equals("UM") || model.equals("PCM") || model.equals("ACM") || model.equals("DCM"))) {
-            System.out.print("The model ");
-            System.out.print(model);
-            System.out.println(" is not defined");
-            return;
-        }
+        //if (!(model.equals("UM") || model.equals("PCM") || model.equals("ACM") || model.equals("DCM"))) {
+        //    System.out.print("The model ");
+        //    System.out.print(model);
+        //    System.out.println(" is not defined");
+        //    return;
+        //}
 
         //Load data: Inputs (mi, mj, Oi and Dj), dij and sij       
         //Number of regions n
         int n = 0;
-        scan = new Scanner(new File(wd + "Inputs.csv"));
-        scan.nextLine();
+        Scanner scan = new Scanner(new File(wdin + "Mass.csv"));
+        String[] cols = scan.nextLine().split(";");
         while (scan.hasNextLine()) {
-            cols = scan.nextLine().split(";");
+        	cols = scan.nextLine().split(";");
             n++;
         }
 
@@ -63,7 +73,7 @@ public class TDLM {
         int[] mj = new int[n];  //Number of inhabitants at destination (mj)
         int[] Oi = new int[n];  //Number of out-commuters (Oi) 
         int[] Dj = new int[n];  //Number of in-commuters (Dj)
-        scan = new Scanner(new File(wd + "Inputs.csv"));
+        scan = new Scanner(new File(wdin + "Mass.csv"));
         scan.nextLine();
         int k = 0;
         while (scan.hasNextLine()) {
@@ -77,7 +87,7 @@ public class TDLM {
 
         //Distance matrix dij (size n x n)
         double[][] dij = new double[n][n];
-        scan = new Scanner(new File(wd + "Distance.csv"));
+        scan = new Scanner(new File(wdin + "Distance.csv"));
         scan.nextLine();
         k = 0;
         while (scan.hasNextLine()) {
@@ -92,7 +102,7 @@ public class TDLM {
         //Matrix of opportunities sij matrix (size n x n) [only for the intervening opportunities laws]
         double[][] sij = new double[n][n];
         if (law.equals("Rad") || law.equals("RadExt") || law.equals("Schneider")) {
-            scan = new Scanner(new File(wd + "Sij.csv"));
+            scan = new Scanner(new File(wdin + "Sij.csv"));
             scan.nextLine();
             k = 0;
             while (scan.hasNextLine()) {
@@ -105,13 +115,13 @@ public class TDLM {
             }
         }
 
-        System.out.println("Data loaded");
+        //System.out.println("Data loaded");
 
         //Build the matrix pij according to the law
         double[][] pij = proba(law, dij, sij, mi, mj, beta);
 
         //Write pij if needed
-        if (writepij) {
+        if (pijonly || writepij) {
             //Sum pij for normalization
             double sumpij = 0.0;
             for (int i = 0; i < pij.length; i++) {
@@ -120,7 +130,7 @@ public class TDLM {
                 }
             }
             //Write
-            PrintWriter writerpij = new PrintWriter(new File("pij.csv"));
+            PrintWriter writerpij = new PrintWriter(new File(wdout + "pij.csv"));
             for (int j = 0; j < pij.length; j++) {
                 writerpij.print("V" + (j + 1));
                 writerpij.print(";");
@@ -134,44 +144,49 @@ public class TDLM {
                 writerpij.println();
             }
         }
+        
+        if(!pijonly) {
+        	
+            //Loop replications
+            for (int r = 0; r < repli; r++) {
 
-        //Loop replications
-        for (int r = 0; r < repli; r++) {
+                //System.out.println("Replication " + (r + 1));
 
-            System.out.println("Replication " + (r + 1));
+                //Simulated OD
+                double[][] S = new double[n][n];
 
-            //Simulated OD
-            double[][] S = new double[n][n];
+                //Network generation according to the constrained model 
+                if (model.equals("UM")) {   //Unconstrained model
+                    S = UM(pij, Oi);
+                }
+                if (model.equals("PCM")) {  //Production cconstrained model
+                    S = PCM(pij, Oi);
+                }
+                if (model.equals("ACM")) {  //Attraction constrained model
+                    S = ACM(pij, Dj);
+                }
+                if (model.equals("DCM")) {  //Doubly constrained model
+                    S = DCM(pij, Oi, Dj, 50, 0.01);
+                }
 
-            //Network generation according to the constrained model 
-            if (model.equals("UM")) {   //Unconstrained model
-                S = UM(pij, Oi);
-            }
-            if (model.equals("PCM")) {  //Production cconstrained model
-                S = PCM(pij, Oi);
-            }
-            if (model.equals("ACM")) {  //Attraction constrained model
-                S = ACM(pij, Dj);
-            }
-            if (model.equals("DCM")) {  //Doubly constrained model
-                S = DCM(pij, Oi, Dj, 50, 0.01);
-            }
-
-            //Write the resulting simulated OD matrix in a file 
-            PrintWriter writer = new PrintWriter(new File("S_" + (r + 1) + ".csv"));
-            for (int j = 0; j < S.length; j++) {
-                writer.print("V" + (j + 1));
-                writer.print(";");
-            }
-            writer.println();
-            for (int i = 0; i < S.length; i++) {
+                //Write the resulting simulated OD matrix in a file 
+                PrintWriter writer = new PrintWriter(new File(wdout + "S_" + (r + 1) + ".csv"));
                 for (int j = 0; j < S.length; j++) {
-                    writer.print(S[i][j]);
+                    writer.print("V" + (j + 1));
                     writer.print(";");
                 }
                 writer.println();
+                for (int i = 0; i < S.length; i++) {
+                    for (int j = 0; j < S.length; j++) {
+                        writer.print(S[i][j]);
+                        writer.print(";");
+                    }
+                    writer.println();
+                }
+                writer.close();
+                
             }
-            writer.close();
+        	
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- *  Author: Maxime Lenormand (2015)
+ *  Author: Maxime Lenormand (2023)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 3.
@@ -18,15 +18,19 @@ import java.util.Scanner;
 
 public class Sij {
 
-    static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
+    //static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
 
     public static void main(String[] args) throws FileNotFoundException {
 
+    	//Parameters: wdin, wdout
+    	String wdin = args[0];
+    	String wdout = args[1];
+    	
         //Load data: Inputs mi and dij
 
         //Number of regions n
         int n = 0;
-        Scanner scan = new Scanner(new File(wd + "Inputs.csv"));
+        Scanner scan = new Scanner(new File(wdin + "Mass.csv"));
         scan.nextLine();
         while (scan.hasNextLine()) {
             String[] cols = scan.nextLine().split(";");
@@ -35,7 +39,7 @@ public class Sij {
 
         //Inputs
         int[] mj = new int[n];  //Number of inhabitants at destination (mj)
-        scan = new Scanner(new File(wd + "Inputs.csv"));
+        scan = new Scanner(new File(wdin + "Mass.csv"));
         scan.nextLine();
         int k = 0;
         while (scan.hasNextLine()) {
@@ -46,7 +50,7 @@ public class Sij {
 
         //Distance matrix dij (size n x n)
         double[][] dij = new double[n][n];
-        scan = new Scanner(new File(wd + "Distance.csv"));
+        scan = new Scanner(new File(wdin + "Distance.csv"));
         scan.nextLine();
         k = 0;
         while (scan.hasNextLine()) {
@@ -78,7 +82,7 @@ public class Sij {
         }
 
         //Write the resulting matrix in a file
-        try (PrintWriter writer = new PrintWriter(new File(wd + "sij.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new File(wdout + "Sij.csv"))) {
             for (int j = 0; j < S.length; j++) {
                 writer.print("V" + (j + 1));
                 writer.print(";");

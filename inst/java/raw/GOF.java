@@ -1,5 +1,5 @@
 /*
- *  Author: Maxime Lenormand (2015)
+ *  Author: Maxime Lenormand (2023)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 3.
@@ -18,22 +18,31 @@ import java.util.Scanner;
 
 public class GOF {
 
-    static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
+    //static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
 
     public static void main(String[] args) throws FileNotFoundException {
+    	
+    	//Parameters: wdin, wdout
+    	String wdin = args[0];
+    	String wdout = args[1];    	
+    	int count = args.length;
+    	String[] ODsim = new String[(count - 2)];
+        for (int sim = 0; sim < (count -2); sim++) {
+            ODsim[sim] = args[(sim + 2)];
+        }
 
         //Parameters: law, model, beta and repli
-        Scanner scan = new Scanner(new File(wd + "Parameters.csv"));
-        scan.nextLine();
-        String[] cols = scan.nextLine().split(";");
-        double repli = Integer.parseInt(cols[3]);
+        //Scanner scan = new Scanner(new File(wd + "Parameters.csv"));
+        //scan.nextLine();
+        //String[] cols = scan.nextLine().split(";");
+        //double repli = Integer.parseInt(cols[3]);
 
         //Load data: Tij and dij
 
         //Number of regions n
         int n = 0;
-        scan = new Scanner(new File(wd + "Inputs.csv"));
-        scan.nextLine();
+        Scanner scan = new Scanner(new File(wdin + "OD.csv"));
+        String[] cols = scan.nextLine().split(";");
         while (scan.hasNextLine()) {
             cols = scan.nextLine().split(";");
             n++;
@@ -41,7 +50,7 @@ public class GOF {
 
         //Observed OD matrix Tij (size n x n)
         double[][] Tij = new double[n][n];
-        scan = new Scanner(new File(wd + "OD.csv"));
+        scan = new Scanner(new File(wdin + "OD.csv"));
         scan.nextLine();
         int k = 0;
         while (scan.hasNextLine()) {
@@ -56,7 +65,7 @@ public class GOF {
         //Distance matrix dij (size n x n)
         double maxd = 0.0;
         double[][] dij = new double[n][n];
-        scan = new Scanner(new File(wd + "Distance.csv"));
+        scan = new Scanner(new File(wdin + "Distance.csv"));
         scan.nextLine();
         k = 0;
         while (scan.hasNextLine()) {
@@ -70,14 +79,14 @@ public class GOF {
         }
 
         //Writer
-        PrintWriter writer = new PrintWriter(new File("GOF.csv"));
+        PrintWriter writer = new PrintWriter(new File(wdout + "GOF.csv"));
 
         //Loop replications
-        for (int r = 0; r < repli; r++) {
+        for (int r = 0; r < (count - 2); r++) {
 
             //Load simulated OD
             double[][] S = new double[n][n];
-            scan = new Scanner(new File("S_" + (r + 1) + ".csv"));
+            scan = new Scanner(new File(wdout + ODsim[r] + ".csv"));
             scan.nextLine();
             k = 0;
             while (scan.hasNextLine()) {
@@ -135,7 +144,7 @@ public class GOF {
             cpcd = 1 - 0.5 * cpcd;
 
             //Write the results
-            writer.print(r);
+            writer.print(ODsim[r]);
             writer.print(";");
             writer.print(cpc);
             writer.print(";");
@@ -144,14 +153,14 @@ public class GOF {
             writer.print(cpcd);
             writer.println();
 
-            System.out.print(r);
-            System.out.print(" ");
-            System.out.print(cpc);
-            System.out.print(" ");
-            System.out.print(cpl);
-            System.out.print(" ");
-            System.out.print(cpcd);
-            System.out.println();
+            //System.out.print(r);
+            //System.out.print(" ");
+            //System.out.print(cpc);
+            //System.out.print(" ");
+            //System.out.print(cpl);
+            //System.out.print(" ");
+            //System.out.print(cpcd);
+            //System.out.println();
 
         }
         writer.close();
