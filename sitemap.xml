@@ -22,9 +22,21 @@
     <loc>https://epivec.github.io/TDLM/news/index.html</loc>
   </url>
   <url>
+    <loc>https://epivec.github.io/TDLM/reference/distance.html</loc>
+  </url>
+  <url>
     <loc>https://epivec.github.io/TDLM/reference/index.html</loc>
   </url>
   <url>
     <loc>https://epivec.github.io/TDLM/reference/install_binaries.html</loc>
+  </url>
+  <url>
+    <loc>https://epivec.github.io/TDLM/reference/mass.html</loc>
+  </url>
+  <url>
+    <loc>https://epivec.github.io/TDLM/reference/od.html</loc>
+  </url>
+  <url>
+    <loc>https://epivec.github.io/TDLM/reference/spcounty.html</loc>
   </url>
 </urlset>
