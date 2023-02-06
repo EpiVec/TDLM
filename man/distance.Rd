@@ -6,8 +6,8 @@
 \title{Great-circle distances between US counties}
 \format{
 A \code{matrix} with 3,108 rows and 3,108 columns. Each element of the
-matrix represents the distance between two counties. County ID as rownames and
-colnames.
+matrix represents the distance between two counties. County ID as rownames
+and colnames.
 }
 \source{
 \url{https://www.sciencebase.gov/catalog/item/4f4e4a2ee4b07f02db615738}

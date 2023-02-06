@@ -69,17 +69,17 @@ public class TDLM {
         }
 
         //Inputs
-        int[] mi = new int[n];  //Number of inhabitants at origin (mi)
-        int[] mj = new int[n];  //Number of inhabitants at destination (mj)
-        int[] Oi = new int[n];  //Number of out-commuters (Oi) 
-        int[] Dj = new int[n];  //Number of in-commuters (Dj)
+        double[] mi = new double[n];  //Number of inhabitants at origin (mi)
+        double[] mj = new double[n];  //Number of inhabitants at destination (mj)
+        int[] Oi = new int[n];        //Number of out-commuters (Oi) 
+        int[] Dj = new int[n];        //Number of in-commuters (Dj)
         scan = new Scanner(new File(wdin + "Mass.csv"));
         scan.nextLine();
         int k = 0;
         while (scan.hasNextLine()) {
             cols = scan.nextLine().split(";");
-            mi[k] = Integer.parseInt(cols[0]);
-            mj[k] = Integer.parseInt(cols[1]);
+            mi[k] = Double.parseDouble(cols[0]);
+            mj[k] = Double.parseDouble(cols[1]);
             Oi[k] = Integer.parseInt(cols[2]);
             Dj[k] = Integer.parseInt(cols[3]);
             k++;
@@ -201,7 +201,7 @@ public class TDLM {
 
     //proba: generate the matrix pij according to the law (GravExp, GravPow, NGravExp, NGravPow, Schneider, Rad, RadExt and Rand)
     //inputs: law, mi, mj and beta
-    static double[][] proba(String law, double[][] dij, double[][] sij, int[] mi, int[] mj, double beta) {
+    static double[][] proba(String law, double[][] dij, double[][] sij, double[] mi, double[] mj, double beta) {
 
         int n = mi.length;                 //Number of regions
         double[][] W = new double[n][n];   //Output

@@ -21,8 +21,7 @@ Imports:
     Rdpack,
     readr,
     rmarkdown,
-    sf,
-    tidyr
+    sf
 RdMacros: 
     mathjaxr,
     Rdpack
