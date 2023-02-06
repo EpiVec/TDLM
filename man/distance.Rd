@@ -16,7 +16,7 @@ colnames.
 distance
 }
 \description{
-A dataset containing the great-circle distance (in meters) between 3,108 US
-counties.
+A dataset containing the great-circle distance (in kilometers) between 3,108
+US counties.
 }
 \keyword{datasets}

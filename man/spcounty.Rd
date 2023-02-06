@@ -10,7 +10,7 @@ A
 \item{ID}{County ID.}
 \item{Longitude}{Longitude coordinate of the centroid of the county.}
 \item{Latitude}{Latitude coordinate of the centroid of the county.}
-\item{Area}{Surface area of the county (in square meter).}
+\item{Area}{Surface area of the county (in square kilometer).}
 \item{geometry}{Geometry of the county.}
 }
 }

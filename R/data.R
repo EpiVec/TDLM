@@ -16,8 +16,8 @@
 
 #' Great-circle distances between US counties
 #'
-#' A dataset containing the great-circle distance (in meters) between 3,108 US 
-#' counties.
+#' A dataset containing the great-circle distance (in kilometers) between 3,108 
+#' US counties.
 #'
 #' @format A `matrix` with 3,108 rows and 3,108 columns. Each element of the 
 #' matrix represents the distance between two counties. County ID as rownames and 
@@ -44,7 +44,7 @@
 #'   \item{ID}{County ID.}
 #'   \item{Longitude}{Longitude coordinate of the centroid of the county.}
 #'   \item{Latitude}{Latitude coordinate of the centroid of the county.}
-#'   \item{Area}{Surface area of the county (in square meter).}
+#'   \item{Area}{Surface area of the county (in square kilometer).}
 #'   \item{geometry}{Geometry of the county.}
 #' }
 #' @source <https://www.sciencebase.gov/catalog/item/4f4e4a2ee4b07f02db615738>
