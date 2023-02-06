@@ -17,7 +17,7 @@ names, matrix rownames and colnames and if they should be checked
 (see Details).}
 }
 \value{
-A squared matrix in which each element represents the number of opportunites
+A squared matrix in which each element represents the number of opportunities
 between a pair of locations.
 }
 \description{

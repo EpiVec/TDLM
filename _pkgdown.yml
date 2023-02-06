@@ -2,3 +2,19 @@ url: https://epivec.github.io/TDLM/
 template:
   bootstrap: 5
 
+toc:
+  depth: 1
+
+reference:
+- title: Main fonctions
+  desc: >
+  contents:
+  - extract_opportunities
+
+- title: Data
+  desc: >
+  contents:
+  - mass
+  - distance
+  - od
+  - spcounty

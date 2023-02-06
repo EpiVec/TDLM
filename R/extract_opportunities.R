@@ -23,7 +23,7 @@
 #' default).
 #'
 #' @return
-#' A squared matrix in which each element represents the number of opportunites
+#' A squared matrix in which each element represents the number of opportunities
 #' between a pair of locations.
 #'
 #' @author
@@ -41,7 +41,6 @@
 #'
 #' @export
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
-
   # Set path to jar
   tdlmdir <- list.dirs(.libPaths(), recursive = FALSE)
   tdlmpath <- tdlmdir[grep("TDLM", tdlmdir)]
@@ -52,11 +51,21 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   }
 
   # Controls
-  controls(args = NULL, vector = opportunity, type = "vector_positive")
-  controls(args = NULL, matrix = distance, type = "matrix")
   controls(
-    args = NULL, vector = opportunity, matrix = distance,
-    type = "vector_matrix"
+    args = NULL,
+    vectors = list(opportunity = opportunity),
+    type = "vectors_positive"
+  )
+  controls(
+    args = NULL,
+    matrices = list(distance = distance),
+    type = "matrices"
+  )
+  controls(
+    args = NULL,
+    vectors = list(opportunity = opportunity),
+    matrices = list(distance = distance),
+    type = "vectors_matrices"
   )
   controls(args = check_names, type = "boolean")
 
