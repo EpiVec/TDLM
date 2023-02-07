@@ -50,12 +50,16 @@
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   
   # Set path to jar
-  tdlmdir <- .libPaths()[1]
-  tdlmpath <- paste0(tdlmdir,"/TDLM")
-  wdjar <- paste0(tdlmpath, "/java/")
+  libpath <- .libPaths()[1]
+  wdjar <- paste0(libpath,"/TDLM/java/")
   if (!dir.exists(wdjar)) {
     stop(paste0("Impossible to access ", wdjar, ". Please check that 
     the folder ", wdjar, " is accessible."), call. = FALSE)
+  }
+  if(!file.exists(paste0(wdjar,"Sij.jar"))){
+    stop(paste0("It seems that an error occurred during the package 
+    installation.\n", "The folder ", wdjar, "should contain three .jar files.")
+         , call. = FALSE)
   }
 
   # Controls
