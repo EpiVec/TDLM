@@ -50,8 +50,8 @@
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   
   # Set path to jar
-  tdlmdir <- list.dirs(.libPaths(), recursive = FALSE)
-  tdlmpath <- tdlmdir[grep("TDLM", tdlmdir)][1]
+  tdlmdir <- .libPaths()[1]
+  tdlmpath <- paste0(tdlmdir,"/TDLM")
   wdjar <- paste0(tdlmpath, "/java/")
   if (!dir.exists(wdjar)) {
     stop(paste0("Impossible to access ", wdjar, ". Please check that 
