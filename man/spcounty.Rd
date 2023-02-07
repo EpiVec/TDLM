@@ -5,7 +5,6 @@
 \alias{spcounty}
 \title{Spatial distribution of US counties in 2000}
 \format{
-A
 \describe{
 \item{ID}{County ID.}
 \item{Longitude}{Longitude coordinate of the centroid of the county.}

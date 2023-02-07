@@ -39,7 +39,7 @@
 #'
 #' A dataset containing the geometry of 3,108 US counties.
 #'
-#' @format A
+#' @format
 #' \describe{
 #'   \item{ID}{County ID.}
 #'   \item{Longitude}{Longitude coordinate of the centroid of the county.}

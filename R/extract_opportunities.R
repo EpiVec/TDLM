@@ -7,7 +7,7 @@
 #' opportunities in a circle of radius distance between origin and destination
 #' centered in the origin (excluding the origin and destination).
 #'
-#' @param opportunity a numeric vector the number of opportunites per
+#' @param opportunity a numeric vector the number of opportunities per
 #' location. The value should be positive.
 #'
 #' @param distance a squared matrix representing the distance between locations.
@@ -19,8 +19,10 @@
 #' @details `opportunity` and `distance` should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
 #' as vector names, matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to check that everything is ok (`check_names = FALSE` by
-#' default).
+#' `check_names = TRUE` to verify that everything is in order before running this
+#' function (`check_names = FALSE` by default). Note that the function
+#' [check_format()] can be used to control the validity of all the inputs before
+#' running the `TDLM`'s functions.
 #'
 #' @return
 #' A squared matrix in which each element represents the number of opportunities
@@ -28,6 +30,8 @@
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
+#'
+#' @seealso [check_format()]
 #'
 #' @examples
 #' data(mass)
@@ -71,7 +75,12 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
 
   # Check names
   if (check_names) {
-
+    controls(
+      args = NULL,
+      vectors = list(opportunity = opportunity),
+      matrices = list(distance = distance),
+      type = "vectors_matrices_checknames"
+    )
   }
 
   # Create temp

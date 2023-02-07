@@ -10,6 +10,11 @@ reference:
   desc: >
   contents:
   - extract_opportunities
+  
+- title: Utils
+  desc: >
+  contents:
+  - check_format
 
 - title: Data
   desc: >

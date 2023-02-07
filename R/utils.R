@@ -7,7 +7,7 @@ controls <- function(args = NULL,
     nbv <- length(vectors)
     for (k in 1:nbv) {
       vector <- vectors[[k]]
-      namevect <- names(vectors)[k]
+      namevec <- names(vectors)[k]
 
       if (!is.numeric(vector)) {
         stop(paste0(namevec, " must be a numeric vector."),
@@ -25,8 +25,7 @@ controls <- function(args = NULL,
         )
       }
       if (sum(vector < 0) > 0) {
-        stop(paste0(namevec, " should contain only positive 
-                  values."),
+        stop(paste0(namevec, " should contain only positive values."),
           call. = FALSE
         )
       }
@@ -68,7 +67,7 @@ controls <- function(args = NULL,
         )
       }
       if (sum(diag(matrix)) > 0) {
-        stop(paste0("The diagonal of", namemat, " should be null."),
+        stop(paste0("The diagonal of ", namemat, " should be null."),
           call. = FALSE
         )
       }
@@ -108,11 +107,156 @@ controls <- function(args = NULL,
     }
   }
 
-  # vector_matrix_checknames ###################################################
-  if (type == "vector_matrix_checknames") {
+  # vectors_matrices_checknames ###################################################
+  if (type == "vectors_matrices_checknames") {
+    n <- length(vectors[[1]])
 
+    # Length names
+    nbid <- NULL
+    nbv <- length(vectors)
+    for (k in 1:nbv) {
+      nbid <- c(nbid, length(names(vectors[[k]])))
+    }
+    nbm <- length(matrices)
+    for (k in 1:nbm) {
+      nbid <- c(nbid, length(rownames(matrices[[k]])))
+      nbid <- c(nbid, length(colnames(matrices[[k]])))
+    }
+    if (sum(!duplicated(nbid)) > 1) {
+      mess <- "The inputs should contain the same number of names id!\n"
+      for (k in 1:nbv) {
+        mess <- paste0(
+          mess, "         -> ",
+          names(vectors)[k], ": ", length(names(vectors[[k]])),
+          " locations\n"
+        )
+      }
+      for (k in 1:nbm) {
+        mess <- paste0(
+          mess, "         -> ",
+          names(matrices)[k], ": ",
+          length(rownames(matrices[[k]])),
+          " x ",
+          length(colnames(matrices[[k]])),
+          " locations\n"
+        )
+      }
+      stop(mess, call. = FALSE)
+    }
+    if (nbid[1] < n) {
+      stop("The number of names is lower than the number of locations!",
+        call. = FALSE
+      )
+    }
 
+    # names matrices
+    test <- NULL
+    for (k in 1:nbm) {
+      test <- c(test, length(intersect(
+        rownames(matrices[[k]]),
+        colnames(matrices[[k]])
+      )) == n)
+    }
+    if (sum(test) < nbm) {
+      mess <- "Different rownames and colnames in:\n"
+      for (k in 1:nbm) {
+        if (!test[k]) {
+          mess <- paste0(
+            mess,
+            "         -> ", names(matrices)[k], "\n"
+          )
+        }
+        stop(mess, call. = FALSE)
+      }
+    }
 
+    # names matrices-matrices
+    if (nbm > 1) {
+      test <- NULL
+      for (k1 in 1:(nbm - 1)) {
+        for (k2 in (k1 + 1):nbm) {
+          testk1k2 <- (length(intersect(
+            rownames(matrices[[k1]]),
+            rownames(matrices[[k2]])
+          )) == n)
+          test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
+        }
+      }
+      ntest <- dim(test)[1]
+      if (sum(test$test) < ntest) {
+        mess <- "Different names in matrices:\n"
+        for (k in 1:ntest) {
+          if (!test$test[k]) {
+            mess <- paste0(
+              mess,
+              "         -> ",
+              names(matrices)[test[k, 1]],
+              " and ",
+              names(matrices)[test[k, 2]], "\n"
+            )
+          }
+        }
+        stop(mess, call. = FALSE)
+      }
+    }
+
+    # names vectors-vectors
+    if (nbv > 1) {
+      test <- NULL
+      for (k1 in 1:(nbv - 1)) {
+        for (k2 in (k1 + 1):nbv) {
+          testk1k2 <- (length(intersect(
+            names(vectors[[k1]]),
+            names(vectors[[k2]])
+          )) == n)
+          test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
+        }
+      }
+      ntest <- dim(test)[1]
+      if (sum(test$test) < ntest) {
+        mess <- "Different names in vectors:\n"
+        for (k in 1:ntest) {
+          if (!test$test[k]) {
+            mess <- paste0(
+              mess,
+              "         -> ",
+              names(vectors)[test[k, 1]],
+              " and ",
+              names(vectors)[test[k, 2]], "\n"
+            )
+          }
+        }
+        stop(mess, call. = FALSE)
+      }
+    }
+
+    # names vectors-matrices
+    test <- NULL
+    for (k1 in 1:nbv) {
+      for (k2 in 1:nbm) {
+        testk1k2 <- (length(intersect(
+          names(vectors[[k1]]),
+          rownames(matrices[[k2]])
+        )) == n)
+        test <- rbind(test, data.frame(vec = k1, mat = k2, test = testk1k2))
+      }
+    }
+    ntest <- dim(test)[1]
+    if (sum(test$test) < ntest) {
+      mess <- "Different names in vectors and matrices:\n"
+      for (k in 1:ntest) {
+        if (!test$test[k]) {
+          mess <- paste0(
+            mess,
+            "         -> ",
+            names(vectors)[test[k, 1]],
+            " and ",
+            names(matrices)[test[k, 2]], "\n"
+          )
+        }
+      }
+      stop(mess, call. = FALSE)
+    }
   }
 
   # boolean ####################################################################
@@ -124,7 +268,14 @@ controls <- function(args = NULL,
     }
   }
 
-
+  # list #######################################################################
+  if (type == "list") {
+    if (!is.list(args)) {
+      stop(paste0(deparse(substitute(args)), " must be a list."),
+        call. = FALSE
+      )
+    }
+  }
 
 
 

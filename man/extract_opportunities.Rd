@@ -7,7 +7,7 @@
 extract_opportunities(opportunity, distance, check_names = FALSE)
 }
 \arguments{
-\item{opportunity}{a numeric vector the number of opportunites per
+\item{opportunity}{a numeric vector the number of opportunities per
 location. The value should be positive.}
 
 \item{distance}{a squared matrix representing the distance between locations.}
@@ -32,8 +32,10 @@ centered in the origin (excluding the origin and destination).
 \code{opportunity} and \code{distance} should be based on the same number of
 locations sorted in the same order. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames and to set
-\code{check_names = TRUE} to check that everything is ok (\code{check_names = FALSE} by
-default).
+\code{check_names = TRUE} to verify that everything is in order before running this
+function (\code{check_names = FALSE} by default). Note that the function
+\code{\link[=check_format]{check_format()}} can be used to control the validity of all the inputs before
+running the \code{TDLM}'s functions.
 }
 \examples{
 data(mass)
@@ -45,6 +47,9 @@ data(distance)
 }
 \references{
 \insertRef{Lenormand2016}{TDLM}
+}
+\seealso{
+\code{\link[=check_format]{check_format()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
