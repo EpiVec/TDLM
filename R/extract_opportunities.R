@@ -45,13 +45,14 @@
 #'
 #' @export
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
+  
   # Set path to jar
   tdlmdir <- list.dirs(.libPaths(), recursive = FALSE)
   tdlmpath <- tdlmdir[grep("TDLM", tdlmdir)]
   wdjar <- paste0(tdlmpath, "/java/jar/")
-  if (!file.exists(wdjar)) {
+  if (!dir.exists(wdjar)) {
     stop(paste0("Impossible to access ", wdjar, ". Please check that 
-                the folder ", wdjar, "is accessible."), call. = FALSE)
+    the folder ", wdjar, " is accessible."), call. = FALSE)
   }
 
   # Controls

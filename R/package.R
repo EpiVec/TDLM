@@ -5,7 +5,7 @@
 #' @docType package
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
-#' @import mathjaxr Rdpack rJava rmarkdown
+#' @import mathjaxr Rdpack rmarkdown
 #' @name TDML
 #' @noRd
 NULL
