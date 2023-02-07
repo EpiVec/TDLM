@@ -2,6 +2,7 @@
 
 export(check_format)
 export(extract_opportunities)
+export(helloJavaWorld)
 import(Rdpack)
 import(mathjaxr)
 import(rJava)
