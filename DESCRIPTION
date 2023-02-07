@@ -10,8 +10,8 @@ Authors@R:
               comment = c(ORCID = "0000-0001-6362-3473"))
        )
 Description: An R package to compare trip distribution laws and models.
-Depends:
-  R (>= 4.0.0)
+Depends: R (>= 4.0.0)
+SystemRequirements: Java (>= 1.5)
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -20,6 +20,7 @@ Imports:
     mathjaxr,
     Rdpack,
     readr,
+    rJava,
     rmarkdown,
     sf
 RdMacros: 
