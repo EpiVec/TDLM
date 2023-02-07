@@ -40,9 +40,12 @@ running the \code{TDLM}'s functions.
 \examples{
 data(mass)
 data(distance)
-# sij=extract_opportunities(opportunity=as.numeric(mass[,1]),
-# distance=distance,
-# check_names=FALSE)
+ind=sample(dim(distance)[1],100)
+opp=mass[ind,1]
+dist=distance[ind,ind]
+sij=extract_opportunities(opportunity=opp,
+                          distance=dist,
+                          check_names=FALSE)
 
 }
 \references{

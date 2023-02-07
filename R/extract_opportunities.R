@@ -36,9 +36,12 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' # sij=extract_opportunities(opportunity=as.numeric(mass[,1]),
-#' # distance=distance,
-#' # check_names=FALSE)
+#' ind=sample(dim(distance)[1],100)
+#' opp=mass[ind,1]
+#' dist=distance[ind,ind]
+#' sij=extract_opportunities(opportunity=opp,
+#'                           distance=dist,
+#'                           check_names=FALSE)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -48,8 +51,8 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   
   # Set path to jar
   tdlmdir <- list.dirs(.libPaths(), recursive = FALSE)
-  tdlmpath <- tdlmdir[grep("TDLM", tdlmdir)]
-  wdjar <- paste0(tdlmpath, "/java/jar/")
+  tdlmpath <- tdlmdir[grep("TDLM", tdlmdir)][1]
+  wdjar <- paste0(tdlmpath, "/java/")
   if (!dir.exists(wdjar)) {
     stop(paste0("Impossible to access ", wdjar, ". Please check that 
     the folder ", wdjar, " is accessible."), call. = FALSE)
