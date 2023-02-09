@@ -9,12 +9,12 @@ reference:
 - title: Utils
   desc: >
   contents:
-  - extract_opportunities
   - check_format_names
   
-- title: Run functions
+- title: Main functions
   desc: >
   contents:
+  - extract_opportunities
   - run_law_model
 
 - title: Data

@@ -90,12 +90,10 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
       type = "vectors_matrices_checknames"
     )
   }
-
+  
   # Create temp
-  pathtemp <- paste0(wdjar, "temp/")
-  if (file.exists(pathtemp)) {
-    unlink(pathtemp, recursive = TRUE)
-  }
+  pathtemp <- paste0(wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))), 
+                     "/")
   dir.create(pathtemp, showWarnings = FALSE, recursive = TRUE)
 
   # Format data
