@@ -6,15 +6,16 @@ toc:
   depth: 1
 
 reference:
-- title: Main fonctions
-  desc: >
-  contents:
-  - extract_opportunities
-  
 - title: Utils
   desc: >
   contents:
-  - check_format
+  - extract_opportunities
+  - check_format_names
+  
+- title: Run functions
+  desc: >
+  contents:
+  - run_law_model
 
 - title: Data
   desc: >

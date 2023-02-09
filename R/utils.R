@@ -2,6 +2,7 @@ controls <- function(args = NULL,
                      vectors = NULL,
                      matrices = NULL,
                      type = "vectors_positive") {
+  
   # vectors_positive ############################################################
   if (type == "vectors_positive") {
     nbv <- length(vectors)
@@ -15,7 +16,7 @@ controls <- function(args = NULL,
         )
       }
       if (length(vector) < 2) {
-        stop(paste0(namevec, " should contain at least two locations."),
+        stop(paste0(namevec, " must contain at least two locations."),
           call. = FALSE
         )
       }
@@ -24,9 +25,64 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
+      if (sum(vector != 0) == 0) {
+        stop(paste0(namevec, " must contain at least one strictly positive 
+        value."),
+             call. = FALSE
+        )
+      }
       if (sum(vector < 0) > 0) {
-        stop(paste0(namevec, " should contain only positive values."),
+        stop(paste0(namevec, " must contain only positive values."),
           call. = FALSE
+        )
+      }
+    }
+  }
+  
+  # vectors_positive_integer ###################################################
+  if (type == "vectors_positive_integer") {
+    nbv <- length(vectors)
+    for (k in 1:nbv) {
+      vector <- vectors[[k]]
+      namevec <- names(vectors)[k]
+      
+      if (!is.numeric(vector)) {
+        stop(paste0(namevec, " must be a numeric vector."),
+             call. = FALSE
+        )
+      } else {
+        if (sum(vector %% 1 != 0)>1) {
+          stop(paste0(namevec, " must be a vector of integers."),
+               call. = FALSE
+          )
+        } else {
+          if (sum(vector < 0) > 0) {
+            stop(paste0(namevec, " must contain only positive values."),
+                 call. = FALSE
+            )
+          }
+        }
+      }
+      
+      if (length(vector) < 2) {
+        stop(paste0(namevec, " should must at least two locations."),
+             call. = FALSE
+        )
+      }
+      if (sum(vector != 0) == 0) {
+        stop(paste0(namevec, " must contain at least one strictly positive 
+        value."),
+             call. = FALSE
+        )
+      }
+      if (sum(is.na(vector)) > 0) {
+        stop(paste0("NA(s) detected in ", namevec, "."),
+             call. = FALSE
+        )
+      }
+      if (sum(vector < 0) > 0) {
+        stop(paste0(namevec, " must contain only positive values."),
+             call. = FALSE
         )
       }
     }
@@ -47,12 +103,12 @@ controls <- function(args = NULL,
       n <- dim(matrix)[1]
       m <- dim(matrix)[2]
       if (n != m) {
-        stop(paste0(namemat, " should be symmetrical."),
+        stop(paste0(namemat, " must be symmetrical."),
           call. = FALSE
         )
       }
       if (n < 2) {
-        stop(paste0(namemat, " should contain at least two locations."),
+        stop(paste0(namemat, " must contain at least two locations."),
           call. = FALSE
         )
       }
@@ -61,8 +117,14 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
+      if (sum(matrix != 0) == 0) {
+        stop(paste0(namemat, " must contain at least one strictly positive 
+        value."),
+             call. = FALSE
+        )
+      }
       if (sum(matrix < 0) > 0) {
-        stop(paste0(namemat, " should contain only positive values."),
+        stop(paste0(namemat, " must contain only positive values."),
           call. = FALSE
         )
       }
@@ -71,6 +133,27 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
+    }
+  }
+  
+  # vectors_vectors ############################################################
+  if (type == "vectors_vectors") {
+    nbloc <- NULL
+    nbv <- length(vectors)
+    for (k in 1:nbv) {
+      nbloc <- c(nbloc, length(vectors[[k]]))
+    }
+    
+    if (sum(!duplicated(nbloc)) > 1) {
+      mess <- "The inputs must contain the same number of locations!\n"
+      for (k in 1:nbv) {
+        mess <- paste0(
+          mess, "         -> ",
+          names(vectors)[k], ": ", length(vectors[[k]]),
+          " locations\n"
+        )
+      }
+      stop(mess, call. = FALSE)
     }
   }
 
@@ -87,7 +170,7 @@ controls <- function(args = NULL,
     }
 
     if (sum(!duplicated(nbloc)) > 1) {
-      mess <- "The inputs should contain the same number of locations!\n"
+      mess <- "The inputs must contain the same number of locations!\n"
       for (k in 1:nbv) {
         mess <- paste0(
           mess, "         -> ",
@@ -106,8 +189,67 @@ controls <- function(args = NULL,
       stop(mess, call. = FALSE)
     }
   }
+  
+  # vectors_checknames #########################################################
+  if (type == "vectors_checknames") {
+    n <- length(vectors[[1]])
+    
+    # Length names
+    nbid <- NULL
+    nbv <- length(vectors)
+    for (k in 1:nbv) {
+      nbid <- c(nbid, length(names(vectors[[k]])))
+    }
+    if (sum(!duplicated(nbid)) > 1) {
+      mess <- "The inputs must contain the same number of names id!\n"
+      for (k in 1:nbv) {
+        mess <- paste0(
+          mess, "         -> ",
+          names(vectors)[k], ": ", length(names(vectors[[k]])),
+          " locations\n"
+        )
+      }
+      stop(mess, call. = FALSE)
+    }
+    if (nbid[1] < n) {
+      stop("The number of names is lower than the number of locations!",
+           call. = FALSE
+      )
+    }
+    
+    # names vectors-vectors
+    if (nbv > 1) {
+      test <- NULL
+      for (k1 in 1:(nbv - 1)) {
+        for (k2 in (k1 + 1):nbv) {
+          testk1k2 <- (length(intersect(
+            names(vectors[[k1]]),
+            names(vectors[[k2]])
+          )) == n)
+          test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
+        }
+      }
+      ntest <- dim(test)[1]
+      if (sum(test$test) < ntest) {
+        mess <- "Different names in vectors:\n"
+        for (k in 1:ntest) {
+          if (!test$test[k]) {
+            mess <- paste0(
+              mess,
+              "         -> ",
+              names(vectors)[test[k, 1]],
+              " and ",
+              names(vectors)[test[k, 2]], "\n"
+            )
+          }
+        }
+        stop(mess, call. = FALSE)
+      }
+    }
 
-  # vectors_matrices_checknames ###################################################
+  }
+
+  # vectors_matrices_checknames ################################################
   if (type == "vectors_matrices_checknames") {
     n <- length(vectors[[1]])
 
@@ -123,7 +265,7 @@ controls <- function(args = NULL,
       nbid <- c(nbid, length(colnames(matrices[[k]])))
     }
     if (sum(!duplicated(nbid)) > 1) {
-      mess <- "The inputs should contain the same number of names id!\n"
+      mess <- "The inputs must contain the same number of names id!\n"
       for (k in 1:nbv) {
         mess <- paste0(
           mess, "         -> ",
@@ -261,6 +403,11 @@ controls <- function(args = NULL,
 
   # boolean ####################################################################
   if (type == "boolean") {
+    if(length(args)>1){
+      stop(paste0(deparse(substitute(args)), " must be of length 1."),
+           call. = FALSE
+      )
+    }
     if (!is.logical(args)) {
       stop(paste0(deparse(substitute(args)), " must be a boolean."),
         call. = FALSE
@@ -268,26 +415,16 @@ controls <- function(args = NULL,
     }
   }
 
-  # list #######################################################################
-  if (type == "list") {
-    if (!is.list(args)) {
-      stop(paste0(deparse(substitute(args)), " must be a list."),
-        call. = FALSE
+  # character #################################################################
+  if (type == "character") {
+    if(length(args)>1){
+      stop(paste0(deparse(substitute(args)), " must be of length 1."),
+           call. = FALSE
       )
     }
-  }
-
-
-
-
-
-
-
-  # Character #################################################################
-  if (type == "character") {
     if (!is.character(args)) {
       stop(paste0(deparse(substitute(args)), " must be a character."),
-        call. = FALSE
+           call. = FALSE
       )
     }
     if (is.factor(args)) {
@@ -295,93 +432,68 @@ controls <- function(args = NULL,
     }
     return(args)
   }
-
-  # Numeric ###################################################################
-  if (type == "numeric") {
-    if (!is.numeric(args)) {
-      stop(paste0(deparse(substitute(args)), " must be numeric."),
-        call. = FALSE
+  
+  # positive_numeric ##########################################################
+  if (type == "positive_numeric") {
+    if(length(args)>1){
+      stop(paste0(deparse(substitute(args)), " must be of length 1."),
+           call. = FALSE
       )
     }
-  }
-
-  # Positive numeric ##########################################################
-  if (type == "positive_numeric") {
     if (!is.numeric(args)) {
       stop(paste0(deparse(substitute(args)), " must be numeric."),
-        call. = FALSE
+           call. = FALSE
       )
     } else {
       if (args < 0) {
         stop(paste0(deparse(substitute(args)), " must be higher than 0."),
-          call. = FALSE
+             call. = FALSE
         )
       }
     }
   }
-
-  # Strict positive numeric ###################################################
-  if (type == "strict_positive_numeric") {
-    if (!is.numeric(args)) {
-      stop(paste0(deparse(substitute(args)), " must be numeric."),
-        call. = FALSE
-      )
-    } else {
-      if (args <= 0) {
-        stop(paste0(
-          deparse(substitute(args)),
-          " must be strictly higher than 0."
-        ), call. = FALSE)
-      }
-    }
-  }
-
-  # Integer ###################################################################
-  if (type == "integer") {
-    if (!is.numeric(args)) {
-      stop(paste0(deparse(substitute(args)), " must be numeric."),
-        call. = FALSE
-      )
-    } else {
-      if (args %% 1 != 0) {
-        stop(paste0(deparse(substitute(args)), " must be an integer."),
-          call. = FALSE
-        )
-      }
-    }
-  }
-
-  # Positive integer ##########################################################
+  
+  # positive_integer ###########################################################
   if (type == "positive_integer") {
+    if(length(args)>1){
+      stop(paste0(deparse(substitute(args)), " must be of length 1."),
+           call. = FALSE
+      )
+    }
     if (!is.numeric(args)) {
       stop(paste0(deparse(substitute(args)), " must be numeric."),
-        call. = FALSE
+           call. = FALSE
       )
     } else {
       if (args %% 1 != 0) {
         stop(paste0(deparse(substitute(args)), " must be an integer."),
-          call. = FALSE
+             call. = FALSE
         )
       } else {
         if (args < 0) {
           stop(paste0(deparse(substitute(args)), " must be higher than 0."),
-            call. = FALSE
+               call. = FALSE
           )
         }
       }
     }
   }
-
-  # Strict positive integer ###################################################
+  
+  # strict_positive_integer ####################################################
   if (type == "strict_positive_integer") {
+    if(length(args)>1){
+      stop(paste0(deparse(substitute(args)), " must be of length 1."),
+           call. = FALSE
+      )
+    }
     if (!is.numeric(args)) {
       stop(paste0(deparse(substitute(args)), " must be numeric."),
-        call. = FALSE
+           call. = FALSE
       )
     } else {
       if (args %% 1 != 0) {
         stop(paste0(deparse(substitute(args)), " must be an integer."),
-          call. = FALSE
+             call. = FALSE
         )
       } else {
         if (args <= 0) {
@@ -393,4 +505,14 @@ controls <- function(args = NULL,
       }
     }
   }
+
+  # list #######################################################################
+  if (type == "list") {
+    if (!is.list(args)) {
+      stop(paste0(deparse(substitute(args)), " must be a list."),
+           call. = FALSE
+      )
+    }
+  }
+  
 }

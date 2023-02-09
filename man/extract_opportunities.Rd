@@ -7,14 +7,14 @@
 extract_opportunities(opportunity, distance, check_names = FALSE)
 }
 \arguments{
-\item{opportunity}{a numeric vector the number of opportunities per
-location. The value should be positive.}
+\item{opportunity}{a numeric vector representing the number of opportunities
+per location. The value should be positive.}
 
 \item{distance}{a squared matrix representing the distance between locations.}
 
 \item{check_names}{a boolean indicating if the ID location are used as vector
 names, matrix rownames and colnames and if they should be checked
-(see Details).}
+(see Note).}
 }
 \value{
 A squared matrix in which each element represents the number of opportunities
@@ -28,14 +28,14 @@ of origin and the location of destination is based on the number of
 opportunities in a circle of radius distance between origin and destination
 centered in the origin (excluding the origin and destination).
 }
-\details{
+\note{
 \code{opportunity} and \code{distance} should be based on the same number of
 locations sorted in the same order. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames and to set
 \code{check_names = TRUE} to verify that everything is in order before running this
 function (\code{check_names = FALSE} by default). Note that the function
-\code{\link[=check_format]{check_format()}} can be used to control the validity of all the inputs before
-running the \code{TDLM}'s functions.
+\code{\link[=check_format_names]{check_format_names()}} can be used to control the validity of all the inputs
+before running the main package's functions.
 }
 \examples{
 data(mass)
@@ -52,7 +52,7 @@ sij=extract_opportunities(opportunity=opp,
 \insertRef{Lenormand2016}{TDLM}
 }
 \seealso{
-\code{\link[=check_format]{check_format()}}
+\code{\link[=check_format_names]{check_format_names()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

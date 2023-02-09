@@ -32,7 +32,8 @@
 #' data(distance)
 #'
 #' @export
-check_format <- function(vectors, matrices, check = "format_and_names") {
+check_format_names <- function(vectors, matrices, check = "format_and_names") {
+  
   # Controls
   controls(args = vectors, type = "list")
   if (is.null(names(vectors))) {
@@ -50,6 +51,7 @@ check_format <- function(vectors, matrices, check = "format_and_names") {
       "Names have been automatically assigned.\n"
     ))
   }
+  controls(args = check, type = "character")
   if (!(check %in% c("format", "format_and_names"))) {
     stop("Please choose check among the followings values:
 format or format_and_names", call. = FALSE)

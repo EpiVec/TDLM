@@ -18,8 +18,6 @@ import java.util.Scanner;
 
 public class TDLM {
 
-    //static String wd = new File(System.getProperty("user.dir")) + File.separator;  //Working Directory
-
     public static void main(String[] args) throws FileNotFoundException {
     	
     	//Parameters: wdin, wdout, law, beta, pijonly, model, repli, writepij
@@ -32,32 +30,6 @@ public class TDLM {
     	double repli = Integer.parseInt(args[6]);
     	boolean writepij = Boolean.parseBoolean(args[7]);
     	
-        //Parameters: law, model, beta, repli and writepij
-        //Scanner scan = new Scanner(new File(wd + "Parameters.csv"));
-        //scan.nextLine();
-        //String[] cols = scan.nextLine().split(";");
-        //String law = cols[0];
-        //String model = cols[1];
-        //cols[2] = cols[2].replace(',', '.');
-        //double beta = Double.parseDouble(cols[2]);
-        //double repli = Integer.parseInt(cols[3]);
-        //boolean writepij = Boolean.parseBoolean(cols[4]);
-
-        //Check if the law and the model are defined
-        //if (!(law.equals("GravExp") || law.equals("NGravExp") || law.equals("GravPow") || law.equals("NGravPow") || law.equals("Schneider") || law.equals("Rad") || law.equals("RadExt") || law.equals("Rand"))) {
-        //    System.out.print("The law ");
-        //    System.out.print(law);
-        //    System.out.println(" is not defined");
-        //    return;
-        //}
-
-        //if (!(model.equals("UM") || model.equals("PCM") || model.equals("ACM") || model.equals("DCM"))) {
-        //    System.out.print("The model ");
-        //    System.out.print(model);
-        //    System.out.println(" is not defined");
-        //    return;
-        //}
-
         //Load data: Inputs (mi, mj, Oi and Dj), dij and sij       
         //Number of regions n
         int n = 0;
@@ -85,21 +57,23 @@ public class TDLM {
             k++;
         }
 
-        //Distance matrix dij (size n x n)
+        //Distance matrix dij (size n x n) [only for gravity laws]
         double[][] dij = new double[n][n];
-        scan = new Scanner(new File(wdin + "Distance.csv"));
-        scan.nextLine();
-        k = 0;
-        while (scan.hasNextLine()) {
-            cols = scan.nextLine().split(";");
-            for (int i = 0; i < cols.length; i++) {
-                cols[i] = cols[i].replace(',', '.');
-                dij[k][i] = Double.parseDouble(cols[i]);
+        if (law.equals("GravExp") || law.equals("NGravExp") || law.equals("GravPow") || law.equals("NGravPow")) {
+            scan = new Scanner(new File(wdin + "Distance.csv"));
+            scan.nextLine();
+            k = 0;
+            while (scan.hasNextLine()) {
+                cols = scan.nextLine().split(";");
+                for (int i = 0; i < cols.length; i++) {
+                    cols[i] = cols[i].replace(',', '.');
+                    dij[k][i] = Double.parseDouble(cols[i]);
+                }
+                k++;
             }
-            k++;
         }
 
-        //Matrix of opportunities sij matrix (size n x n) [only for the intervening opportunities laws]
+        //Matrix of opportunities sij matrix (size n x n) [only for intervening opportunities laws]
         double[][] sij = new double[n][n];
         if (law.equals("Rad") || law.equals("RadExt") || law.equals("Schneider")) {
             scan = new Scanner(new File(wdin + "Sij.csv"));
