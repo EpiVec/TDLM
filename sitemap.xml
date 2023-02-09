@@ -22,7 +22,7 @@
     <loc>https://epivec.github.io/TDLM/news/index.html</loc>
   </url>
   <url>
-    <loc>https://epivec.github.io/TDLM/reference/check_format.html</loc>
+    <loc>https://epivec.github.io/TDLM/reference/check_format_names.html</loc>
   </url>
   <url>
     <loc>https://epivec.github.io/TDLM/reference/distance.html</loc>
@@ -38,6 +38,9 @@
   </url>
   <url>
     <loc>https://epivec.github.io/TDLM/reference/od.html</loc>
+  </url>
+  <url>
+    <loc>https://epivec.github.io/TDLM/reference/run_law_model.html</loc>
   </url>
   <url>
     <loc>https://epivec.github.io/TDLM/reference/spcounty.html</loc>
