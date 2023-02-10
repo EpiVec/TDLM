@@ -196,7 +196,7 @@ arguments <code>mass_origin</code>, <code>mass_destination</code> (optional), <c
 <code>mass_destination</code> (optional) and <code>opportunity</code> will be used.</p></li>
 <li><p>Extended radiation law (<code>law = "ExtRad"</code>). The arguments <code>mass_origin</code>,
 <code>mass_destination</code> (optional), <code>opportunity</code> and <code>param</code> will be used.</p></li>
-<li><p>Uniform law (<code>law = "Rand"</code>). The argument <code>mass_origin</code> will be used to
+<li><p>Uniform law (<code>law = "Unif"</code>). The argument <code>mass_origin</code> will be used to
 extract the number of locations.</p></li>
 </ol><p>Second, we propose four constrained models to generate the flow from these
 distribution of probability. These models respect different level of
@@ -243,7 +243,7 @@ before running the main package's functions.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ind</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
