@@ -35,9 +35,10 @@ demand).}
 \item{opportunity}{a squared matrix representing the number of opportunities
 between locations (see Details).}
 
-\item{param}{a positive real used to adjust the importance of the
-distance or opportunity associated with the chosen law. Not necessary for the
-original radiation law or the uniform law (see Details).}
+\item{param}{a vector of numeric value(s) used to adjust the importance of
+the distance or opportunity associated with the chosen law. A single value or
+a vector of several parameter values can be used (see Return). Not necessary
+for the original radiation law or the uniform law (see Details).}
 
 \item{model}{a character indicating which model to use.}
 
@@ -61,8 +62,10 @@ names, matrix rownames and colnames and if they should be checked
 (see Note).}
 }
 \value{
-A \code{list} of \code{matrix} containing the \code{nbrep} simulated matrices end the matrix
-of probability (called \code{proba}) if \code{write_proba = TRUE}.
+An object of class \code{TDLM}. A \code{list} of \code{list} of \code{matrix} containing for each
+parameter value the \code{nbrep} simulated matrices end the matrix of probability
+(called \code{proba}) if \code{write_proba = TRUE}. If \code{length(param) == 1} or
+\code{law == "Rad"} or \verb{law == "Unif} only a \code{list} of \code{matrix} will be returned.
 }
 \description{
 This function estimates mobility flows using different distribution laws and
@@ -75,14 +78,14 @@ approach used to generate the flows from this law.
 \loadmathjax
 
 First, we compute the matrix \code{proba} estimating the probability
-\mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to another
-location \mjeqn{j}{j}. This probability is based on the demand
+\mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to
+another location \mjeqn{j}{j}. This probability is based on the demand
 \mjeqn{m_{i}}{m_{i}} (argument \code{mass_origin}) and the attractiveness
 \mjeqn{m_{j}}{m_{j}} (argument \code{mass_destination}). Note that the population
 is typically used as a surrogate for both quantities (this is why
 \code{mass_destination = mass_origin} by default). It also depends on the
-distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument \code{distance}) OR the
-number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
+distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument \code{distance}) OR
+the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
 (argument \code{opportunity}) depending on the chosen law. Both the effect of the
 distance and the number of opportunities can be adjusted with a parameter
 (argument \code{param}) except for the original radiation law or the uniform law.
@@ -136,8 +139,8 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 All the table inputs should be based on the same number of
 locations sorted in the same order. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames and to set
-\code{check_names = TRUE} to verify that everything is in order before running this
-function (\code{check_names = FALSE} by default). Note that the function
+\code{check_names = TRUE} to verify that everything is in order before running
+this function (\code{check_names = FALSE} by default). Note that the function
 \code{\link[=check_format_names]{check_format_names()}} can be used to control the validity of all the inputs
 before running the main package's functions.
 }

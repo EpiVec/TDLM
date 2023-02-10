@@ -2,6 +2,7 @@ controls <- function(args = NULL,
                      vectors = NULL,
                      matrices = NULL,
                      type = "vectors_positive") {
+  
   # vectors_positive ###########################################################
   if (type == "vectors_positive") {
     nbv <- length(vectors)
@@ -429,6 +430,15 @@ controls <- function(args = NULL,
       args <- as.character(args)
     }
     return(args)
+  }
+  
+  # numeric_vector #############################################################
+  if (type == "numeric_vector") {
+    if (!is.numeric(args)) {
+      stop(paste0(deparse(substitute(args)), " must be numeric."),
+           call. = FALSE
+      )
+    }
   }
 
   # positive_numeric ##########################################################

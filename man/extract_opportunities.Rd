@@ -32,8 +32,8 @@ centered in the origin (excluding the origin and destination).
 \code{opportunity} and \code{distance} should be based on the same number of
 locations sorted in the same order. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames and to set
-\code{check_names = TRUE} to verify that everything is in order before running this
-function (\code{check_names = FALSE} by default). Note that the function
+\code{check_names = TRUE} to verify that everything is in order before running
+this function (\code{check_names = FALSE} by default). Note that the function
 \code{\link[=check_format_names]{check_format_names()}} can be used to control the validity of all the inputs
 before running the main package's functions.
 }
