@@ -113,9 +113,10 @@ between locations (see Details).</p></dd>
 
 
 <dt>param</dt>
-<dd><p>a positive real used to adjust the importance of the
-distance or opportunity associated with the chosen law. Not necessary for the
-original radiation law or the uniform law (see Details).</p></dd>
+<dd><p>a vector of numeric value(s) used to adjust the importance of
+the distance or opportunity associated with the chosen law. A single value or
+a vector of several parameter values can be used (see Return). Not necessary
+for the original radiation law or the uniform law (see Details).</p></dd>
 
 
 <dt>model</dt>
@@ -157,21 +158,23 @@ names, matrix rownames and colnames and if they should be checked
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A <code>list</code> of <code>matrix</code> containing the <code>nbrep</code> simulated matrices end the matrix
-of probability (called <code>proba</code>) if <code>write_proba = TRUE</code>.</p>
+<p>An object of class <code>TDLM</code>. A <code>list</code> of <code>list</code> of <code>matrix</code> containing for each
+parameter value the <code>nbrep</code> simulated matrices end the matrix of probability
+(called <code>proba</code>) if <code>write_proba = TRUE</code>. If <code>length(param) == 1</code> or
+<code>law == "Rad"</code> or <code>law == "Unif</code> only a <code>list</code> of <code>matrix</code> will be returned.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script></p>
 <p>First, we compute the matrix <code>proba</code> estimating the probability
-<em></em>\(p_{ij}\) to observe a trip from location <em></em>\(i\) to another
-location <em></em>\(j\). This probability is based on the demand
+<em></em>\(p_{ij}\) to observe a trip from location <em></em>\(i\) to
+another location <em></em>\(j\). This probability is based on the demand
 <em></em>\(m_{i}\) (argument <code>mass_origin</code>) and the attractiveness
 <em></em>\(m_{j}\) (argument <code>mass_destination</code>). Note that the population
 is typically used as a surrogate for both quantities (this is why
 <code>mass_destination = mass_origin</code> by default). It also depends on the
-distance <em></em>\(d_{ij}\) between locations (argument <code>distance</code>) OR the
-number of opportunities <em></em>\(s_{ij}\) between locations
+distance <em></em>\(d_{ij}\) between locations (argument <code>distance</code>) OR
+the number of opportunities <em></em>\(s_{ij}\) between locations
 (argument <code>opportunity</code>) depending on the chosen law. Both the effect of the
 distance and the number of opportunities can be adjusted with a parameter
 (argument <code>param</code>) except for the original radiation law or the uniform law.</p>
@@ -219,8 +222,8 @@ preserved (arguments <code>nb_trips</code> and <code>out_trips</code> will not b
     <p>All the table inputs should be based on the same number of
 locations sorted in the same order. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames and to set
-<code>check_names = TRUE</code> to verify that everything is in order before running this
-function (<code>check_names = FALSE</code> by default). Note that the function
+<code>check_names = TRUE</code> to verify that everything is in order before running
+this function (<code>check_names = FALSE</code> by default). Note that the function
 <code><a href="check_format_names.html">check_format_names()</a></code> can be used to control the validity of all the inputs
 before running the main package's functions.</p>
     </div>
