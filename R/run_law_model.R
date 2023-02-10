@@ -155,7 +155,7 @@ run_law_model <- function(law = "NGravExp",
   }
   if (!file.exists(paste0(wdjar, "TDLM.jar"))) {
     stop(paste0("It seems that an error occurred during the package 
-    installation.\n", "The folder ", wdjar, "should contain four .jar files."),
+    installation.\n", "The folder ", wdjar, "should contain three .jar files."),
       call. = FALSE
     )
   }

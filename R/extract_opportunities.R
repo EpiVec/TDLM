@@ -59,7 +59,7 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   }
   if (!file.exists(paste0(wdjar, "Sij.jar"))) {
     stop(paste0("It seems that an error occurred during the package 
-    installation.\n", "The folder ", wdjar, "should contain four .jar files."),
+    installation.\n", "The folder ", wdjar, "should contain three .jar files."),
       call. = FALSE
     )
   }
