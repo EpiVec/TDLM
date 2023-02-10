@@ -7,7 +7,7 @@
 #' opportunities in a circle of radius distance between origin and destination
 #' centered in the origin (excluding the origin and destination).
 #'
-#' @param opportunity a numeric vector representing the number of opportunities 
+#' @param opportunity a numeric vector representing the number of opportunities
 #' per location. The value should be positive.
 #'
 #' @param distance a squared matrix representing the distance between locations.
@@ -21,7 +21,7 @@
 #' as vector names, matrix rownames and matrix colnames and to set
 #' `check_names = TRUE` to verify that everything is in order before running this
 #' function (`check_names = FALSE` by default). Note that the function
-#' [check_format_names()] can be used to control the validity of all the inputs 
+#' [check_format_names()] can be used to control the validity of all the inputs
 #' before running the main package's functions.
 #'
 #' @return
@@ -36,30 +36,32 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' ind=sample(dim(distance)[1],100)
-#' opp=mass[ind,1]
-#' dist=distance[ind,ind]
-#' sij=extract_opportunities(opportunity=opp,
-#'                           distance=dist,
-#'                           check_names=FALSE)
+#' ind <- sample(dim(distance)[1], 100)
+#' opp <- mass[ind, 1]
+#' dist <- distance[ind, ind]
+#' sij <- extract_opportunities(
+#'   opportunity = opp,
+#'   distance = dist,
+#'   check_names = FALSE
+#' )
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
 #'
 #' @export
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
-  
   # Set path to jar
   libpath <- .libPaths()[1]
-  wdjar <- paste0(libpath,"/TDLM/java/")
+  wdjar <- paste0(libpath, "/TDLM/java/")
   if (!dir.exists(wdjar)) {
     stop(paste0("Impossible to access ", wdjar, ". Please check that 
     the folder ", wdjar, " is accessible."), call. = FALSE)
   }
-  if(!file.exists(paste0(wdjar,"Sij.jar"))){
+  if (!file.exists(paste0(wdjar, "Sij.jar"))) {
     stop(paste0("It seems that an error occurred during the package 
-    installation.\n", "The folder ", wdjar, "should contain four .jar files.")
-         , call. = FALSE)
+    installation.\n", "The folder ", wdjar, "should contain four .jar files."),
+      call. = FALSE
+    )
   }
 
   # Controls
@@ -71,7 +73,7 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   controls(
     args = NULL,
     matrices = list(distance = distance),
-    type = "matrices"
+    type = "matrices_positive"
   )
   controls(
     args = NULL,
@@ -90,10 +92,12 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
       type = "vectors_matrices_checknames"
     )
   }
-  
+
   # Create temp
-  pathtemp <- paste0(wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))), 
-                     "/")
+  pathtemp <- paste0(
+    wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))),
+    "/"
+  )
   dir.create(pathtemp, showWarnings = FALSE, recursive = TRUE)
 
   # Format data

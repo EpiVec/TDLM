@@ -6,7 +6,8 @@
 #' recommended to name each element of the list.
 #'
 #' @param matrices a list of matrices. The list can contain one matrix. It is
-#' recommended to name each element of the list.
+#' recommended to name each element of the list. If `matrices = NULL` only the
+#' vectors will be considered.
 #'
 #' @param check a `character` indicating what types of check
 #' ("format" or "format_and_names") should be used (see Details).
@@ -33,7 +34,6 @@
 #'
 #' @export
 check_format_names <- function(vectors, matrices, check = "format_and_names") {
-  
   # Controls
   controls(args = vectors, type = "list")
   if (is.null(names(vectors))) {
@@ -43,13 +43,15 @@ check_format_names <- function(vectors, matrices, check = "format_and_names") {
       "Names have been automatically assigned.\n"
     ))
   }
-  controls(args = matrices, type = "list")
-  if (is.null(names(matrices))) {
-    names(matrices) <- paste0("Matrix ", 1:length(matrices))
-    message(paste0(
-      "No names identified in the matrices list.\n",
-      "Names have been automatically assigned.\n"
-    ))
+  if (!is.null(matrices)) {
+    controls(args = matrices, type = "list")
+    if (is.null(names(matrices))) {
+      names(matrices) <- paste0("Matrix ", 1:length(matrices))
+      message(paste0(
+        "No names identified in the matrices list.\n",
+        "Names have been automatically assigned.\n"
+      ))
+    }
   }
   controls(args = check, type = "character")
   if (!(check %in% c("format", "format_and_names"))) {
@@ -63,27 +65,43 @@ format or format_and_names", call. = FALSE)
     vectors = vectors,
     type = "vectors_positive"
   )
-  controls(
-    args = NULL,
-    matrices = matrices,
-    type = "matrices"
-  )
-  controls(
-    args = NULL,
-    vectors = vectors,
-    matrices = matrices,
-    type = "vectors_matrices"
-  )
-
-
-  # Names
-  if (check == "format_and_names") {
+  if (!is.null(matrices)) {
+    controls(
+      args = NULL,
+      matrices = matrices,
+      type = "matrices_positive"
+    )
     controls(
       args = NULL,
       vectors = vectors,
       matrices = matrices,
-      type = "vectors_matrices_checknames"
+      type = "vectors_matrices"
     )
+  } else {
+    controls(
+      args = NULL,
+      vectors = vectors,
+      type = "vectors_vectors"
+    )
+  }
+
+  # Names
+  if (check == "format_and_names") {
+    if (!is.null(matrices)) {
+      controls(
+        args = NULL,
+        vectors = vectors,
+        matrices = matrices,
+        type = "vectors_matrices_checknames"
+      )
+    } else {
+      controls(
+        args = NULL,
+        vectors = vectors,
+        matrices = matrices,
+        type = "vectors_checknames"
+      )
+    }
   }
 
   # Return

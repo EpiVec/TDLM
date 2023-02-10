@@ -109,7 +109,7 @@ arguments \code{mass_origin}, \code{mass_destination} (optional), \code{opportun
 \code{mass_destination} (optional) and \code{opportunity} will be used.
 \item Extended radiation law (\code{law = "ExtRad"}). The arguments \code{mass_origin},
 \code{mass_destination} (optional), \code{opportunity} and \code{param} will be used.
-\item Uniform law (\code{law = "Rand"}). The argument \code{mass_origin} will be used to
+\item Uniform law (\code{law = "Unif"}). The argument \code{mass_origin} will be used to
 extract the number of locations.
 }
 
@@ -144,7 +144,7 @@ before running the main package's functions.
 \examples{
 data(mass)
 data(distance)
-ind=sample(dim(distance)[1],100)
+ind <- sample(dim(distance)[1], 100)
 
 }
 \references{

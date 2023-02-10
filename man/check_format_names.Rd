@@ -11,7 +11,8 @@ check_format_names(vectors, matrices, check = "format_and_names")
 recommended to name each element of the list.}
 
 \item{matrices}{a list of matrices. The list can contain one matrix. It is
-recommended to name each element of the list.}
+recommended to name each element of the list. If \code{matrices = NULL} only the
+vectors will be considered.}
 
 \item{check}{a \code{character} indicating what types of check
 ("format" or "format_and_names") should be used (see Details).}
