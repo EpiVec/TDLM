@@ -16,6 +16,9 @@ reference:
   contents:
   - extract_opportunities
   - run_law_model
+  - run_law
+  - run_model
+  - gof
 
 - title: Data
   desc: >

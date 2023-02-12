@@ -1,6 +1,6 @@
 #' Compute the number of opportunities between pairs of locations
 #'
-#' This function compute the number of opportunities between pairs of locations
+#' This function computes the number of opportunities between pairs of locations
 #' as defined in \insertCite{Lenormand2016}{TDLM}.
 #' For a given pair of location the number of opportunities between the location
 #' of origin and the location of destination is based on the number of
@@ -12,8 +12,8 @@
 #'
 #' @param distance a squared matrix representing the distance between locations.
 #'
-#' @param check_names a boolean indicating if the ID location are used as vector
-#' names, matrix rownames and colnames and if they should be checked
+#' @param check_names a boolean indicating if the ID location are used as 
+#' vector names, matrix rownames and colnames and if they should be checked
 #' (see Note).
 #'
 #' @note `opportunity` and `distance` should be based on the same number of

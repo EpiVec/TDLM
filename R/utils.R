@@ -156,6 +156,27 @@ controls <- function(args = NULL,
       stop(mess, call. = FALSE)
     }
   }
+  
+  # matrices_matrices ##########################################################
+  if (type == "matrices_matrices") {
+    nbm <- length(matrices)
+    for (k in 1:nbm) {
+      nbloc <- c(nbloc, dim(matrices[[k]])[1])
+    }
+    
+    if (sum(!duplicated(nbloc)) > 1) {
+      mess <- "The inputs must contain the same number of locations!\n"
+      for (k in 1:nbm) {
+        mess <- paste0(
+          mess, "         -> ",
+          names(matrices)[k], ": ",
+          dim(matrices[[k]])[1],
+          " locations\n"
+        )
+      }
+      stop(mess, call. = FALSE)
+    }
+  }
 
   # vectors_matrices ###########################################################
   if (type == "vectors_matrices") {
@@ -189,7 +210,7 @@ controls <- function(args = NULL,
       stop(mess, call. = FALSE)
     }
   }
-
+  
   # vectors_checknames #########################################################
   if (type == "vectors_checknames") {
     n <- length(vectors[[1]])
@@ -247,6 +268,65 @@ controls <- function(args = NULL,
       }
     }
   }
+  
+  # matrices_checknames ########################################################
+  if (type == "matrices_checknames") {
+    n <- dim(matrices[[1]])[1]
+    
+    # Length names
+    nbid <- NULL
+    nbm <- length(matrices)
+    for (k in 1:nbm) {
+      nbid <- c(nbid, length(names(matrices[[k]])))
+    }
+    if (sum(!duplicated(nbid)) > 1) {
+      mess <- "The inputs must contain the same number of names id!\n"
+      for (k in 1:nbm) {
+        mess <- paste0(
+          mess, "         -> ",
+          names(matrices)[k], ": ", length(names(matrices[[k]])),
+          " locations\n"
+        )
+      }
+      stop(mess, call. = FALSE)
+    }
+    if (nbid[1] < n) {
+      stop("The number of names is lower than the number of locations!",
+           call. = FALSE
+      )
+    }
+    
+    # names matrices-matrices
+    if (nbm > 1) {
+      test <- NULL
+      for (k1 in 1:(nbm - 1)) {
+        for (k2 in (k1 + 1):nbm) {
+          testk1k2 <- (length(intersect(
+            rownames(matrices[[k1]]),
+            rownames(matrices[[k2]])
+          )) == n)
+          test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
+        }
+      }
+      ntest <- dim(test)[1]
+      if (sum(test$test) < ntest) {
+        mess <- "Different names in matrices:\n"
+        for (k in 1:ntest) {
+          if (!test$test[k]) {
+            mess <- paste0(
+              mess,
+              "         -> ",
+              names(matrices)[test[k, 1]],
+              " and ",
+              names(matrices)[test[k, 2]], "\n"
+            )
+          }
+        }
+        stop(mess, call. = FALSE)
+      }
+    }
+  }
+  
 
   # vectors_matrices_checknames ################################################
   if (type == "vectors_matrices_checknames") {
@@ -522,4 +602,35 @@ controls <- function(args = NULL,
       )
     }
   }
+}
+
+gofi = function(sim, obs){ #sim matrix and obs list of matrix
+  
+  # Initialization
+  res=NULL
+  No=sum(obs)
+  
+  # Loop over sim 
+  for(k in 1:length(sim)){
+    
+    simk = sim[[k]]
+    Nk = sum(sim)
+    
+    # CPC
+    cpc = 2*sum(pmin(simk,obs))/(No+Nk)
+    
+    # CPL
+    cpl = 2*sum(pmin(simk>0,obs>0))/(sum(simk>0)+sum(obs>0))
+    
+    # RMSE
+    rmse = sum((obs-simk)+(obs-simk))/No
+    
+    # IG
+    ig = sum((obs/No)*log((obs/No)/(simk/Nk)))
+    
+  }
+  
+  # Return output
+  return(res)
+  
 }

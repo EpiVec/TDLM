@@ -12,8 +12,8 @@ per location. The value should be positive.}
 
 \item{distance}{a squared matrix representing the distance between locations.}
 
-\item{check_names}{a boolean indicating if the ID location are used as vector
-names, matrix rownames and colnames and if they should be checked
+\item{check_names}{a boolean indicating if the ID location are used as
+vector names, matrix rownames and colnames and if they should be checked
 (see Note).}
 }
 \value{
@@ -21,7 +21,7 @@ A squared matrix in which each element represents the number of opportunities
 between a pair of locations.
 }
 \description{
-This function compute the number of opportunities between pairs of locations
+This function computes the number of opportunities between pairs of locations
 as defined in \insertCite{Lenormand2016}{TDLM}.
 For a given pair of location the number of opportunities between the location
 of origin and the location of destination is based on the number of

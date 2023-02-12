@@ -124,7 +124,7 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [run_law] [run_model()] [check_format_names()] 
+#' @seealso [run_law_model()] [run_model()] [check_format_names()] 
 #'
 #' @examples
 #' data(mass)
@@ -135,7 +135,7 @@
 #' \insertRef{Lenormand2016}{TDLM}
 #'
 #' @export
-run_law_model <- function(law = "NGravExp",
+run_law <- function(law = "NGravExp",
                           mass_origin,
                           mass_destination = mass_origin,
                           distance,

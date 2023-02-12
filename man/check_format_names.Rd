@@ -8,13 +8,14 @@ check_format_names(vectors, matrices, check = "format_and_names")
 }
 \arguments{
 \item{vectors}{a list of vectors. The list can contain one vector. It is
-recommended to name each element of the list.}
+recommended to name each element of the list. If \code{vectors = NULL} only the
+matrices will be considered.}
 
 \item{matrices}{a list of matrices. The list can contain one matrix. It is
 recommended to name each element of the list. If \code{matrices = NULL} only the
 vectors will be considered.}
 
-\item{check}{a \code{character} indicating what types of check
+\item{check}{a character indicating what types of check
 ("format" or "format_and_names") should be used (see Details).}
 }
 \value{
@@ -24,13 +25,12 @@ A message indicating if the check has passed or failed.
 This function checks that the TDLM's inputs have the required format.
 }
 \details{
-The TDLM's inputs should be based on the same number of
+The \code{TDLM}'s inputs should be based on the same number of
 locations sorted in the same order. \code{check = "format"} will run basic check
 to ensure that the structure of the inputs (dimensions, class, type...) is
 correct. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames, set
-\code{check  = "format_and_names"} to check the names (`check =
-"format_and_names"`` by default). The checks are run successively so run the
+\code{check  = "format_and_names"} to check the names (\code{check = "format_and_names"} by default). The checks are run successively so run the
 function as many times as needed to get the message indicating that the
 inputs passed the check successfully.
 }

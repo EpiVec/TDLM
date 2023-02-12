@@ -3,22 +3,23 @@
 #' This function checks that the TDLM's inputs have the required format.
 #'
 #' @param vectors a list of vectors. The list can contain one vector. It is
-#' recommended to name each element of the list.
+#' recommended to name each element of the list. If `vectors = NULL` only the
+#' matrices will be considered.
 #'
 #' @param matrices a list of matrices. The list can contain one matrix. It is
 #' recommended to name each element of the list. If `matrices = NULL` only the
 #' vectors will be considered.
 #'
-#' @param check a `character` indicating what types of check
+#' @param check a character indicating what types of check
 #' ("format" or "format_and_names") should be used (see Details).
 #'
-#' @details The TDLM's inputs should be based on the same number of
+#' @details The `TDLM`'s inputs should be based on the same number of
 #' locations sorted in the same order. `check = "format"` will run basic check
 #' to ensure that the structure of the inputs (dimensions, class, type...) is
 #' correct. It is recommended to use the location ID
 #' as vector names, matrix rownames and matrix colnames, set
 #' `check  = "format_and_names"` to check the names (`check =
-#' "format_and_names"`` by default). The checks are run successively so run the
+#' "format_and_names"` by default). The checks are run successively so run the
 #' function as many times as needed to get the message indicating that the
 #' inputs passed the check successfully.
 #'
@@ -34,15 +35,21 @@
 #'
 #' @export
 check_format_names <- function(vectors, matrices, check = "format_and_names") {
+  
   # Controls
-  controls(args = vectors, type = "list")
-  if (is.null(names(vectors))) {
-    names(vectors) <- paste0("Vector ", 1:length(vectors))
-    message(paste0(
-      "No names identified in the vectors list.\n",
-      "Names have been automatically assigned.\n"
-    ))
+  if(is.null(vectors) & is.null(matrices)){
+    stop("At least one of the vectors or matrices argument should be non-null.")  
   }
+  if (!is.null(vectors)) {
+    controls(args = vectors, type = "list")
+    if (is.null(names(vectors))) {
+      names(vectors) <- paste0("Vector ", 1:length(vectors))
+      message(paste0(
+        "No names identified in the vectors list.\n",
+        "Names have been automatically assigned.\n"
+      ))
+    }
+  }  
   if (!is.null(matrices)) {
     controls(args = matrices, type = "list")
     if (is.null(names(matrices))) {
@@ -60,12 +67,34 @@ format or format_and_names", call. = FALSE)
   }
 
   # Format
-  controls(
-    args = NULL,
-    vectors = vectors,
-    type = "vectors_positive"
-  )
-  if (!is.null(matrices)) {
+  if (!is.null(vectors) & is.null(matrices)) {
+    controls(
+      args = NULL,
+      vectors = vectors,
+      type = "vectors_positive"
+    )
+    controls(
+      args = NULL,
+      vectors = vectors,
+      type = "vectors_vectors"
+    )
+  }  
+
+  if (is.null(vectors) & !is.null(matrices)) {
+    controls(
+      args = NULL,
+      vectors = vectors,
+      matrices = matrices,
+      type = "matrices_matrices"
+    )
+  } 
+  
+  if (is.null(vectors) & is.null(matrices)) {
+    controls(
+      args = NULL,
+      vectors = vectors,
+      type = "vectors_positive"
+    )
     controls(
       args = NULL,
       matrices = matrices,
@@ -77,14 +106,8 @@ format or format_and_names", call. = FALSE)
       matrices = matrices,
       type = "vectors_matrices"
     )
-  } else {
-    controls(
-      args = NULL,
-      vectors = vectors,
-      type = "vectors_vectors"
-    )
   }
-
+    
   # Names
   if (check == "format_and_names") {
     if (!is.null(matrices)) {
