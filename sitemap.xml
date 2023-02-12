@@ -31,6 +31,9 @@
     <loc>https://epivec.github.io/TDLM/reference/extract_opportunities.html</loc>
   </url>
   <url>
+    <loc>https://epivec.github.io/TDLM/reference/gof.html</loc>
+  </url>
+  <url>
     <loc>https://epivec.github.io/TDLM/reference/index.html</loc>
   </url>
   <url>
@@ -40,7 +43,13 @@
     <loc>https://epivec.github.io/TDLM/reference/od.html</loc>
   </url>
   <url>
+    <loc>https://epivec.github.io/TDLM/reference/run_law.html</loc>
+  </url>
+  <url>
     <loc>https://epivec.github.io/TDLM/reference/run_law_model.html</loc>
+  </url>
+  <url>
+    <loc>https://epivec.github.io/TDLM/reference/run_model.html</loc>
   </url>
   <url>
     <loc>https://epivec.github.io/TDLM/reference/spcounty.html</loc>

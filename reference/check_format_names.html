@@ -61,7 +61,8 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>vectors</dt>
 <dd><p>a list of vectors. The list can contain one vector. It is
-recommended to name each element of the list.</p></dd>
+recommended to name each element of the list. If <code>vectors = NULL</code> only the
+matrices will be considered.</p></dd>
 
 
 <dt>matrices</dt>
@@ -71,7 +72,7 @@ vectors will be considered.</p></dd>
 
 
 <dt>check</dt>
-<dd><p>a <code>character</code> indicating what types of check
+<dd><p>a character indicating what types of check
 ("format" or "format_and_names") should be used (see Details).</p></dd>
 
 </dl></div>
@@ -83,13 +84,12 @@ vectors will be considered.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The TDLM's inputs should be based on the same number of
+    <p>The <code>TDLM</code>'s inputs should be based on the same number of
 locations sorted in the same order. <code>check = "format"</code> will run basic check
 to ensure that the structure of the inputs (dimensions, class, type...) is
 correct. It is recommended to use the location ID
 as vector names, matrix rownames and matrix colnames, set
-<code>check  = "format_and_names"</code> to check the names (`check =
-"format_and_names"`` by default). The checks are run successively so run the
+<code>check  = "format_and_names"</code> to check the names (<code>check = "format_and_names"</code> by default). The checks are run successively so run the
 function as many times as needed to get the message indicating that the
 inputs passed the check successfully.</p>
     </div>
