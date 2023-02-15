@@ -135,6 +135,49 @@ controls <- function(args = NULL,
       }
     }
   }
+  
+  # matrices_gof ###############################################################
+  if (type == "matrices_gof") {
+    nbm <- length(matrices)
+    for (k in 1:nbm) {
+      matrix <- matrices[[k]]
+      namemat <- names(matrices)[k]
+      
+      if (!is.matrix(matrix)) {
+        stop(paste0(namemat, " must be a matrix."),
+             call. = FALSE
+        )
+      }
+      n <- dim(matrix)[1]
+      m <- dim(matrix)[2]
+      if (n != m) {
+        stop(paste0(namemat, " must be symmetrical."),
+             call. = FALSE
+        )
+      }
+      if (n < 2) {
+        stop(paste0(namemat, " must contain at least two locations."),
+             call. = FALSE
+        )
+      }
+      if (sum(is.na(matrix)) > 0) {
+        stop(paste0("NA(s) detected in ", namemat, "."),
+             call. = FALSE
+        )
+      }
+      if (sum(matrix != 0) == 0) {
+        stop(paste0(namemat, " must contain at least one strictly positive 
+        value."),
+             call. = FALSE
+        )
+      }
+      if (sum(matrix < 0) > 0) {
+        stop(paste0(namemat, " must contain only positive values."),
+             call. = FALSE
+        )
+      }
+    }
+  }
 
   # vectors_vectors ############################################################
   if (type == "vectors_vectors") {
@@ -159,6 +202,7 @@ controls <- function(args = NULL,
   
   # matrices_matrices ##########################################################
   if (type == "matrices_matrices") {
+    nbloc <- NULL
     nbm <- length(matrices)
     for (k in 1:nbm) {
       nbloc <- c(nbloc, dim(matrices[[k]])[1])
@@ -277,14 +321,18 @@ controls <- function(args = NULL,
     nbid <- NULL
     nbm <- length(matrices)
     for (k in 1:nbm) {
-      nbid <- c(nbid, length(names(matrices[[k]])))
+      nbid <- c(nbid, length(rownames(matrices[[k]])))
+      nbid <- c(nbid, length(colnames(matrices[[k]])))
     }
     if (sum(!duplicated(nbid)) > 1) {
       mess <- "The inputs must contain the same number of names id!\n"
       for (k in 1:nbm) {
         mess <- paste0(
           mess, "         -> ",
-          names(matrices)[k], ": ", length(names(matrices[[k]])),
+          names(matrices)[k], ": ",
+          length(rownames(matrices[[k]])),
+          " x ",
+          length(colnames(matrices[[k]])),
           " locations\n"
         )
       }
@@ -294,6 +342,27 @@ controls <- function(args = NULL,
       stop("The number of names is lower than the number of locations!",
            call. = FALSE
       )
+    }
+    
+    # names matrices
+    test <- NULL
+    for (k in 1:nbm) {
+      test <- c(test, length(intersect(
+        rownames(matrices[[k]]),
+        colnames(matrices[[k]])
+      )) == n)
+    }
+    if (sum(test) < nbm) {
+      mess <- "Different rownames and colnames in:\n"
+      for (k in 1:nbm) {
+        if (!test[k]) {
+          mess <- paste0(
+            mess,
+            "         -> ", names(matrices)[k], "\n"
+          )
+        }
+      }
+      stop(mess, call. = FALSE)
     }
     
     # names matrices-matrices
@@ -387,8 +456,8 @@ controls <- function(args = NULL,
             "         -> ", names(matrices)[k], "\n"
           )
         }
-        stop(mess, call. = FALSE)
       }
+      stop(mess, call. = FALSE)
     }
 
     # names matrices-matrices
@@ -512,6 +581,19 @@ controls <- function(args = NULL,
     return(args)
   }
   
+  # character_vector ###########################################################
+  if (type == "character_vector") {
+    if (!is.character(args)) {
+      stop(paste0(deparse(substitute(args)), " must be a character."),
+           call. = FALSE
+      )
+    }
+    if (is.factor(args)) {
+      args <- as.character(args)
+    }
+    return(args)
+  }
+  
   # numeric_vector #############################################################
   if (type == "numeric_vector") {
     if (!is.numeric(args)) {
@@ -604,7 +686,12 @@ controls <- function(args = NULL,
   }
 }
 
-gofi = function(sim, obs){ #sim matrix and obs list of matrix
+gofi = function(sim, obs, distance, 
+                measures = c("CPC","CPL","NRMSE","KL","CPC_D")){ 
+  
+  # sim is a matrix 
+  # obs is a list of matrix
+  # distance is a matrix
   
   # Initialization
   res=NULL
@@ -616,17 +703,35 @@ gofi = function(sim, obs){ #sim matrix and obs list of matrix
     simk = sim[[k]]
     Nk = sum(sim)
     
-    # CPC
-    cpc = 2*sum(pmin(simk,obs))/(No+Nk)
+    # CPC ######################################################################
+    if("CPC" %in% measures){
+      cpc = 2*sum(pmin(simk,obs))/(No+Nk)
+      res=c(res,cpc)
+    }
     
-    # CPL
-    cpl = 2*sum(pmin(simk>0,obs>0))/(sum(simk>0)+sum(obs>0))
+    # CPL ######################################################################
+    if("CPL" %in% measures){
+      cpl = 2*sum(pmin(simk>0,obs>0))/(sum(simk>0)+sum(obs>0))
+      res=c(res,cpl)
+    }
     
-    # RMSE
-    rmse = sum((obs-simk)+(obs-simk))/No
+    # NRMSE ####################################################################
+    if("NRMSE" %in% measures){
+      nrmse = sum((obs-simk)+(obs-simk))/No
+      res=c(res,nrmse)
+    }
     
-    # IG
-    ig = sum((obs/No)*log((obs/No)/(simk/Nk)))
+    # KL #######################################################################
+    if("KL" %in% measures){
+      kl = sum((obs/No)*log((obs/No)/(simk/Nk)))
+      res=c(res,kl)
+    }
+    
+    # CPC_D ####################################################################
+    if("CPC_d" %in% measures){
+      cpcd = 0
+      res=c(res,cpcd)
+    }
     
   }
   

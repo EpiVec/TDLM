@@ -124,7 +124,7 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [run_law_model()] [run_model()] [check_format_names()] 
+#' @seealso [gof()] [run_law_model()] [run_model()] [check_format_names()] 
 #'
 #' @examples
 #' data(mass)

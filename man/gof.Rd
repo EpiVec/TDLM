@@ -14,7 +14,7 @@ gof(
 )
 }
 \arguments{
-\item{sim}{an object of class \code{TDLM} (output from \code{\link[=run_law_model]{run_law_model()}},
+\item{sim}{an object of class \code{TDLM} (output of \code{\link[=run_law_model]{run_law_model()}},
 \code{\link[=run_law]{run_law()}} or \code{\link[=run_model]{run_model()}}).
 A matrix or a list of matrix can also be used (see Note).}
 
@@ -27,7 +27,7 @@ will be calculated.}
 \item{distance}{a squared matrix representing the distance between locations.
 Only necessary for the distance-based measures.}
 
-\item{use_proba}{a boolean indicating if the proba matrix should be used
+\item{use_proba}{a boolean indicating if the \code{proba} matrix should be used
 instead of the simulated OD matrix to compute the measure(s). Only valid for
 the output from \code{\link[=run_law_model]{run_law_model()}} with argument \code{write_proba = TRUE} (see
 Note).}
@@ -37,7 +37,9 @@ rownames and colnames and if they should be checked (see Note).}
 }
 \value{
 A data.frame providing one or several goodness-of-fit measure(s) between
-simulated OD(s) and an observed OD.
+simulated OD(s) and an observed OD. Each row corresponds to a matrix sorted
+according to the list (or list of list) elements (names are used if
+provided).
 }
 \description{
 This function returns a data.frame where each row provides one or
@@ -51,8 +53,9 @@ flow between location \mjeqn{i}{i} and location \mjeqn{j}{j}
 (argument \code{obs}), \mjeqn{\tilde{T}_{ij}}{\tilde{T}_{ij}} a simulated flow
 between location \mjeqn{i}{i} and location \mjeqn{j}{j} (a matrix from
 argument \code{sim}), \mjeqn{N=\sum_{i,j=1}^n T_{ij}}{N=\sum_{i,j=1}^n T_{ij}} the
-total number of observed flows and
-\mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}.
+sum of observed flows and
+\mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}
+the sum of simulated flows.
 
 As described in \insertCite{Lenormand2016}{TDLM},
 
@@ -63,9 +66,9 @@ As described in \insertCite{Lenormand2016}{TDLM},
 \note{
 By default, if \code{sim} is an output of \code{\link[=run_law_model]{run_law_model()}}
 the measure(s) are computed only for the simulated OD matrices and
-not the proba matrix (included in the output when
+not the \code{proba} matrix (included in the output when
 \code{write_proba = TRUE}). The argument \code{use_proba} can be used to compute the
-measure(s) based on the proba matrix instead of the simulated
+measure(s) based on the \code{proba} matrix instead of the simulated
 OD matrix. In this case the argument \code{obs} should also be a proba matrix.
 
 All the inputs should be based on the same number of
@@ -86,7 +89,8 @@ ind <- sample(dim(distance)[1], 100)
 \insertRef{Lenormand2016}{TDLM}
 }
 \seealso{
-\code{\link[=run_law_model]{run_law_model()}}
+\code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=run_law_model]{run_law_model()}}
+\code{\link[=check_format_names]{check_format_names()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

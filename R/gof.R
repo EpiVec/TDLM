@@ -4,7 +4,7 @@
 #' several goodness-of-fit measures between a simulated and an observed 
 #' Origin-Destination matrix.
 #'
-#' @param sim an object of class `TDLM` (output from [run_law_model()], 
+#' @param sim an object of class `TDLM` (output of [run_law_model()], 
 #' [run_law()] or [run_model()]). 
 #' A matrix or a list of matrix can also be used (see Note).
 #' 
@@ -17,7 +17,7 @@
 #' @param distance a squared matrix representing the distance between locations.
 #' Only necessary for the distance-based measures.
 #' 
-#' @param use_proba a boolean indicating if the proba matrix should be used 
+#' @param use_proba a boolean indicating if the `proba` matrix should be used 
 #' instead of the simulated OD matrix to compute the measure(s). Only valid for
 #'  the output from [run_law_model()] with argument `write_proba = TRUE` (see 
 #'  Note).
@@ -32,8 +32,9 @@
 #' (argument `obs`), \mjeqn{\tilde{T}_{ij}}{\tilde{T}_{ij}} a simulated flow 
 #' between location \mjeqn{i}{i} and location \mjeqn{j}{j} (a matrix from 
 #' argument `sim`), \mjeqn{N=\sum_{i,j=1}^n T_{ij}}{N=\sum_{i,j=1}^n T_{ij}} the 
-#' total number of observed flows and 
-#' \mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}. 
+#' sum of observed flows and 
+#' \mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}
+#' the sum of simulated flows. 
 #' 
 #' As described in \insertCite{Lenormand2016}{TDLM},
 #' 
@@ -43,9 +44,9 @@
 #'
 #' @note By default, if `sim` is an output of [run_law_model()]
 #' the measure(s) are computed only for the simulated OD matrices and 
-#' not the proba matrix (included in the output when 
+#' not the `proba` matrix (included in the output when 
 #' `write_proba = TRUE`). The argument `use_proba` can be used to compute the
-#' measure(s) based on the proba matrix instead of the simulated 
+#' measure(s) based on the `proba` matrix instead of the simulated 
 #' OD matrix. In this case the argument `obs` should also be a proba matrix.
 #' 
 #' All the inputs should be based on the same number of
@@ -58,12 +59,15 @@
 #'
 #' @return
 #' A data.frame providing one or several goodness-of-fit measure(s) between 
-#' simulated OD(s) and an observed OD. 
+#' simulated OD(s) and an observed OD. Each row corresponds to a matrix sorted
+#' according to the list (or list of list) elements (names are used if 
+#' provided).
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [run_law_model()]
+#' @seealso [run_law_model()] [run_law()] [run_model()] [run_law_model()]
+#' [check_format_names()] 
 #'
 #' @examples
 #' data(mass)
@@ -77,8 +81,273 @@
 gof <- function(sim, obs, measures = "all", distance,  
                 use_proba =  FALSE, check_names = FALSE) {
   
+  # List measures
+  lsmnodist <- c("CPC", "CPL", "NRMSE", "KL")
+  lsmdist <- c("CPC_d")
+  lsm <- c(lsmdist, lsmnodist)
+  if ("all" %in% measures) {
+    metrics <- lsm
+  }else{
+    metrics = measures
+  }
+  
+  # Controls args
+  controls(args = measures, type = "character_vector")
+  if (sum(metrics %in% lsm) < length(metrics)) {
+    stop("One or several goodness-of-fit measure(s) chosen is not available.
+     Please chose among the followings:
+         CPC, CPL, NRMSE, KL or CPC_d.")
+  }
+  controls(args = check_names, type = "boolean")
+  
+  # Controls data
+  tdlm = FALSE
+  if (inherits(sim, "TDLM")) { # TDLM
+    
+    # TDLM attributes
+    tdlm = TRUE
+    from = attributes(res)$from
+    
+    if(from == "run_law_model"){
+      isproba = attributes(res)$proba
+      controls(args = use_proba, type = "boolean")
+      if(use_proba & !isproba){
+        stop("use_proba cannot be set to TRUE if there is no proba in sim.")
+      }  
+    }
+
+    # Number of lists
+    hlist = 2
+    if(is.matrix(sim[[2]])){
+      hlist = 1
+    }
+
+    # If distance-based metrics
+    if(sum(metrics %in% lsmdist)>0){ 
+      
+      if(hlist == 2){
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          distance = distance,
+                          matrices_in_sim = sim[[2]][[1]]),
+          type = "matrices_gof"
+        )
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                        distance = distance,
+                        matrices_in_sim = sim[[2]][[1]]),
+          type = "matrices_matrices"
+        )
+      }else{
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          distance = distance,
+                          matrices_in_sim = sim[[2]]),
+          type = "matrices_gof"
+        )
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          distance = distance,
+                          matrices_in_sim = sim[[2]]),
+          type = "matrices_matrices"
+        )
+      }
+      
+      # Check names
+      if(check_names){
+        
+        if(hlist == 2){
+          controls(
+            args = NULL,
+            matrices = list(obs = obs,
+                            distance = distance,
+                            matrices_in_sim = sim[[2]][[1]]),
+            type = "matrices_checknames"
+          )
+        }else{
+          controls(
+            args = NULL,
+            matrices = list(obs = obs,
+                            distance = distance,
+                            matrices_in_sim = sim[[2]]),
+            type = "matrices_checknames"
+          )
+        }
+        
+      }
+      
+    }else{ # If NOT distance-based metrics
+      
+      if(hlist == 2){
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          matrices_in_sim = sim[[2]][[1]]),
+          type = "matrices_gof"
+        )
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          matrices_in_sim = sim[[2]][[1]]),
+          type = "matrices_matrices"
+        )
+      }else{
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          matrices_in_sim = sim[[2]]),
+          type = "matrices_gof"
+        )
+        controls(
+          args = NULL,
+          matrices = list(obs = obs,
+                          matrices_in_sim = sim[[2]]),
+          type = "matrices_matrices"
+        )
+      }
+      
+      # Check names
+      if(check_names){
+        
+        if(hlist == 2){
+          controls(
+            args = NULL,
+            matrices = list(obs = obs,
+                            matrices_in_sim = sim[[2]][[1]]),
+            type = "matrices_checknames"
+          )
+        }else{
+          controls(
+            args = NULL,
+            matrices = list(obs = obs,
+                            matrices_in_sim = sim[[2]]),
+            type = "matrices_checknames"
+          )
+        }
+        
+      }
+    }
+    
+  # Not TDLM
+  }else{ 
+    
+    if(is.matrix(sim)){
+      list = 0
+      sim = list(sim = sim)
+    }else{
+      list = 1
+      if (!is.list(sim)) {
+        stop("If sim is not a TDLM object it must be a list or a matrix.",
+             call. = FALSE
+        )
+      }
+      if (is.null(names(sim))) {
+        names(sim) <- paste0("sim_", 1:length(sim))
+        message(paste0(
+          "No names identified in the matrices list.\n",
+          "Names have been automatically assigned.\n"
+        ))
+      }
+    }
+    
+    if(sum(metrics %in% lsmdist)>0){ # If distance-based metrics
+      
+      controls(
+        args = NULL,
+        matrices = c(list(obs = obs,
+                        distance = distance), sim),
+        type = "matrices_gof"
+      )
+      controls(
+        args = NULL,
+        matrices = c(list(obs = obs,
+                          distance = distance), sim),
+        type = "matrices_matrices"
+      )
+      
+      # Check names
+      if(check_names){
+        
+        controls(
+          args = NULL,
+          matrices = c(list(obs = obs,
+                            distance = distance), sim),
+          type = "matrices_checknames"
+        )  
+      }
+      
+    }else{ # If NOT distance-based metrics
+      
+      controls(
+        args = NULL,
+        matrices = c(list(obs = obs), sim),
+        type = "matrices_gof"
+      )
+      controls(
+        args = NULL,
+        matrices = c(list(obs = obs), sim),
+        type = "matrices_matrices"
+      )
+      
+      # Check names
+      if(check_names){
+        
+        controls(
+          args = NULL,
+          matrices = c(list(obs = obs), sim),
+          type = "matrices_checknames"
+        )  
+      }
+      
+    }
+    
+  }
+  
+  # proba
+  if(tdlm){
+    if(from == "run_law_model"){
+      if(use_proba){
+        if(hlist==2){
+          for(k in 2:length(sim)){
+            sim[[k]]=sim[[k]][-c(1:(length(sim[[k]])-1))]
+          }
+        }else{
+          sim=sim[-c(2:(length(sim)-1))]
+        }
+        message("proba matrix used!")
+      }else{
+        if(hlist==2){
+          for(k in 2:length(sim)){
+            sim[[k]]=sim[[k]][-length(sim[[k]])]
+          }
+        }else{
+          sim=sim[-length(sim)]
+        }
+      }
+    }
+  }
+
+  # Initialize res
+  if(tdlm){
+    if(hlist==2){
+      nameres=merge(names(sim)[-1],names(sim[[2]]))
+      nameres=nameres[order(nameres[,1]),]
+      res=data.frame(Parameter=nameres[,1], Replication=nameres[,2])
+    }else{
+      res=data.frame(Replication=names(sim)[-1])
+    }
+  }else{
+    res=data.frame(Matrix=names(sim))
+  }
+  
+  # Compute GOF
+  
   
   
   # Return output
-  return(1)
+  return(res)
 }

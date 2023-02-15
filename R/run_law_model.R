@@ -124,7 +124,7 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [run_law] [run_model()] [check_format_names()] 
+#' @seealso [gof()] [run_law()] [run_model()] [check_format_names()] 
 #'
 #' @examples
 #' data(mass)
@@ -615,7 +615,7 @@ UM, PCM, ACM or DCM",
       }
     }else{
       beta = param
-      Values = c(law, model, nbrep, param)
+      Values = c(law, model, nbrep, 1, param)
     }
 
     args <- paste0(
@@ -728,11 +728,14 @@ UM, PCM, ACM or DCM",
   
   # Delete temp
   unlink(pathtemp, recursive = TRUE)
+  
+  # Class TDLM
+  outputs = outputs[c(length(outputs),1:(length(outputs)-1))]
+  class(outputs) <- append("TDLM", class(outputs))
+  attr(outputs, "from") <- "run_law_model"
+  attr(outputs, "proba") <- TRUE
 
   # Return output
-  outputs = outputs[c(length(outputs),1:(length(outputs)-1))]
-  outputs$from = "run_law_model"
-  class(outputs) <- append("TDLM", class(outputs))
   return(outputs)
   
 }

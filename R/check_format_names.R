@@ -53,7 +53,7 @@ check_format_names <- function(vectors, matrices, check = "format_and_names") {
   if (!is.null(matrices)) {
     controls(args = matrices, type = "list")
     if (is.null(names(matrices))) {
-      names(matrices) <- paste0("Matrix ", 1:length(matrices))
+      names(matrices) <- paste0("matrix_", 1:length(matrices))
       message(paste0(
         "No names identified in the matrices list.\n",
         "Names have been automatically assigned.\n"

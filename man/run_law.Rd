@@ -156,7 +156,7 @@ ind <- sample(dim(distance)[1], 100)
 \insertRef{Lenormand2016}{TDLM}
 }
 \seealso{
-\code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_model]{run_model()}} \code{\link[=check_format_names]{check_format_names()}}
+\code{\link[=gof]{gof()}} \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_model]{run_model()}} \code{\link[=check_format_names]{check_format_names()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
