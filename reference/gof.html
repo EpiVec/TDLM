@@ -73,7 +73,7 @@ Origin-Destination matrix.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>sim</dt>
-<dd><p>an object of class <code>TDLM</code> (output from <code><a href="run_law_model.html">run_law_model()</a></code>,
+<dd><p>an object of class <code>TDLM</code> (output of <code><a href="run_law_model.html">run_law_model()</a></code>,
 <code><a href="run_law.html">run_law()</a></code> or <code><a href="run_model.html">run_model()</a></code>).
 A matrix or a list of matrix can also be used (see Note).</p></dd>
 
@@ -94,7 +94,7 @@ Only necessary for the distance-based measures.</p></dd>
 
 
 <dt>use_proba</dt>
-<dd><p>a boolean indicating if the proba matrix should be used
+<dd><p>a boolean indicating if the <code>proba</code> matrix should be used
 instead of the simulated OD matrix to compute the measure(s). Only valid for
 the output from <code><a href="run_law_model.html">run_law_model()</a></code> with argument <code>write_proba = TRUE</code> (see
 Note).</p></dd>
@@ -110,7 +110,9 @@ rownames and colnames and if they should be checked (see Note).</p></dd>
     
 
 <p>A data.frame providing one or several goodness-of-fit measure(s) between
-simulated OD(s) and an observed OD.</p>
+simulated OD(s) and an observed OD. Each row corresponds to a matrix sorted
+according to the list (or list of list) elements (names are used if
+provided).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -121,8 +123,9 @@ flow between location <em></em>\(i\) and location <em></em>\(j\)
 (argument <code>obs</code>), <em></em>\(\tilde{T}_{ij}\) a simulated flow
 between location <em></em>\(i\) and location <em></em>\(j\) (a matrix from
 argument <code>sim</code>), <em></em>\(N=\sum_{i,j=1}^n T_{ij}\) the
-total number of observed flows and
-<em></em>\(\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}\).</p>
+sum of observed flows and
+<em></em>\(\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}\)
+the sum of simulated flows.</p>
 <p>As described in (Lenormand et al. 2016)
 ,</p>
 <p><em></em>\(\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}\)</p>
@@ -132,9 +135,9 @@ total number of observed flows and
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>By default, if <code>sim</code> is an output of <code><a href="run_law_model.html">run_law_model()</a></code>
 the measure(s) are computed only for the simulated OD matrices and
-not the proba matrix (included in the output when
+not the <code>proba</code> matrix (included in the output when
 <code>write_proba = TRUE</code>). The argument <code>use_proba</code> can be used to compute the
-measure(s) based on the proba matrix instead of the simulated
+measure(s) based on the <code>proba</code> matrix instead of the simulated
 OD matrix. In this case the argument <code>obs</code> should also be a proba matrix.</p>
 <p>All the inputs should be based on the same number of
 locations sorted in the same order. It is recommended to use the location ID
@@ -152,7 +155,8 @@ before running the main package's functions.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="run_law_model.html">run_law_model()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="run_law_model.html">run_law_model()</a></code> <code><a href="run_law.html">run_law()</a></code> <code><a href="run_model.html">run_model()</a></code> <code><a href="run_law_model.html">run_law_model()</a></code>
+<code><a href="check_format_names.html">check_format_names()</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
