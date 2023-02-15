@@ -733,7 +733,7 @@ UM, PCM, ACM or DCM",
   outputs = outputs[c(length(outputs),1:(length(outputs)-1))]
   class(outputs) <- append("TDLM", class(outputs))
   attr(outputs, "from") <- "run_law_model"
-  attr(outputs, "proba") <- TRUE
+  attr(outputs, "proba") <- write_proba
 
   # Return output
   return(outputs)
