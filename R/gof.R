@@ -114,7 +114,7 @@
 #' \insertRef{Massey1951}{TDLM}
 #'
 #' @export
-gof <- function(sim, obs, measures = "all", distance, bin_size = 2,
+gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
                 use_proba = FALSE, check_names = FALSE) {
   # List measures
   lsmnodist <- c("CPC", "NRMSE", "KL", "CPL")

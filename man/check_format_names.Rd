@@ -4,7 +4,7 @@
 \alias{check_format_names}
 \title{Check format of TDLM's inputs}
 \usage{
-check_format_names(vectors, matrices, check = "format_and_names")
+check_format_names(vectors, matrices = NULL, check = "format_and_names")
 }
 \arguments{
 \item{vectors}{a list of vectors. The list can contain one vector. It is
@@ -13,7 +13,7 @@ matrices will be considered.}
 
 \item{matrices}{a list of matrices. The list can contain one matrix. It is
 recommended to name each element of the list. If \code{matrices = NULL} only the
-vectors will be considered.}
+vectors will be considered (by default).}
 
 \item{check}{a character indicating what types of check
 ("format" or "format_and_names") should be used (see Details).}

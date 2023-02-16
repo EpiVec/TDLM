@@ -1,29 +1,15 @@
-#' Estimate mobility flows based of different trip distribution laws and models
+#' Estimate mobility flows based on different trip distribution models
 #'
 #' This function estimates mobility flows using different distribution laws and
 #' models. As described in \insertCite{Lenormand2016}{TDLM}, the function
 #' uses a two-step approach to generate mobility flows by separating the trip
 #' distribution law, gravity or intervening opportunities, from the modeling
-#' approach used to generate the flows from this law.
+#' approach used to generate the flows from this law.  This function only uses
+#' the second step to generate mobility flow based on a matrix of probability
+#' using different models.
 #'
-#' @param law a character indicating which law to use.
-#'
-#' @param mass_origin a numeric vector representing the mass at origin (i.e.
-#' demand).
-#'
-#' @param mass_destination a numeric vector representing the mass at
-#' destination (i.e. attractiveness).
-#'
-#' @param distance a squared matrix representing the distance between locations
-#' (see Details).
-#'
-#' @param opportunity a squared matrix representing the number of opportunities
-#' between locations (see Details).
-#'
-#' @param param a vector of numeric value(s) used to adjust the importance of
-#' `distance` or `opportunity` associated with the chosen law. A single value or
-#' a vector of several parameter values can be used (see Return). Not necessary
-#' for the original radiation law or the uniform law (see Details).
+#' @param proba a squared matrix of probability. The sum of the matrix element
+#' should be equal to 1.
 #'
 #' @param model a character indicating which model to use.
 #'
@@ -38,10 +24,6 @@
 #' @param nbrep an integer indicating the number of replications
 #' associated to the model run.
 #'
-#' @param write_proba a boolean indicating if the estimation of the
-#' probability to move from one location to another obtained with law
-#' should be returned along with the flows estimations.
-#'
 #' @param check_names a boolean indicating if the ID location are used as
 #' vector names, matrix rownames and colnames and if they should be checked
 #' (see Note).
@@ -49,48 +31,8 @@
 #' @details
 #' \loadmathjax
 #'
-#' First, we compute the matrix `proba` estimating the probability
-#' \mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to
-#' another location \mjeqn{j}{j}
-#' (\mjeqn{\sum_{i}\sum_{j} p_{ij}=1}{\sum_{i}\sum_{j} p_{ij}=1}). This
-#' probability is based on the demand \mjeqn{m_{i}}{m_{i}}
-#' (argument `mass_origin`) and the attractiveness
-#' \mjeqn{m_{j}}{m_{j}} (argument `mass_destination`). Note that the population
-#' is typically used as a surrogate for both quantities (this is why
-#' `mass_destination = mass_origin` by default). It also depends on the
-#' distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument `distance`) OR
-#' the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
-#' (argument `opportunity`) depending on the chosen law. Both the effect of the
-#' distance and the number of opportunities can be adjusted with a parameter
-#' (argument `param`) except for the original radiation law or the uniform law.
-#'
-#' In this package we consider eight probabilistic laws described in details in
-#' \insertCite{Lenormand2016}{TDLM}.
-#'
-#' 1) Gravity law with an exponential distance decay function
-#' (`law = "GravExp"`). The arguments `mass_origin`, `mass_destination`
-#' (optional), `distance` and `param` will be used.
-#' 2) Normalized gravity law with an exponential distance decay function
-#' (`law = "NGravExp"`). The arguments `mass_origin`, `mass_destination`
-#' (optional), `distance` and `param` will be used.
-#' 3) Gravity law with a power distance decay function
-#' (`law = "GravPow"`). The arguments `mass_origin`, `mass_destination`
-#' (optional), `distance` and `param` will be used.
-#' 4) Normalized gravity law with a power distance decay function
-#' (`law = "NGravPow"`). The arguments `mass_origin`, `mass_destination`
-#' (optional), `distance` and `param` will be used.
-#' 5) Schneider's intervening opportunities law (`law = "Schneider"`). The
-#' arguments `mass_origin`, `mass_destination` (optional), `opportunity` and
-#' `param` will be used.
-#' 6) Radiation law (`law = "Rad"`). The arguments `mass_origin`,
-#' `mass_destination` (optional) and `opportunity` will be used.
-#' 7) Extended radiation law (`law = "ExtRad"`). The arguments `mass_origin`,
-#' `mass_destination` (optional), `opportunity` and `param` will be used.
-#' 8) Uniform law (`law = "Unif"`). The argument `mass_origin` will be used to
-#' extract the number of locations.
-#'
-#' Second, we propose four constrained models to generate the flow from these
-#' distribution of probability. These models respect different level of
+#' We propose four constrained models to generate the flow from the matrix
+#' of probability. These models respect different level of
 #' constraints. These constraints can preserve the total number of trips
 #' (argument `nb_trips`) OR the number of out-going trips
 #' \mjeqn{O_{i}}{O_{i}} (argument `out_trips`) AND/OR the number of in-coming
@@ -117,8 +59,7 @@
 #'
 #' @return
 #' An object of class `TDLM`. A list of list of matrix containing for each
-#' parameter value the `nbrep` simulated matrices end the matrix of probability
-#' (called `proba`) if `write_proba = TRUE`. If `length(param) == 1` or
+#' parameter value the `nbrep` simulated matrices . If `length(param) == 1` or
 #' `law == "Rad"` or `law == "Unif` only a list of matrix will be returned.
 #'
 #' @author
@@ -135,18 +76,12 @@
 #' \insertRef{Lenormand2016}{TDLM}
 #'
 #' @export
-run_model <- function(law = "NGravExp",
-                      mass_origin,
-                      mass_destination = mass_origin,
-                      distance,
-                      opportunity,
-                      param,
-                      model = "DCM",
-                      nb_trips,
-                      out_trips,
-                      in_trips,
+run_model <- function(proba,
+                      model = "UM",
+                      nb_trips = 1000,
+                      out_trips = NULL,
+                      in_trips = out_trips,
                       nbrep = 3,
-                      write_proba = FALSE,
                       check_names = FALSE) {
   # Set path to jar
   libpath <- .libPaths()[1]
@@ -162,82 +97,9 @@ run_model <- function(law = "NGravExp",
     )
   }
 
-  # Controls LAW
-  if (law == "Unif") {
-    law <- "Rand"
-  }
-  laws <- c(
-    "GravExp", "NGravExp", "GravPow", "NGravPow", "Schneider", "Rad", "ExtRad",
-    "Rand"
-  )
-  dist_laws <- c("GravExp", "NGravExp", "GravPow", "NGravPow")
-  oppo_laws <- c("Schneider", "Rad", "ExtRad")
-  rand_laws <- c("Rand")
-  controls(args = law, type = "character")
-  if (!(law %in% laws)) {
-    stop("Please choose check among the followings values:
-GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
-      call. = FALSE
-    )
-  }
-
-  if ((law != "Rad") & (law != "Rand")) { # Param
-    controls(args = param, type = "numeric_vector")
-  }
-
-  if ((law %in% dist_laws) | (law %in% oppo_laws)) {
-    controls(
-      args = NULL,
-      vectors = list(
-        mass_origin = mass_origin,
-        mass_destination = mass_destination
-      ),
-      type = "vectors_positive"
-    )
-    if (law %in% dist_laws) {
-      controls(
-        args = NULL,
-        matrices = list(distance = distance),
-        type = "matrices_positive"
-      )
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination
-        ),
-        matrices = list(distance = distance),
-        type = "vectors_matrices"
-      )
-    }
-    if (law %in% oppo_laws) {
-      controls(
-        args = NULL,
-        matrices = list(opportunity = opportunity),
-        type = "matrices_positive"
-      )
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination
-        ),
-        matrices = list(opportunity = opportunity),
-        type = "vectors_matrices"
-      )
-    }
-  }
-  if (law %in% rand_laws) {
-    mass_destination <- mass_origin
-    controls(
-      args = NULL,
-      vectors = list(
-        mass_origin = mass_origin,
-        mass_destination = mass_destination
-      ),
-      type = "vectors_positive"
-    )
-  }
+  # Controls other
+  controls(args = nbrep, type = "strict_positive_integer")
+  controls(args = check_names, type = "boolean")
 
   # Controls MODEL
   models <- c("UM", "PCM", "ACM", "DCM")
@@ -248,6 +110,13 @@ UM, PCM, ACM or DCM",
       call. = FALSE
     )
   }
+
+  controls(
+    args = NULL,
+    matrices = list(proba = proba),
+    type = "matrices_proba"
+  )
+
   if (model == "UM") {
     controls(args = nb_trips, type = "strict_positive_integer")
   }
@@ -257,12 +126,24 @@ UM, PCM, ACM or DCM",
       vectors = list(out_trips = out_trips),
       type = "vectors_positive_integer"
     )
+    controls(
+      args = NULL,
+      vectors = list(out_trips = out_trips),
+      matrices = list(proba = proba),
+      type = "vectors_matrices"
+    )
   }
   if (model == "ACM") {
     controls(
       args = NULL,
       vectors = list(in_trips = in_trips),
       type = "vectors_positive_integer"
+    )
+    controls(
+      args = NULL,
+      vectors = list(in_trips = in_trips),
+      matrices = list(proba = proba),
+      type = "vectors_matrices"
     )
   }
   if (model == "DCM") {
@@ -279,274 +160,54 @@ UM, PCM, ACM or DCM",
         call. = FALSE
       )
     }
+    controls(
+      args = NULL,
+      vectors = list(
+        out_trips = out_trips,
+        in_trips = in_trips
+      ),
+      matrices = list(proba = proba),
+      type = "vectors_matrices"
+    )
   }
 
-  # Controls LAW and MODEL (and potential checknames)
-  if (law %in% dist_laws) {
+  # Check names
+  if (check_names) {
     if (model == "UM") {
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination
-          ),
-          matrices = list(distance = distance),
-          type = "vectors_matrices_checknames"
-        )
-      }
+      controls(
+        args = NULL,
+        matrices = list(proba = proba),
+        type = "matrices_checknames"
+      )
     }
     if (model == "PCM") {
       controls(
         args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          out_trips = out_trips
-        ),
-        matrices = list(distance = distance),
-        type = "vectors_matrices"
+        vectors = list(out_trips = out_trips),
+        matrices = list(proba = proba),
+        type = "vectors_matrices_checknames"
       )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            out_trips = out_trips
-          ),
-          matrices = list(distance = distance),
-          type = "vectors_matrices_checknames"
-        )
-      }
     }
     if (model == "ACM") {
       controls(
         args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          in_trips = in_trips
-        ),
-        matrices = list(distance = distance),
-        type = "vectors_matrices"
+        vectors = list(in_trips = in_trips),
+        matrices = list(proba = proba),
+        type = "vectors_matrices_checknames"
       )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            in_trips = in_trips
-          ),
-          matrices = list(distance = distance),
-          type = "vectors_matrices_checknames"
-        )
-      }
     }
     if (model == "DCM") {
       controls(
         args = NULL,
         vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          out_trips = out_trips,
-          in_trips = in_trips
-        ),
-        matrices = list(distance = distance),
-        type = "vectors_matrices"
-      )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            out_trips = out_trips,
-            in_trips = in_trips
-          ),
-          matrices = list(distance = distance),
-          type = "vectors_matrices_checknames"
-        )
-      }
-    }
-  }
-  if (law %in% oppo_laws) {
-    if (model == "UM") {
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination
-          ),
-          matrices = list(opportunity = opportunity),
-          type = "vectors_matrices_checknames"
-        )
-      }
-    }
-    if (model == "PCM") {
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
+          in_trips = in_trips,
           out_trips = out_trips
         ),
-        matrices = list(opportunity = opportunity),
-        type = "vectors_matrices"
+        matrices = list(proba = proba),
+        type = "vectors_matrices_checknames"
       )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            out_trips = out_trips
-          ),
-          matrices = list(opportunity = opportunity),
-          type = "vectors_matrices_checknames"
-        )
-      }
-    }
-    if (model == "ACM") {
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          in_trips = in_trips
-        ),
-        matrices = list(opportunity = opportunity),
-        type = "vectors_matrices"
-      )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            in_trips = in_trips
-          ),
-          matrices = list(opportunity = opportunity),
-          type = "vectors_matrices_checknames"
-        )
-      }
-    }
-    if (model == "DCM") {
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          out_trips = out_trips,
-          in_trips = in_trips
-        ),
-        matrices = list(opportunity = opportunity),
-        type = "vectors_matrices"
-      )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            out_trips = out_trips,
-            in_trips = in_trips
-          ),
-          matrices = list(opportunity = opportunity),
-          type = "vectors_matrices_checknames"
-        )
-      }
     }
   }
-  if (law %in% rand_laws) {
-    if (model == "UM") {
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination
-          ),
-          type = "vectors_checknames"
-        )
-      }
-    }
-    if (model == "PCM") {
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          out_trips = out_trips
-        ),
-        type = "vectors_vectors"
-      )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            out_trips = out_trips
-          ),
-          type = "vectors_checknames"
-        )
-      }
-    }
-    if (model == "ACM") {
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          in_trips = in_trips
-        ),
-        type = "vectors_vectors"
-      )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            in_trips = in_trips
-          ),
-          type = "vectors_checknames"
-        )
-      }
-    }
-    if (model == "DCM") {
-      controls(
-        args = NULL,
-        vectors = list(
-          mass_origin = mass_origin,
-          mass_destination = mass_destination,
-          out_trips = out_trips,
-          in_trips = in_trips
-        ),
-        type = "vectors_vectors"
-      )
-      if (check_names) {
-        controls(
-          args = NULL,
-          vectors = list(
-            mass_origin = mass_origin,
-            mass_destination = mass_destination,
-            out_trips = out_trips,
-            in_trips = in_trips
-          ),
-          type = "vectors_checknames"
-        )
-      }
-    }
-  }
-
-  # Controls other
-  controls(args = nbrep, type = "strict_positive_integer")
-  controls(args = write_proba, type = "boolean")
-  controls(args = check_names, type = "boolean")
 
   # Create temp
   pathtemp <- paste0(
@@ -557,18 +218,18 @@ UM, PCM, ACM or DCM",
 
   # Format and export data
   if (model == "UM") {
-    out_trips <- rep(0, length(mass_origin))
+    out_trips <- rep(0, dim(proba)[1])
     out_trips[1] <- nb_trips
-    mass <- cbind(mass_origin, mass_destination, out_trips, out_trips)
+    mass <- cbind(out_trips, out_trips)
   }
   if (model == "PCM") {
-    mass <- cbind(mass_origin, mass_destination, out_trips, out_trips)
+    mass <- cbind(out_trips, out_trips)
   }
   if (model == "ACM") {
-    mass <- cbind(mass_origin, mass_destination, in_trips, in_trips)
+    mass <- cbind(in_trips, in_trips)
   }
   if (model == "DCM") {
-    mass <- cbind(mass_origin, mass_destination, out_trips, in_trips)
+    mass <- cbind(out_trips, in_trips)
   }
   readr::write_delim(as.data.frame(mass),
     paste0(pathtemp, "Mass.csv"),
@@ -576,160 +237,55 @@ UM, PCM, ACM or DCM",
     col_name = TRUE,
     progress = FALSE
   )
-  if (law %in% dist_laws) {
-    readr::write_delim(as.data.frame(distance),
-      paste0(pathtemp, "Distance.csv"),
-      delim = ";",
-      col_name = TRUE,
-      progress = FALSE
-    )
-  }
-  if (law %in% oppo_laws) {
-    readr::write_delim(as.data.frame(opportunity),
-      paste0(pathtemp, "Sij.csv"),
-      delim = ";",
-      col_name = TRUE,
-      progress = FALSE
-    )
-  }
+  readr::write_delim(as.data.frame(proba),
+    paste0(pathtemp, "Proba.csv"),
+    delim = ";",
+    col_name = TRUE,
+    progress = FALSE
+  )
 
   # Run TDLM
   wdin <- pathtemp
   wdout <- pathtemp
-  pij_only <- "false"
-  pij_write <- write_proba
 
-  nbparam <- length(param)
-  if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
+  outputs <- list()
+  Args <- c("Model", "#Replications")
+  Values <- c(model, nbrep)
 
-    outputs <- list()
-    Args <- c("Law", "Model", "#Replications", "#Parameters", "Parameter")
-    if ((law == "Rad") | (law == "Rand")) {
-      if (law == "Rand") {
-        beta <- "0.01"
-        Values <- c("Unif", model, nbrep, 1, NA)
-      }
-      if (law == "Rad") {
-        beta <- "0.01"
-        Values <- c(law, model, nbrep, 1, NA)
-      }
-    } else {
-      beta <- param
-      Values <- c(law, model, nbrep, param)
-    }
+  args <- paste0(wdin, " ", wdout, " ", model, " ", nbrep)
 
-    args <- paste0(
-      wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-      model, " ", nbrep, " ", pij_write
+  cmd <- paste0("java -jar ", wdjar, "TDM.jar ", args)
+
+  system(cmd)
+
+  for (k in 1:nbrep) {
+    mat <- readr::read_delim(paste0(pathtemp, "S_", k, ".csv"),
+      delim = ";",
+      col_name = TRUE,
+      progress = FALSE,
+      show_col_types = FALSE
     )
-
-    cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
-
-    system(cmd)
-
-    for (k in 1:nbrep) {
-      mat <- readr::read_delim(paste0(pathtemp, "S_", k, ".csv"),
-        delim = ";",
-        col_name = TRUE,
-        progress = FALSE,
-        show_col_types = FALSE
-      )
-      mat <- as.matrix(mat)
-      if (check_names) {
-        rownames(mat) <- names(mass_origin)
-        colnames(mat) <- names(mass_origin)
-      } else {
-        rownames(mat) <- NULL
-        colnames(mat) <- NULL
-      }
-      outputs[[k]] <- mat
+    mat <- as.matrix(mat)
+    if (check_names) {
+      rownames(mat) <- rownames(proba)
+      colnames(mat) <- colnames(proba)
+    } else {
+      rownames(mat) <- NULL
+      colnames(mat) <- NULL
     }
-    names(outputs) <- paste0("replication_", 1:nbrep)
-
-    if (write_proba) {
-      mat <- readr::read_delim(paste0(pathtemp, "pij.csv"),
-        delim = ";",
-        col_name = TRUE,
-        progress = FALSE,
-        show_col_types = FALSE
-      )
-      mat <- as.matrix(mat)
-      if (check_names) {
-        rownames(mat) <- names(mass_origin)
-        colnames(mat) <- names(mass_origin)
-      } else {
-        rownames(mat) <- NULL
-        colnames(mat) <- NULL
-      }
-      outputs$proba <- mat
-    }
-
-    outputs$info <- data.frame(Argument = Args, Value = Values)
-  } else { # Param > 1
-
-    outputs <- list()
-    Args <- c("Law", "Model", "#Replications", "#Parameters", paste0("Parameter ", 1:nbparam))
-    Values <- c(law, model, nbrep, nbparam, param)
-    for (i in 1:nbparam) {
-      beta <- param[i]
-      outputs[[i]] <- list()
-
-      args <- paste0(
-        wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write
-      )
-
-      cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
-
-      system(cmd)
-
-      for (k in 1:nbrep) {
-        mat <- readr::read_delim(paste0(pathtemp, "S_", k, ".csv"),
-          delim = ";",
-          col_name = TRUE,
-          progress = FALSE,
-          show_col_types = FALSE
-        )
-        mat <- as.matrix(mat)
-        if (check_names) {
-          rownames(mat) <- names(mass_origin)
-          colnames(mat) <- names(mass_origin)
-        } else {
-          rownames(mat) <- NULL
-          colnames(mat) <- NULL
-        }
-        outputs[[i]][[k]] <- mat
-      }
-      names(outputs[[i]]) <- paste0("replication_", 1:nbrep)
-
-      if (write_proba) {
-        mat <- readr::read_delim(paste0(pathtemp, "pij.csv"),
-          delim = ";",
-          col_name = TRUE,
-          progress = FALSE,
-          show_col_types = FALSE
-        )
-        mat <- as.matrix(mat)
-        if (check_names) {
-          rownames(mat) <- names(mass_origin)
-          colnames(mat) <- names(mass_origin)
-        } else {
-          rownames(mat) <- NULL
-          colnames(mat) <- NULL
-        }
-        outputs[[i]]$proba <- mat
-      }
-    }
-    names(outputs) <- paste0("parameter_", 1:nbparam)
-    outputs$info <- data.frame(Argument = Args, Value = Values)
+    outputs[[k]] <- mat
   }
+  names(outputs) <- paste0("replication_", 1:nbrep)
+  outputs$info <- data.frame(Argument = Args, Value = Values)
 
   # Delete temp
   unlink(pathtemp, recursive = TRUE)
 
-  # Return output
+  # Class TDLM
   outputs <- outputs[c(length(outputs), 1:(length(outputs) - 1))]
-  outputs$from <- "run_law_model"
   class(outputs) <- append("TDLM", class(outputs))
+  attr(outputs, "from") <- "run_model"
+
+  # Return output
   return(outputs)
 }

@@ -2,19 +2,19 @@
 % Please edit documentation in R/run_law_model.R
 \name{run_law_model}
 \alias{run_law_model}
-\title{Estimate mobility flows based of different trip distribution laws and models}
+\title{Estimate mobility flows based on different trip distribution laws and models}
 \usage{
 run_law_model(
-  law = "NGravExp",
+  law = "Unif",
   mass_origin,
   mass_destination = mass_origin,
-  distance,
-  opportunity,
-  param,
-  model = "DCM",
-  nb_trips,
-  out_trips,
-  in_trips,
+  distance = NULL,
+  opportunity = NULL,
+  param = NULL,
+  model = "UM",
+  nb_trips = 1000,
+  out_trips = NULL,
+  in_trips = out_trips,
   nbrep = 3,
   write_proba = FALSE,
   check_names = FALSE
@@ -63,7 +63,7 @@ vector names, matrix rownames and colnames and if they should be checked
 }
 \value{
 An object of class \code{TDLM}. A list of list of matrix containing for each
-parameter value the \code{nbrep} simulated matrices end the matrix of probability
+parameter value the \code{nbrep} simulated matrices and the matrix of probability
 (called \code{proba}) if \code{write_proba = TRUE}. If \code{length(param) == 1} or
 \code{law == "Rad"} or \verb{law == "Unif} only a list of matrix will be returned.
 }

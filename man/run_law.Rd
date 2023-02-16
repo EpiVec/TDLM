@@ -2,21 +2,15 @@
 % Please edit documentation in R/run_law.R
 \name{run_law}
 \alias{run_law}
-\title{Estimate mobility flows based of different trip distribution laws and models}
+\title{Estimate mobility flows based on different trip distribution laws}
 \usage{
 run_law(
-  law = "NGravExp",
+  law = "Unif",
   mass_origin,
   mass_destination = mass_origin,
-  distance,
-  opportunity,
-  param,
-  model = "DCM",
-  nb_trips,
-  out_trips,
-  in_trips,
-  nbrep = 3,
-  write_proba = FALSE,
+  distance = NULL,
+  opportunity = NULL,
+  param = NULL,
   check_names = FALSE
 )
 }
@@ -40,44 +34,28 @@ between locations (see Details).}
 a vector of several parameter values can be used (see Return). Not necessary
 for the original radiation law or the uniform law (see Details).}
 
-\item{model}{a character indicating which model to use.}
-
-\item{nb_trips}{an integer indicating the total number of trips.}
-
-\item{out_trips}{a vector of integers representing the number of outgoing
-trips per location.}
-
-\item{in_trips}{a vector of integers representing the number of incoming
-trips per location.}
-
-\item{nbrep}{an integer indicating the number of replications
-associated to the model run.}
-
-\item{write_proba}{a boolean indicating if the estimation of the
-probability to move from one location to another obtained with law
-should be returned along with the flows estimations.}
-
 \item{check_names}{a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
 (see Note).}
 }
 \value{
 An object of class \code{TDLM}. A list of list of matrix containing for each
-parameter value the \code{nbrep} simulated matrices end the matrix of probability
-(called \code{proba}) if \code{write_proba = TRUE}. If \code{length(param) == 1} or
+parameter value the matrix of probability. If \code{length(param) == 1} or
 \code{law == "Rad"} or \verb{law == "Unif} only a list of matrix will be returned.
 }
 \description{
-This function estimates mobility flows using different distribution laws and
-models. As described in \insertCite{Lenormand2016}{TDLM}, the function
+This function estimates mobility flows using different distribution laws.
+As described in \insertCite{Lenormand2016}{TDLM}, the function
 uses a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law.
+approach used to generate the flows from this law. This function only uses
+the first step to generate a probability distribution based on the different
+laws.
 }
 \details{
 \loadmathjax
 
-First, we compute the matrix \code{proba} estimating the probability
+We compute the matrix \code{proba} estimating the probability
 \mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to
 another location \mjeqn{j}{j}
 (\mjeqn{\sum_{i}\sum_{j} p_{ij}=1}{\sum_{i}\sum_{j} p_{ij}=1}). This
@@ -116,25 +94,6 @@ arguments \code{mass_origin}, \code{mass_destination} (optional), \code{opportun
 \code{mass_destination} (optional), \code{opportunity} and \code{param} will be used.
 \item Uniform law (\code{law = "Unif"}). The argument \code{mass_origin} will be used to
 extract the number of locations.
-}
-
-Second, we propose four constrained models to generate the flow from these
-distribution of probability. These models respect different level of
-constraints. These constraints can preserve the total number of trips
-(argument \code{nb_trips}) OR the number of out-going trips
-\mjeqn{O_{i}}{O_{i}} (argument \code{out_trips}) AND/OR the number of in-coming
-\mjeqn{D_{j}}{D_{j}} (argument \code{in_trips}) according to the model. The sum of
-out-going trips \mjeqn{\sum_{i} O_{i}}{\sum_{i} O_{i}} should be equal to the
-sum of in-coming trips \mjeqn{\sum_{j} D_{j}}{\sum_{j} D_{j}}.
-\enumerate{
-\item Unconstrained model (\code{model = "UM"}). Only \code{nb_trips} will be preserved
-(arguments \code{out_trips} and \code{in_trips} will not be used).
-\item Production constrained model (\code{model = "PCM"}). Only \code{out_trips} will be
-preserved (arguments \code{nb_trips} and \code{in_trips} will not be used).
-\item Attraction constrained model (\code{model = "ACM"}). Only \code{in_trips} will be
-preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
-\item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
-\code{in_trips} will be preserved (arguments \code{nb_trips}will not be used).
 }
 }
 \note{

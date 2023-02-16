@@ -1,9 +1,9 @@
-#' Estimate mobility flows based of different trip distribution laws and models
+#' Estimate mobility flows based on different trip distribution laws and models
 #'
 #' This function estimates mobility flows using different distribution laws and
-#' models. As described in \insertCite{Lenormand2016;textual}{TDLM}, the 
-#' function uses a two-step approach to generate mobility flows by separating 
-#' the trip distribution law, gravity or intervening opportunities, from the 
+#' models. As described in \insertCite{Lenormand2016;textual}{TDLM}, the
+#' function uses a two-step approach to generate mobility flows by separating
+#' the trip distribution law, gravity or intervening opportunities, from the
 #' modeling approach used to generate the flows from this law.
 #'
 #' @param law a character indicating which law to use.
@@ -122,7 +122,7 @@
 #'
 #' @return
 #' An object of class `TDLM`. A list of list of matrix containing for each
-#' parameter value the `nbrep` simulated matrices end the matrix of probability
+#' parameter value the `nbrep` simulated matrices and the matrix of probability
 #' (called `proba`) if `write_proba = TRUE`. If `length(param) == 1` or
 #' `law == "Rad"` or `law == "Unif` only a list of matrix will be returned.
 #'
@@ -154,16 +154,16 @@
 #' \insertRef{Deming1940}{TDLM}
 #'
 #' @export
-run_law_model <- function(law = "NGravExp",
+run_law_model <- function(law = "Unif",
                           mass_origin,
                           mass_destination = mass_origin,
-                          distance,
-                          opportunity,
-                          param,
-                          model = "DCM",
-                          nb_trips,
-                          out_trips,
-                          in_trips,
+                          distance = NULL,
+                          opportunity = NULL,
+                          param = NULL,
+                          model = "UM",
+                          nb_trips = 1000,
+                          out_trips = NULL,
+                          in_trips = out_trips,
                           nbrep = 3,
                           write_proba = FALSE,
                           check_names = FALSE) {
@@ -180,6 +180,11 @@ run_law_model <- function(law = "NGravExp",
       call. = FALSE
     )
   }
+
+  # Controls
+  controls(args = nbrep, type = "strict_positive_integer")
+  controls(args = write_proba, type = "boolean")
+  controls(args = check_names, type = "boolean")
 
   # Controls LAW
   if (law == "Unif") {
@@ -562,11 +567,6 @@ UM, PCM, ACM or DCM",
     }
   }
 
-  # Controls other
-  controls(args = nbrep, type = "strict_positive_integer")
-  controls(args = write_proba, type = "boolean")
-  controls(args = check_names, type = "boolean")
-
   # Create temp
   pathtemp <- paste0(
     wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))),
@@ -616,7 +616,10 @@ UM, PCM, ACM or DCM",
   wdin <- pathtemp
   wdout <- pathtemp
   pij_only <- "false"
-  pij_write <- write_proba
+  pij_write <- "false"
+  if (write_proba) {
+    pij_write <- "true"
+  }
 
   nbparam <- length(param)
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
@@ -744,7 +747,7 @@ UM, PCM, ACM or DCM",
   }
 
   # Delete temp
-  # unlink(pathtemp, recursive = TRUE)
+  unlink(pathtemp, recursive = TRUE)
 
   # Class TDLM
   outputs <- outputs[c(length(outputs), 1:(length(outputs) - 1))]

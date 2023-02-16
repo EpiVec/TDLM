@@ -8,7 +8,7 @@ gof(
   sim,
   obs,
   measures = "all",
-  distance,
+  distance = NULL,
   bin_size = 2,
   use_proba = FALSE,
   check_names = FALSE

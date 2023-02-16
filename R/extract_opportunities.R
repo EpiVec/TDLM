@@ -12,14 +12,14 @@
 #'
 #' @param distance a squared matrix representing the distance between locations.
 #'
-#' @param check_names a boolean indicating if the ID location are used as 
+#' @param check_names a boolean indicating if the ID location are used as
 #' vector names, matrix rownames and colnames and if they should be checked
 #' (see Note).
 #'
 #' @note `opportunity` and `distance` should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
 #' as vector names, matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to verify that everything is in order before running 
+#' `check_names = TRUE` to verify that everything is in order before running
 #' this function (`check_names = FALSE` by default). Note that the function
 #' [check_format_names()] can be used to control the validity of all the inputs
 #' before running the main package's functions.

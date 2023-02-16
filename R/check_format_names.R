@@ -8,7 +8,7 @@
 #'
 #' @param matrices a list of matrices. The list can contain one matrix. It is
 #' recommended to name each element of the list. If `matrices = NULL` only the
-#' vectors will be considered.
+#' vectors will be considered (by default).
 #'
 #' @param check a character indicating what types of check
 #' ("format" or "format_and_names") should be used (see Details).
@@ -34,11 +34,12 @@
 #' data(distance)
 #'
 #' @export
-check_format_names <- function(vectors, matrices, check = "format_and_names") {
-  
+check_format_names <- function(vectors,
+                               matrices = NULL,
+                               check = "format_and_names") {
   # Controls
-  if(is.null(vectors) & is.null(matrices)){
-    stop("At least one of the vectors or matrices argument should be non-null.")  
+  if (is.null(vectors) & is.null(matrices)) {
+    stop("At least one of the vectors or matrices argument should be non-null.")
   }
   if (!is.null(vectors)) {
     controls(args = vectors, type = "list")
@@ -49,7 +50,7 @@ check_format_names <- function(vectors, matrices, check = "format_and_names") {
         "Names have been automatically assigned.\n"
       ))
     }
-  }  
+  }
   if (!is.null(matrices)) {
     controls(args = matrices, type = "list")
     if (is.null(names(matrices))) {
@@ -78,7 +79,7 @@ format or format_and_names", call. = FALSE)
       vectors = vectors,
       type = "vectors_vectors"
     )
-  }  
+  }
 
   if (is.null(vectors) & !is.null(matrices)) {
     controls(
@@ -87,8 +88,8 @@ format or format_and_names", call. = FALSE)
       matrices = matrices,
       type = "matrices_matrices"
     )
-  } 
-  
+  }
+
   if (is.null(vectors) & is.null(matrices)) {
     controls(
       args = NULL,
@@ -107,7 +108,7 @@ format or format_and_names", call. = FALSE)
       type = "vectors_matrices"
     )
   }
-    
+
   # Names
   if (check == "format_and_names") {
     if (!is.null(matrices)) {
