@@ -65,6 +65,7 @@ Origin-Destination matrix.</p>
 <span>  <span class="va">obs</span>,</span>
 <span>  measures <span class="op">=</span> <span class="st">"all"</span>,</span>
 <span>  <span class="va">distance</span>,</span>
+<span>  bin_size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  use_proba <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -91,6 +92,11 @@ will be calculated.</p></dd>
 <dt>distance</dt>
 <dd><p>a squared matrix representing the distance between locations.
 Only necessary for the distance-based measures.</p></dd>
+
+
+<dt>bin_size</dt>
+<dd><p>a numeric value indicating the size of bin used to discretize
+the distance distribution to compute CPC_d (2 "km" by default).</p></dd>
 
 
 <dt>use_proba</dt>
@@ -126,10 +132,31 @@ argument <code>sim</code>), <em></em>\(N=\sum_{i,j=1}^n T_{ij}\) the
 sum of observed flows and
 <em></em>\(\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}\)
 the sum of simulated flows.</p>
-<p>As described in (Lenormand et al. 2016)
+<p>Several goodness-of-fit measures have been considered
+<code>measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS")</code>. The Common Part
+of Commuters (Gargiulo et al. 2012; Lenormand et al. 2012; Lenormand et al. 2016)
 ,</p>
-<p><em></em>\(\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}\)</p>
-<p><em></em>\(\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}\)</p>
+<p><em></em>\(\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}\)</p>
+<p>the Normalized Root Mean Square Error (NRMSE),</p>
+<p><em></em>\(\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}\)</p>
+<p>the Kullback–Leibler divergence (Kullback and Leibler 1951)
+,</p>
+<p><em></em>\(\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)\)</p>
+<p>the Common Part of Links (CPL) (Lenormand et al. 2016)
+,</p>
+<p><em></em>\(\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}&gt;0} \cdot 1_{\tilde{T}_{ij}&gt;0}}{\sum_{i,j=1}^n 1_{T_{ij}&gt;0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}&gt;0}}\)</p>
+<p>the Common Part of Commuters based on the disance
+(Lenormand et al. 2016)
+, noted CPC_d. Let us consider
+<em></em>\(N_k\) (and <em></em>\(\tilde{N}_k\)) the
+sum of observed (and simulated) flows at a distance comprised in the bin
+[<code>bin_size</code>*k-<code>bin_size</code>, <code>bin_size</code>*k[.</p>
+<p><em></em>\(\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}\)</p>
+<p>and the Kolmogorv-Smirnov statistic and p-value (Massey 1951)
+
+, noted KS. It is based on the observed and simulated flow distance
+distribution and computed with the <a href="https://rdrr.io/pkg/Ecume/man/ks_test.html" class="external-link">ks_test</a> function from
+the <a href="https://cran.rstudio.com/web/packages/Ecume/index.html" class="external-link">Ecume</a> package.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
@@ -152,6 +179,18 @@ before running the main package's functions.</p>
     <p>Lenormand M, Bassolas A, Ramasco JJ (2016).
 “Systematic comparison of trip distribution laws and models.”
 <em>Journal of Transport Geography</em>, <b>51</b>, 158-169.</p>
+<p>Gargiulo F, Lenormand M, Huet S, Baqueiro Espinosa O (2012).
+“Commuting network model: getting to the essentials.”
+<em>Journal of Artificial Societies and Social Simulation</em>, <b>15</b>(2), 13.</p>
+<p>Lenormand M, Huet S, Gargiulo F, Deffuant G (2012).
+“A Universal Model of Commuting Networks.”
+<em>PLoS ONE</em>, <b>7</b>, e45985.</p>
+<p>Kullback S, Leibler RA (1951).
+“On Information and Sufficiency.”
+<em>The Annals of Mathematical Statistics</em>, <b>22</b>(1), 79 -- 86.</p>
+<p>Massey FJ (1951).
+“The Kolmogorov-Smirnov test for goodness of fit.”
+<em>Journal of the American Statistical Association</em>, <b>46</b>(253), 68--78.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
