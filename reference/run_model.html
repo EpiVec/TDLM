@@ -4,12 +4,16 @@ models. As described in (Lenormand et al. 2016)
 , the function
 uses a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law."><title>Estimate mobility flows based of different trip distribution laws and models — run_model • TDLM</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Estimate mobility flows based of different trip distribution laws and models — run_model"><meta property="og:description" content="This function estimates mobility flows using different distribution laws and
+approach used to generate the flows from this law.  This function only uses
+the second step to generate mobility flow based on a matrix of probability
+using different models."><title>Estimate mobility flows based on different trip distribution models — run_model • TDLM</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Estimate mobility flows based on different trip distribution models — run_model"><meta property="og:description" content="This function estimates mobility flows using different distribution laws and
 models. As described in (Lenormand et al. 2016)
 , the function
 uses a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law."><meta property="og:image" content="https://epivec.github.io/TDLM/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+approach used to generate the flows from this law.  This function only uses
+the second step to generate mobility flow based on a matrix of probability
+using different models."><meta property="og:image" content="https://epivec.github.io/TDLM/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -53,7 +57,7 @@ approach used to generate the flows from this law."><meta property="og:image" co
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Estimate mobility flows based of different trip distribution laws and models</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Estimate mobility flows based on different trip distribution models</h1>
       <small class="dont-index">Source: <a href="https://github.com/EpiVec/TDLM/blob/HEAD/R/run_model.R" class="external-link"><code>R/run_model.R</code></a></small>
       <div class="d-none name"><code>run_model.Rd</code></div>
     </div>
@@ -64,59 +68,29 @@ models. As described in (Lenormand et al. 2016)
 , the function
 uses a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law.</p>
+approach used to generate the flows from this law.  This function only uses
+the second step to generate mobility flow based on a matrix of probability
+using different models.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_model</span><span class="op">(</span></span>
-<span>  law <span class="op">=</span> <span class="st">"NGravExp"</span>,</span>
-<span>  <span class="va">mass_origin</span>,</span>
-<span>  mass_destination <span class="op">=</span> <span class="va">mass_origin</span>,</span>
-<span>  <span class="va">distance</span>,</span>
-<span>  <span class="va">opportunity</span>,</span>
-<span>  <span class="va">param</span>,</span>
-<span>  model <span class="op">=</span> <span class="st">"DCM"</span>,</span>
-<span>  <span class="va">nb_trips</span>,</span>
-<span>  <span class="va">out_trips</span>,</span>
-<span>  <span class="va">in_trips</span>,</span>
+<span>  <span class="va">proba</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"UM"</span>,</span>
+<span>  nb_trips <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  out_trips <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  in_trips <span class="op">=</span> <span class="va">out_trips</span>,</span>
 <span>  nbrep <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  write_proba <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>law</dt>
-<dd><p>a character indicating which law to use.</p></dd>
-
-
-<dt>mass_origin</dt>
-<dd><p>a numeric vector representing the mass at origin (i.e.
-demand).</p></dd>
-
-
-<dt>mass_destination</dt>
-<dd><p>a numeric vector representing the mass at
-destination (i.e. attractiveness).</p></dd>
-
-
-<dt>distance</dt>
-<dd><p>a squared matrix representing the distance between locations
-(see Details).</p></dd>
-
-
-<dt>opportunity</dt>
-<dd><p>a squared matrix representing the number of opportunities
-between locations (see Details).</p></dd>
-
-
-<dt>param</dt>
-<dd><p>a vector of numeric value(s) used to adjust the importance of
-<code>distance</code> or <code>opportunity</code> associated with the chosen law. A single value or
-a vector of several parameter values can be used (see Return). Not necessary
-for the original radiation law or the uniform law (see Details).</p></dd>
+    <dl><dt>proba</dt>
+<dd><p>a squared matrix of probability. The sum of the matrix element
+should be equal to 1.</p></dd>
 
 
 <dt>model</dt>
@@ -142,12 +116,6 @@ trips per location.</p></dd>
 associated to the model run.</p></dd>
 
 
-<dt>write_proba</dt>
-<dd><p>a boolean indicating if the estimation of the
-probability to move from one location to another obtained with law
-should be returned along with the flows estimations.</p></dd>
-
-
 <dt>check_names</dt>
 <dd><p>a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
@@ -159,52 +127,14 @@ vector names, matrix rownames and colnames and if they should be checked
     
 
 <p>An object of class <code>TDLM</code>. A list of list of matrix containing for each
-parameter value the <code>nbrep</code> simulated matrices end the matrix of probability
-(called <code>proba</code>) if <code>write_proba = TRUE</code>. If <code>length(param) == 1</code> or
+parameter value the <code>nbrep</code> simulated matrices . If <code>length(param) == 1</code> or
 <code>law == "Rad"</code> or <code>law == "Unif</code> only a list of matrix will be returned.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script></p>
-<p>First, we compute the matrix <code>proba</code> estimating the probability
-<em></em>\(p_{ij}\) to observe a trip from location <em></em>\(i\) to
-another location <em></em>\(j\)
-(<em></em>\(\sum_{i}\sum_{j} p_{ij}=1\)). This
-probability is based on the demand <em></em>\(m_{i}\)
-(argument <code>mass_origin</code>) and the attractiveness
-<em></em>\(m_{j}\) (argument <code>mass_destination</code>). Note that the population
-is typically used as a surrogate for both quantities (this is why
-<code>mass_destination = mass_origin</code> by default). It also depends on the
-distance <em></em>\(d_{ij}\) between locations (argument <code>distance</code>) OR
-the number of opportunities <em></em>\(s_{ij}\) between locations
-(argument <code>opportunity</code>) depending on the chosen law. Both the effect of the
-distance and the number of opportunities can be adjusted with a parameter
-(argument <code>param</code>) except for the original radiation law or the uniform law.</p>
-<p>In this package we consider eight probabilistic laws described in details in
-(Lenormand et al. 2016)
-.</p><ol><li><p>Gravity law with an exponential distance decay function
-(<code>law = "GravExp"</code>). The arguments <code>mass_origin</code>, <code>mass_destination</code>
-(optional), <code>distance</code> and <code>param</code> will be used.</p></li>
-<li><p>Normalized gravity law with an exponential distance decay function
-(<code>law = "NGravExp"</code>). The arguments <code>mass_origin</code>, <code>mass_destination</code>
-(optional), <code>distance</code> and <code>param</code> will be used.</p></li>
-<li><p>Gravity law with a power distance decay function
-(<code>law = "GravPow"</code>). The arguments <code>mass_origin</code>, <code>mass_destination</code>
-(optional), <code>distance</code> and <code>param</code> will be used.</p></li>
-<li><p>Normalized gravity law with a power distance decay function
-(<code>law = "NGravPow"</code>). The arguments <code>mass_origin</code>, <code>mass_destination</code>
-(optional), <code>distance</code> and <code>param</code> will be used.</p></li>
-<li><p>Schneider's intervening opportunities law (<code>law = "Schneider"</code>). The
-arguments <code>mass_origin</code>, <code>mass_destination</code> (optional), <code>opportunity</code> and
-<code>param</code> will be used.</p></li>
-<li><p>Radiation law (<code>law = "Rad"</code>). The arguments <code>mass_origin</code>,
-<code>mass_destination</code> (optional) and <code>opportunity</code> will be used.</p></li>
-<li><p>Extended radiation law (<code>law = "ExtRad"</code>). The arguments <code>mass_origin</code>,
-<code>mass_destination</code> (optional), <code>opportunity</code> and <code>param</code> will be used.</p></li>
-<li><p>Uniform law (<code>law = "Unif"</code>). The argument <code>mass_origin</code> will be used to
-extract the number of locations.</p></li>
-</ol><p>Second, we propose four constrained models to generate the flow from these
-distribution of probability. These models respect different level of
+<p>We propose four constrained models to generate the flow from the matrix
+of probability. These models respect different level of
 constraints. These constraints can preserve the total number of trips
 (argument <code>nb_trips</code>) OR the number of out-going trips
 <em></em>\(O_{i}\) (argument <code>out_trips</code>) AND/OR the number of in-coming
