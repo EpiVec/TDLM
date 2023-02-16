@@ -2,7 +2,6 @@ controls <- function(args = NULL,
                      vectors = NULL,
                      matrices = NULL,
                      type = "vectors_positive") {
-  
   # vectors_positive ###########################################################
   if (type == "vectors_positive") {
     nbv <- length(vectors)
@@ -135,45 +134,45 @@ controls <- function(args = NULL,
       }
     }
   }
-  
+
   # matrices_gof ###############################################################
   if (type == "matrices_gof") {
     nbm <- length(matrices)
     for (k in 1:nbm) {
       matrix <- matrices[[k]]
       namemat <- names(matrices)[k]
-      
+
       if (!is.matrix(matrix)) {
         stop(paste0(namemat, " must be a matrix."),
-             call. = FALSE
+          call. = FALSE
         )
       }
       n <- dim(matrix)[1]
       m <- dim(matrix)[2]
       if (n != m) {
         stop(paste0(namemat, " must be symmetrical."),
-             call. = FALSE
+          call. = FALSE
         )
       }
       if (n < 2) {
         stop(paste0(namemat, " must contain at least two locations."),
-             call. = FALSE
+          call. = FALSE
         )
       }
       if (sum(is.na(matrix)) > 0) {
         stop(paste0("NA(s) detected in ", namemat, "."),
-             call. = FALSE
+          call. = FALSE
         )
       }
       if (sum(matrix != 0) == 0) {
         stop(paste0(namemat, " must contain at least one strictly positive 
         value."),
-             call. = FALSE
+          call. = FALSE
         )
       }
       if (sum(matrix < 0) > 0) {
         stop(paste0(namemat, " must contain only positive values."),
-             call. = FALSE
+          call. = FALSE
         )
       }
     }
@@ -199,7 +198,7 @@ controls <- function(args = NULL,
       stop(mess, call. = FALSE)
     }
   }
-  
+
   # matrices_matrices ##########################################################
   if (type == "matrices_matrices") {
     nbloc <- NULL
@@ -207,7 +206,7 @@ controls <- function(args = NULL,
     for (k in 1:nbm) {
       nbloc <- c(nbloc, dim(matrices[[k]])[1])
     }
-    
+
     if (sum(!duplicated(nbloc)) > 1) {
       mess <- "The inputs must contain the same number of locations!\n"
       for (k in 1:nbm) {
@@ -254,7 +253,7 @@ controls <- function(args = NULL,
       stop(mess, call. = FALSE)
     }
   }
-  
+
   # vectors_checknames #########################################################
   if (type == "vectors_checknames") {
     n <- length(vectors[[1]])
@@ -312,11 +311,11 @@ controls <- function(args = NULL,
       }
     }
   }
-  
+
   # matrices_checknames ########################################################
   if (type == "matrices_checknames") {
     n <- dim(matrices[[1]])[1]
-    
+
     # Length names
     nbid <- NULL
     nbm <- length(matrices)
@@ -340,10 +339,10 @@ controls <- function(args = NULL,
     }
     if (nbid[1] < n) {
       stop("The number of names is lower than the number of locations!",
-           call. = FALSE
+        call. = FALSE
       )
     }
-    
+
     # names matrices
     test <- NULL
     for (k in 1:nbm) {
@@ -364,7 +363,7 @@ controls <- function(args = NULL,
       }
       stop(mess, call. = FALSE)
     }
-    
+
     # names matrices-matrices
     if (nbm > 1) {
       test <- NULL
@@ -395,7 +394,7 @@ controls <- function(args = NULL,
       }
     }
   }
-  
+
 
   # vectors_matrices_checknames ################################################
   if (type == "vectors_matrices_checknames") {
@@ -580,12 +579,12 @@ controls <- function(args = NULL,
     }
     return(args)
   }
-  
+
   # character_vector ###########################################################
   if (type == "character_vector") {
     if (!is.character(args)) {
       stop(paste0(deparse(substitute(args)), " must be a character."),
-           call. = FALSE
+        call. = FALSE
       )
     }
     if (is.factor(args)) {
@@ -593,12 +592,12 @@ controls <- function(args = NULL,
     }
     return(args)
   }
-  
+
   # numeric_vector #############################################################
   if (type == "numeric_vector") {
     if (!is.numeric(args)) {
       stop(paste0(deparse(substitute(args)), " must be numeric."),
-           call. = FALSE
+        call. = FALSE
       )
     }
   }
@@ -686,56 +685,101 @@ controls <- function(args = NULL,
   }
 }
 
-gofi = function(sim, obs, distance, 
-                measures = c("CPC","CPL","NRMSE","KL","CPC_D")){ 
-  
-  # sim is a matrix 
+gofi <- function(sim, obs, distance,
+                 measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS"),
+                 bin_size) {
+  # sim is a matrix
   # obs is a list of matrix
   # distance is a matrix
-  
+
   # Initialization
-  res=NULL
-  No=sum(obs)
-  
-  # Loop over sim 
-  for(k in 1:length(sim)){
-    
-    simk = sim[[k]]
-    Nk = sum(sim)
-    
-    # CPC ######################################################################
-    if("CPC" %in% measures){
-      cpc = 2*sum(pmin(simk,obs))/(No+Nk)
-      res=c(res,cpc)
-    }
-    
-    # CPL ######################################################################
-    if("CPL" %in% measures){
-      cpl = 2*sum(pmin(simk>0,obs>0))/(sum(simk>0)+sum(obs>0))
-      res=c(res,cpl)
-    }
-    
-    # NRMSE ####################################################################
-    if("NRMSE" %in% measures){
-      nrmse = sum((obs-simk)+(obs-simk))/No
-      res=c(res,nrmse)
-    }
-    
-    # KL #######################################################################
-    if("KL" %in% measures){
-      kl = sum((obs/No)*log((obs/No)/(simk/Nk)))
-      res=c(res,kl)
-    }
-    
-    # CPC_D ####################################################################
-    if("CPC_d" %in% measures){
-      cpcd = 0
-      res=c(res,cpcd)
-    }
-    
+  if ("KS" %in% measures) {
+    res <- matrix(0, length(sim), (length(measures) + 1))
+    colnames(res) <- 1:(length(measures) + 1)
+  } else {
+    res <- matrix(0, length(sim), length(measures))
+    colnames(res) <- 1:length(measures)
   }
-  
+  No <- sum(obs)
+
+  # Distance
+  if ("CPC_d" %in% measures) {
+    maxbreak <- (trunc(max(distance) / bin_size) + 1) * bin_size
+    tempd <- cut(as.vector(distance),
+      breaks = seq(0, maxbreak, bin_size),
+      labels = FALSE, right = FALSE
+    )
+    Nol <- stats::aggregate(as.vector(obs), list(tempd), sum)[, 2]
+  }
+
+  # Loop over sim
+  for (k in 1:length(sim)) {
+    m <- 1
+
+    simk <- sim[[k]]
+    Nk <- sum(simk)
+
+    # CPC ######################################################################
+    if ("CPC" %in% measures) {
+      cpc <- 2 * sum(pmin(simk, obs)) / (No + Nk)
+      res[k, m] <- cpc
+      colnames(res)[m] <- "CPC"
+      m <- m + 1
+    }
+
+    # NRMSE ####################################################################
+    if ("NRMSE" %in% measures) {
+      nrmse <- sqrt(sum((obs - simk) * (obs - simk)) / No)
+      res[k, m] <- nrmse
+      colnames(res)[m] <- "NRMSE"
+      m <- m + 1
+    }
+
+    # KL #######################################################################
+    if ("KL" %in% measures) {
+      kl <- (obs / No) * log((obs / No) / (simk / Nk))
+      kl[is.na(kl)] <- 0
+      kl[is.infinite(kl)] <- 0
+      kl <- sum(kl)
+      res[k, m] <- kl
+      colnames(res)[m] <- "KL"
+      m <- m + 1
+    }
+
+    # CPL ######################################################################
+    if ("CPL" %in% measures) {
+      cpl <- 2 * sum(pmin(simk > 0, obs > 0)) / (sum(simk > 0) + sum(obs > 0))
+      res[k, m] <- cpl
+      colnames(res)[m] <- "CPL"
+      m <- m + 1
+    }
+
+    # CPC_D ####################################################################
+    if ("CPC_d" %in% measures) {
+      Nl <- stats::aggregate(as.vector(simk), list(tempd), sum)[, 2]
+      cpc_d <- 2 * sum(pmin(Nol, Nl)) / (No + Nk)
+      res[k, m] <- cpc_d
+      colnames(res)[m] <- "CPC_d"
+      m <- m + 1
+    }
+
+    # KS ####################################################################
+    if ("KS" %in% measures) {
+      ks <- Ecume::ks_test(as.vector(distance),
+        as.vector(distance),
+        thresh = .001,
+        w_x = as.vector(obs),
+        w_y = as.vector(simk)
+      )
+      res[k, m] <- ks$stat
+      res[k, (m + 1)] <- ks$p
+      colnames(res)[m] <- "KS_stat"
+      colnames(res)[(m + 1)] <- "KS_pval"
+      m <- m + 2
+    }
+  }
+
   # Return output
+  res <- data.frame(res)
   return(res)
-  
 }

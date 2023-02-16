@@ -16,6 +16,7 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression:xz
 Imports:
+    Ecume,
     mathjaxr,
     Rdpack,
     readr,

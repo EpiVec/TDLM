@@ -9,6 +9,7 @@ gof(
   obs,
   measures = "all",
   distance,
+  bin_size = 2,
   use_proba = FALSE,
   check_names = FALSE
 )
@@ -26,6 +27,9 @@ will be calculated.}
 
 \item{distance}{a squared matrix representing the distance between locations.
 Only necessary for the distance-based measures.}
+
+\item{bin_size}{a numeric value indicating the size of bin used to discretize
+the distance distribution to compute CPC_d (2 "km" by default).}
 
 \item{use_proba}{a boolean indicating if the \code{proba} matrix should be used
 instead of the simulated OD matrix to compute the measure(s). Only valid for
@@ -57,11 +61,36 @@ sum of observed flows and
 \mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}
 the sum of simulated flows.
 
-As described in \insertCite{Lenormand2016}{TDLM},
+Several goodness-of-fit measures have been considered
+\code{measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS")}. The Common Part
+of Commuters \insertCite{Gargiulo2012,Lenormand2012,Lenormand2016}{TDLM},
 
-\mjeqn{\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}{\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}
+\mjeqn{\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}{\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}
 
-\mjeqn{\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}{\displaystyle CPC(T,\tilde{T}) = \frac{2\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}
+the Normalized Root Mean Square Error (NRMSE),
+
+\mjeqn{\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}}{\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}}
+
+the Kullback–Leibler divergence \insertCite{Kullback1951}{TDLM},
+
+\mjeqn{\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)}{\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)}
+
+the Common Part of Links (CPL) \insertCite{Lenormand2016}{TDLM},
+
+\mjeqn{\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}}{\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}}
+
+the Common Part of Commuters based on the disance
+\insertCite{Lenormand2016}{TDLM}, noted CPC_d. Let us consider
+\mjeqn{N_k}{N_k} (and \mjeqn{\tilde{N}_k}{\tilde{N}_k}) the
+sum of observed (and simulated) flows at a distance comprised in the bin
+[\code{bin_size}*k-\code{bin_size}, \code{bin_size}*k[.
+
+\mjeqn{\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}}{\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}}
+
+and the Kolmogorv-Smirnov statistic and p-value \insertCite{Massey1951}{TDLM}
+, noted KS. It is based on the observed and simulated flow distance
+distribution and computed with the \link[Ecume:ks_test]{ks_test} function from
+the \href{https://cran.rstudio.com/web/packages/Ecume/index.html}{Ecume} package.
 }
 \note{
 By default, if \code{sim} is an output of \code{\link[=run_law_model]{run_law_model()}}
@@ -87,6 +116,14 @@ ind <- sample(dim(distance)[1], 100)
 }
 \references{
 \insertRef{Lenormand2016}{TDLM}
+
+\insertRef{Gargiulo2012}{TDLM}
+
+\insertRef{Lenormand2012}{TDLM}
+
+\insertRef{Kullback1951}{TDLM}
+
+\insertRef{Massey1951}{TDLM}
 }
 \seealso{
 \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=run_law_model]{run_law_model()}}

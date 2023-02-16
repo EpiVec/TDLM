@@ -69,10 +69,10 @@ parameter value the \code{nbrep} simulated matrices end the matrix of probabilit
 }
 \description{
 This function estimates mobility flows using different distribution laws and
-models. As described in \insertCite{Lenormand2016}{TDLM}, the function
-uses a two-step approach to generate mobility flows by separating the trip
-distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law.
+models. As described in \insertCite{Lenormand2016;textual}{TDLM}, the
+function uses a two-step approach to generate mobility flows by separating
+the trip distribution law, gravity or intervening opportunities, from the
+modeling approach used to generate the flows from this law.
 }
 \details{
 \loadmathjax
@@ -92,8 +92,11 @@ the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
 distance and the number of opportunities can be adjusted with a parameter
 (argument \code{param}) except for the original radiation law or the uniform law.
 
-In this package we consider eight probabilistic laws described in details in
-\insertCite{Lenormand2016}{TDLM}.
+In this package we consider eight probabilistic laws
+as described in \insertCite{Lenormand2016;textual}{TDLM}. Four gravity laws
+\insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
+intervening opportunity laws
+\insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
 \enumerate{
 \item Gravity law with an exponential distance decay function
 (\code{law = "GravExp"}). The arguments \code{mass_origin}, \code{mass_destination}
@@ -134,7 +137,9 @@ preserved (arguments \code{nb_trips} and \code{in_trips} will not be used).
 \item Attraction constrained model (\code{model = "ACM"}). Only \code{in_trips} will be
 preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
-\code{in_trips} will be preserved (arguments \code{nb_trips}will not be used).
+\code{in_trips} will be preserved (arguments \code{nb_trips}will not be used). The
+doubly constrained model is based on an Iterative Proportional Fitting
+process \insertCite{Deming1940}{TDLM}.
 }
 }
 \note{
@@ -154,6 +159,20 @@ ind <- sample(dim(distance)[1], 100)
 }
 \references{
 \insertRef{Lenormand2016}{TDLM}
+
+\insertRef{Carey1858}{TDLM}
+
+\insertRef{Zipf1946}{TDLM}
+
+\insertRef{Barthelemy2011}{TDLM}
+
+\insertRef{Schneider1959}{TDLM}
+
+\insertRef{Simini2012}{TDLM}
+
+\insertRef{Yang2014}{TDLM}
+
+\insertRef{Deming1940}{TDLM}
 }
 \seealso{
 \code{\link[=gof]{gof()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=check_format_names]{check_format_names()}}

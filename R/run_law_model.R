@@ -1,17 +1,17 @@
 #' Estimate mobility flows based of different trip distribution laws and models
 #'
 #' This function estimates mobility flows using different distribution laws and
-#' models. As described in \insertCite{Lenormand2016}{TDLM}, the function
-#' uses a two-step approach to generate mobility flows by separating the trip
-#' distribution law, gravity or intervening opportunities, from the modeling
-#' approach used to generate the flows from this law.
+#' models. As described in \insertCite{Lenormand2016;textual}{TDLM}, the 
+#' function uses a two-step approach to generate mobility flows by separating 
+#' the trip distribution law, gravity or intervening opportunities, from the 
+#' modeling approach used to generate the flows from this law.
 #'
 #' @param law a character indicating which law to use.
 #'
 #' @param mass_origin a numeric vector representing the mass at origin (i.e.
 #' demand).
 #'
-#' @param mass_destination a numeric vector representing the mass at 
+#' @param mass_destination a numeric vector representing the mass at
 #' destination (i.e. attractiveness).
 #'
 #' @param distance a squared matrix representing the distance between locations
@@ -20,9 +20,9 @@
 #' @param opportunity a squared matrix representing the number of opportunities
 #' between locations (see Details).
 #'
-#' @param param a vector of numeric value(s) used to adjust the importance of 
-#' `distance` or `opportunity` associated with the chosen law. A single value or 
-#' a vector of several parameter values can be used (see Return). Not necessary 
+#' @param param a vector of numeric value(s) used to adjust the importance of
+#' `distance` or `opportunity` associated with the chosen law. A single value or
+#' a vector of several parameter values can be used (see Return). Not necessary
 #' for the original radiation law or the uniform law (see Details).
 #'
 #' @param model a character indicating which model to use.
@@ -42,7 +42,7 @@
 #' probability to move from one location to another obtained with law
 #' should be returned along with the flows estimations.
 #'
-#' @param check_names a boolean indicating if the ID location are used as 
+#' @param check_names a boolean indicating if the ID location are used as
 #' vector names, matrix rownames and colnames and if they should be checked
 #' (see Note).
 #'
@@ -50,22 +50,25 @@
 #' \loadmathjax
 #'
 #' First, we compute the matrix `proba` estimating the probability
-#' \mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to 
-#' another location \mjeqn{j}{j} 
-#' (\mjeqn{\sum_{i}\sum_{j} p_{ij}=1}{\sum_{i}\sum_{j} p_{ij}=1}). This 
-#' probability is based on the demand \mjeqn{m_{i}}{m_{i}} 
+#' \mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to
+#' another location \mjeqn{j}{j}
+#' (\mjeqn{\sum_{i}\sum_{j} p_{ij}=1}{\sum_{i}\sum_{j} p_{ij}=1}). This
+#' probability is based on the demand \mjeqn{m_{i}}{m_{i}}
 #' (argument `mass_origin`) and the attractiveness
 #' \mjeqn{m_{j}}{m_{j}} (argument `mass_destination`). Note that the population
 #' is typically used as a surrogate for both quantities (this is why
 #' `mass_destination = mass_origin` by default). It also depends on the
-#' distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument `distance`) OR 
+#' distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument `distance`) OR
 #' the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
 #' (argument `opportunity`) depending on the chosen law. Both the effect of the
 #' distance and the number of opportunities can be adjusted with a parameter
 #' (argument `param`) except for the original radiation law or the uniform law.
 #'
-#' In this package we consider eight probabilistic laws described in details in
-#' \insertCite{Lenormand2016}{TDLM}.
+#' In this package we consider eight probabilistic laws
+#' as described in \insertCite{Lenormand2016;textual}{TDLM}. Four gravity laws
+#' \insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
+#' intervening opportunity laws
+#' \insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
 #'
 #' 1) Gravity law with an exponential distance decay function
 #' (`law = "GravExp"`). The arguments `mass_origin`, `mass_destination`
@@ -105,12 +108,14 @@
 #' 3) Attraction constrained model (`model = "ACM"`). Only `in_trips` will be
 #' preserved (arguments `nb_trips` and `out_trips` will not be used).
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
-#' `in_trips` will be preserved (arguments `nb_trips`will not be used).
+#' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
+#' doubly constrained model is based on an Iterative Proportional Fitting
+#' process \insertCite{Deming1940}{TDLM}.
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
 #' as vector names, matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to verify that everything is in order before running 
+#' `check_names = TRUE` to verify that everything is in order before running
 #' this function (`check_names = FALSE` by default). Note that the function
 #' [check_format_names()] can be used to control the validity of all the inputs
 #' before running the main package's functions.
@@ -118,13 +123,13 @@
 #' @return
 #' An object of class `TDLM`. A list of list of matrix containing for each
 #' parameter value the `nbrep` simulated matrices end the matrix of probability
-#' (called `proba`) if `write_proba = TRUE`. If `length(param) == 1` or 
+#' (called `proba`) if `write_proba = TRUE`. If `length(param) == 1` or
 #' `law == "Rad"` or `law == "Unif` only a list of matrix will be returned.
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [gof()] [run_law()] [run_model()] [check_format_names()] 
+#' @seealso [gof()] [run_law()] [run_model()] [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -133,6 +138,20 @@
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
+#'
+#' \insertRef{Carey1858}{TDLM}
+#'
+#' \insertRef{Zipf1946}{TDLM}
+#'
+#' \insertRef{Barthelemy2011}{TDLM}
+#'
+#' \insertRef{Schneider1959}{TDLM}
+#'
+#' \insertRef{Simini2012}{TDLM}
+#'
+#' \insertRef{Yang2014}{TDLM}
+#'
+#' \insertRef{Deming1940}{TDLM}
 #'
 #' @export
 run_law_model <- function(law = "NGravExp",
@@ -180,11 +199,11 @@ GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
       call. = FALSE
     )
   }
-  
+
   if ((law != "Rad") & (law != "Rand")) { # Param
     controls(args = param, type = "numeric_vector")
   }
-  
+
   if ((law %in% dist_laws) | (law %in% oppo_laws)) {
     controls(
       args = NULL,
@@ -592,47 +611,47 @@ UM, PCM, ACM or DCM",
       progress = FALSE
     )
   }
-  
+
   # Run TDLM
   wdin <- pathtemp
   wdout <- pathtemp
   pij_only <- "false"
   pij_write <- write_proba
-  
-  nbparam = length(param)
-  if((law == "Rad") | (law == "Rand") | (nbparam == 1)){ # Param 1
-    
-    outputs=list()
-    Args = c("Law", "Model", "#Replications", "#Parameters", "Parameter")
-    if((law == "Rad") | (law == "Rand")){
-      if(law == "Rand"){
+
+  nbparam <- length(param)
+  if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
+
+    outputs <- list()
+    Args <- c("Law", "Model", "#Replications", "#Parameters", "Parameter")
+    if ((law == "Rad") | (law == "Rand")) {
+      if (law == "Rand") {
         beta <- "0.01"
-        Values = c("Unif", model, nbrep, 1, NA)
+        Values <- c("Unif", model, nbrep, 1, NA)
       }
-      if(law == "Rad"){
+      if (law == "Rad") {
         beta <- "0.01"
-        Values = c(law, model, nbrep, 1, NA)
+        Values <- c(law, model, nbrep, 1, NA)
       }
-    }else{
-      beta = param
-      Values = c(law, model, nbrep, 1, param)
+    } else {
+      beta <- param
+      Values <- c(law, model, nbrep, 1, param)
     }
 
     args <- paste0(
       wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
       model, " ", nbrep, " ", pij_write
     )
-    
+
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
-    
+
     system(cmd)
 
     for (k in 1:nbrep) {
       mat <- readr::read_delim(paste0(pathtemp, "S_", k, ".csv"),
-                               delim = ";",
-                               col_name = TRUE,
-                               progress = FALSE,
-                               show_col_types = FALSE
+        delim = ";",
+        col_name = TRUE,
+        progress = FALSE,
+        show_col_types = FALSE
       )
       mat <- as.matrix(mat)
       if (check_names) {
@@ -645,13 +664,13 @@ UM, PCM, ACM or DCM",
       outputs[[k]] <- mat
     }
     names(outputs) <- paste0("replication_", 1:nbrep)
-    
+
     if (write_proba) {
       mat <- readr::read_delim(paste0(pathtemp, "pij.csv"),
-                               delim = ";",
-                               col_name = TRUE,
-                               progress = FALSE,
-                               show_col_types = FALSE
+        delim = ";",
+        col_name = TRUE,
+        progress = FALSE,
+        show_col_types = FALSE
       )
       mat <- as.matrix(mat)
       if (check_names) {
@@ -663,34 +682,32 @@ UM, PCM, ACM or DCM",
       }
       outputs$proba <- mat
     }
-    
+
     outputs$info <- data.frame(Argument = Args, Value = Values)
-    
-  }else{ # Param > 1
-    
-    outputs=list()
-    Args = c("Law", "Model", "#Replications", "#Parameters", paste0("Parameter ", 1:nbparam))
-    Values = c(law, model, nbrep, nbparam, param)
-    for(i in 1:nbparam){
-      
-      beta = param[i]
-      outputs[[i]]=list()
-      
+  } else { # Param > 1
+
+    outputs <- list()
+    Args <- c("Law", "Model", "#Replications", "#Parameters", paste0("Parameter ", 1:nbparam))
+    Values <- c(law, model, nbrep, nbparam, param)
+    for (i in 1:nbparam) {
+      beta <- param[i]
+      outputs[[i]] <- list()
+
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
         model, " ", nbrep, " ", pij_write
       )
-      
+
       cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
-      
+
       system(cmd)
-      
+
       for (k in 1:nbrep) {
         mat <- readr::read_delim(paste0(pathtemp, "S_", k, ".csv"),
-                                 delim = ";",
-                                 col_name = TRUE,
-                                 progress = FALSE,
-                                 show_col_types = FALSE
+          delim = ";",
+          col_name = TRUE,
+          progress = FALSE,
+          show_col_types = FALSE
         )
         mat <- as.matrix(mat)
         if (check_names) {
@@ -703,13 +720,13 @@ UM, PCM, ACM or DCM",
         outputs[[i]][[k]] <- mat
       }
       names(outputs[[i]]) <- paste0("replication_", 1:nbrep)
-      
+
       if (write_proba) {
         mat <- readr::read_delim(paste0(pathtemp, "pij.csv"),
-                                 delim = ";",
-                                 col_name = TRUE,
-                                 progress = FALSE,
-                                 show_col_types = FALSE
+          delim = ";",
+          col_name = TRUE,
+          progress = FALSE,
+          show_col_types = FALSE
         )
         mat <- as.matrix(mat)
         if (check_names) {
@@ -725,17 +742,16 @@ UM, PCM, ACM or DCM",
     names(outputs) <- paste0("parameter_", 1:nbparam)
     outputs$info <- data.frame(Argument = Args, Value = Values)
   }
-  
+
   # Delete temp
-  unlink(pathtemp, recursive = TRUE)
-  
+  # unlink(pathtemp, recursive = TRUE)
+
   # Class TDLM
-  outputs = outputs[c(length(outputs),1:(length(outputs)-1))]
+  outputs <- outputs[c(length(outputs), 1:(length(outputs) - 1))]
   class(outputs) <- append("TDLM", class(outputs))
   attr(outputs, "from") <- "run_law_model"
   attr(outputs, "proba") <- write_proba
 
   # Return output
   return(outputs)
-  
 }
