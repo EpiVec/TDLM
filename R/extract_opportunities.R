@@ -36,12 +36,10 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' ind <- sample(dim(distance)[1], 100)
-#' opp <- mass[ind, 1]
-#' dist <- distance[ind, ind]
+#' opportunity <- mass[, 1]
 #' sij <- extract_opportunities(
-#'   opportunity = opp,
-#'   distance = dist,
+#'   opportunity = opportunity,
+#'   distance = distance,
 #'   check_names = FALSE
 #' )
 #'

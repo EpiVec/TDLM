@@ -95,7 +95,16 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' ind <- sample(dim(distance)[1], 100)
+#' mi <- as.numeric(mass[, 1])
+#' names(mi) <- rownames(distance)
+#' mj <- as.numeric(mass[, 1])
+#' names(mj) <- rownames(distance)
+#' res <- run_law(
+#'   law = "GravExp", mass_origin = mi, mass_destination = mj,
+#'   distance = distance, opportunity = NULL, param = 0.01,
+#'   check_names = TRUE
+#' )
+#' print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}

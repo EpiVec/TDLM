@@ -9,24 +9,24 @@
 #' using different models.
 #'
 #' @param proba a squared matrix of probability. The sum of the matrix element
-#' must be equal to 1. It will be normalized automatically if it is not the 
+#' must be equal to 1. It will be normalized automatically if it is not the
 #' case.
 #'
 #' @param model a character indicating which model to use.
 #'
-#' @param nb_trips a numeric value indicating the total number of trips. Must 
+#' @param nb_trips a numeric value indicating the total number of trips. Must
 #' be an integer if `multi = TRUE` (see Details).
 #'
 #' @param out_trips a numeric vector representing the number of outgoing
-#' trips per location. Must be a vector of integers 
+#' trips per location. Must be a vector of integers
 #' if `multi = TRUE` (see Details).
 #'
 #' @param in_trips a numeric vector representing the number of incoming
-#' trips per location. Must be a vector of integers 
+#' trips per location. Must be a vector of integers
 #' if `multi = TRUE` (see Details).
 #'
-#' @param multi a boolean indicating if the flows should be generated with 
-#' random draws from a multinomial distribution (see Details).  
+#' @param multi a boolean indicating if the flows should be generated with
+#' random draws from a multinomial distribution (see Details).
 #'
 #' @param nbrep an integer indicating the number of replications
 #' associated to the model run. `nbrep = 1` if `multi = FALSE` (see Details).
@@ -55,13 +55,13 @@
 #' preserved (arguments `nb_trips` and `out_trips` will not be used).
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used).
-#' 
-#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from 
+#'
+#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from
 #' `proba` with multinomial random draws that will take different form according
-#' to the model used. In this case, the models will deal with positive integers 
-#' as inputs and outputs. Nevertheless, it is also possible to generate a unique 
+#' to the model used. In this case, the models will deal with positive integers
+#' as inputs and outputs. Nevertheless, it is also possible to generate a unique
 #' average matrix (`nbrep = 1`) based on an infinite number of drawings. In this
-#' case, the models' inputs can be either positive integer or real numbers. 
+#' case, the models' inputs can be either positive integer or real numbers.
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
@@ -83,8 +83,19 @@
 #'
 #' @examples
 #' data(mass)
-#' data(distance)
-#' ind <- sample(dim(distance)[1], 100)
+#' data(od)
+#' proba <- od / sum(od)
+#' Oi <- as.numeric(mass[, 2])
+#' names(Oi) <- rownames(distance)
+#' Dj <- as.numeric(mass[, 3])
+#' names(Dj) <- rownames(distance)
+#' res <- run_model(
+#'   proba = proba,
+#'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
+#'   multi = FALSE, nbrep = 3,
+#'   check_names = TRUE
+#' )
+#' print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -114,19 +125,19 @@ run_model <- function(proba,
 
   # Controls
   controls(args = multi, type = "boolean")
-  if(!multi){
-    nbrep = 1
+  if (!multi) {
+    nbrep <- 1
   }
   controls(args = nbrep, type = "strict_positive_integer")
   controls(args = check_names, type = "boolean")
-  
+
   # Control PROBA
   controls(
     args = NULL,
     matrices = list(proba = proba),
     type = "matrices_proba"
   )
-  proba = proba / sum(proba)
+  proba <- proba / sum(proba)
 
   # Controls MODEL
   models <- c("UM", "PCM", "ACM", "DCM")
@@ -134,24 +145,24 @@ run_model <- function(proba,
   if (!(model %in% models)) {
     stop("Please choose check among the followings values:
 UM, PCM, ACM or DCM",
-         call. = FALSE
+      call. = FALSE
     )
   }
   if (model == "UM") {
-    if(multi){
+    if (multi) {
       controls(args = nb_trips, type = "strict_positive_integer")
-    }else{
+    } else {
       controls(args = nb_trips, type = "strict_positive_numeric")
     }
   }
   if (model == "PCM") {
-    if(multi){
+    if (multi) {
       controls(
         args = NULL,
         vectors = list(out_trips = out_trips),
         type = "vectors_positive_integer"
       )
-    }else{
+    } else {
       controls(
         args = NULL,
         vectors = list(out_trips = out_trips),
@@ -160,13 +171,13 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "ACM") {
-    if(multi){
+    if (multi) {
       controls(
         args = NULL,
         vectors = list(in_trips = in_trips),
         type = "vectors_positive_integer"
       )
-    }else{
+    } else {
       controls(
         args = NULL,
         vectors = list(in_trips = in_trips),
@@ -175,7 +186,7 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "DCM") {
-    if(multi){
+    if (multi) {
       controls(
         args = NULL,
         vectors = list(
@@ -184,7 +195,7 @@ UM, PCM, ACM or DCM",
         ),
         type = "vectors_positive_integer"
       )
-    }else{
+    } else {
       controls(
         args = NULL,
         vectors = list(
@@ -196,7 +207,7 @@ UM, PCM, ACM or DCM",
     }
     if (sum(out_trips) != sum(in_trips)) {
       stop("Total number of out-going and in-coming trips must be equal.",
-           call. = FALSE
+        call. = FALSE
       )
     }
   }
@@ -277,7 +288,7 @@ UM, PCM, ACM or DCM",
   wdin <- pathtemp
   wdout <- pathtemp
   ismulti <- "true"
-  if(!multi){
+  if (!multi) {
     ismulti <- "false"
   }
 

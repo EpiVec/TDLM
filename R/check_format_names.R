@@ -32,6 +32,12 @@
 #' @examples
 #' data(mass)
 #' data(distance)
+#' 
+#' mi=as.numeric(mass[,1])
+#' names(mi)=rownames(mass)
+#' mj=mi
+#' check_format_names(vectors=list(mi=mi,mj=mj), 
+#'                    matrices=list(distance=distance))
 #'
 #' @export
 check_format_names <- function(vectors,

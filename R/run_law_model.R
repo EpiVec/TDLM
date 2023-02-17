@@ -27,19 +27,19 @@
 #'
 #' @param model a character indicating which model to use.
 #'
-#' @param nb_trips a numeric value indicating the total number of trips. Must 
+#' @param nb_trips a numeric value indicating the total number of trips. Must
 #' be an integer if `multi = TRUE` (see Details).
 #'
 #' @param out_trips a numeric vector representing the number of outgoing
-#' trips per location. Must be a vector of integers 
+#' trips per location. Must be a vector of integers
 #' if `multi = TRUE` (see Details).
 #'
 #' @param in_trips a numeric vector representing the number of incoming
-#' trips per location. Must be a vector of integers 
+#' trips per location. Must be a vector of integers
 #' if `multi = TRUE` (see Details).
 #'
-#' @param multi a boolean indicating if the flows should be generated with 
-#' random draws from a multinomial distribution (see Details).  
+#' @param multi a boolean indicating if the flows should be generated with
+#' random draws from a multinomial distribution (see Details).
 #'
 #' @param nbrep an integer indicating the number of replications
 #' associated to the model run. `nbrep = 1` if `multi = FALSE` (see Details).
@@ -117,13 +117,13 @@
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
 #' doubly constrained model is based on an Iterative Proportional Fitting
 #' process \insertCite{Deming1940}{TDLM}.
-#' 
-#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from 
+#'
+#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from
 #' `proba` with multinomial random draws that will take different form according
-#' to the model used. In this case, the models will deal with positive integers 
-#' as inputs and outputs. Nevertheless, it is also possible to generate a unique 
+#' to the model used. In this case, the models will deal with positive integers
+#' as inputs and outputs. Nevertheless, it is also possible to generate a unique
 #' average matrix (`nbrep = 1`) based on an infinite number of drawings. In this
-#' case, the models' inputs can be either positive integer or real numbres. 
+#' case, the models' inputs can be either positive integer or real numbres.
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
@@ -147,7 +147,23 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' ind <- sample(dim(distance)[1], 100)
+#' mi <- as.numeric(mass[, 1])
+#' names(mi) <- rownames(distance)
+#' mj <- as.numeric(mass[, 1])
+#' names(mj) <- rownames(distance)
+#' Oi <- as.numeric(mass[, 2])
+#' names(Oi) <- rownames(distance)
+#' Dj <- as.numeric(mass[, 3])
+#' names(Dj) <- rownames(distance)
+#' res <- run_law_model(
+#'   law = "GravExp", mass_origin = mi, mass_destination = mj,
+#'   distance = distance, opportunity = NULL, param = 0.01,
+#'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
+#'   multi = FALSE, nbrep = 3,
+#'   write_proba = TRUE,
+#'   check_names = TRUE
+#' )
+#' print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -197,8 +213,8 @@ run_law_model <- function(law = "Unif",
 
   # Controls
   controls(args = multi, type = "boolean")
-  if(!multi){
-    nbrep = 1
+  if (!multi) {
+    nbrep <- 1
   }
   controls(args = nbrep, type = "strict_positive_integer")
   controls(args = write_proba, type = "boolean")
@@ -291,20 +307,20 @@ UM, PCM, ACM or DCM",
     )
   }
   if (model == "UM") {
-    if(multi){
+    if (multi) {
       controls(args = nb_trips, type = "strict_positive_integer")
-    }else{
+    } else {
       controls(args = nb_trips, type = "strict_positive_numeric")
     }
   }
   if (model == "PCM") {
-    if(multi){
+    if (multi) {
       controls(
         args = NULL,
         vectors = list(out_trips = out_trips),
         type = "vectors_positive_integer"
       )
-    }else{
+    } else {
       controls(
         args = NULL,
         vectors = list(out_trips = out_trips),
@@ -313,13 +329,13 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "ACM") {
-    if(multi){
+    if (multi) {
       controls(
         args = NULL,
         vectors = list(in_trips = in_trips),
         type = "vectors_positive_integer"
       )
-    }else{
+    } else {
       controls(
         args = NULL,
         vectors = list(in_trips = in_trips),
@@ -328,7 +344,7 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "DCM") {
-    if(multi){
+    if (multi) {
       controls(
         args = NULL,
         vectors = list(
@@ -337,7 +353,7 @@ UM, PCM, ACM or DCM",
         ),
         type = "vectors_positive_integer"
       )
-    }else{
+    } else {
       controls(
         args = NULL,
         vectors = list(
@@ -670,7 +686,7 @@ UM, PCM, ACM or DCM",
     pij_write <- "true"
   }
   ismulti <- "true"
-  if(!multi){
+  if (!multi) {
     ismulti <- "false"
   }
 

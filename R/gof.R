@@ -100,7 +100,13 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' ind <- sample(dim(distance)[1], 100)
+#' data(od)
+#'
+#' gof(
+#'   sim = od, obs = od, measures = "all", distance = distance, bin_size = 2,
+#'   use_proba = FALSE,
+#'   check_names = TRUE
+#' )
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -144,10 +150,10 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
 
     # TDLM attributes
     tdlm <- TRUE
-    from <- attributes(res)$from
+    from <- attributes(sim)$from
 
     if (from == "run_law_model") {
-      isproba <- attributes(res)$proba
+      isproba <- attributes(sim)$proba
       controls(args = use_proba, type = "boolean")
       if (use_proba & !isproba) {
         stop("use_proba cannot be set to TRUE if there is no proba in sim.",

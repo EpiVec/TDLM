@@ -97,8 +97,19 @@ before running the main package's functions.
 }
 \examples{
 data(mass)
-data(distance)
-ind <- sample(dim(distance)[1], 100)
+data(od)
+proba <- od / sum(od)
+Oi <- as.numeric(mass[, 2])
+names(Oi) <- rownames(distance)
+Dj <- as.numeric(mass[, 3])
+names(Dj) <- rownames(distance)
+res <- run_model(
+  proba = proba,
+  model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
+  multi = FALSE, nbrep = 3,
+  check_names = TRUE
+)
+print(res)
 
 }
 \references{

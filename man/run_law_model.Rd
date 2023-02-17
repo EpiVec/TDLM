@@ -168,7 +168,23 @@ before running the main package's functions.
 \examples{
 data(mass)
 data(distance)
-ind <- sample(dim(distance)[1], 100)
+mi <- as.numeric(mass[, 1])
+names(mi) <- rownames(distance)
+mj <- as.numeric(mass[, 1])
+names(mj) <- rownames(distance)
+Oi <- as.numeric(mass[, 2])
+names(Oi) <- rownames(distance)
+Dj <- as.numeric(mass[, 3])
+names(Dj) <- rownames(distance)
+res <- run_law_model(
+  law = "GravExp", mass_origin = mi, mass_destination = mj,
+  distance = distance, opportunity = NULL, param = 0.01,
+  model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
+  multi = FALSE, nbrep = 3,
+  write_proba = TRUE,
+  check_names = TRUE
+)
+print(res)
 
 }
 \references{

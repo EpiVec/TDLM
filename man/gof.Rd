@@ -111,7 +111,13 @@ before running the main package's functions.
 \examples{
 data(mass)
 data(distance)
-ind <- sample(dim(distance)[1], 100)
+data(od)
+
+gof(
+  sim = od, obs = od, measures = "all", distance = distance, bin_size = 2,
+  use_proba = FALSE,
+  check_names = TRUE
+)
 
 }
 \references{

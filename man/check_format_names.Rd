@@ -38,6 +38,12 @@ inputs passed the check successfully.
 data(mass)
 data(distance)
 
+mi=as.numeric(mass[,1])
+names(mi)=rownames(mass)
+mj=mi
+check_format_names(vectors=list(mi=mi,mj=mj), 
+                   matrices=list(distance=distance))
+
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
