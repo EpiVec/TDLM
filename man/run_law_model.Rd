@@ -43,7 +43,7 @@ for the original radiation law or the uniform law (see Details).}
 
 \item{model}{a character indicating which model to use.}
 
-\item{nb_trips}{an numeric value indicating the total number of trips. Must
+\item{nb_trips}{a numeric value indicating the total number of trips. Must
 be an integer if \code{multi = TRUE} (see Details).}
 
 \item{out_trips}{a numeric vector representing the number of outgoing
@@ -54,11 +54,11 @@ if \code{multi = TRUE} (see Details).}
 trips per location. Must be a vector of integers
 if \code{multi = TRUE} (see Details).}
 
-\item{multi}{a boolean indicating if the flows should be generate with
+\item{multi}{a boolean indicating if the flows should be generated with
 random draws from a multinomial distribution (see Details).}
 
 \item{nbrep}{an integer indicating the number of replications
-associated to the model run. Equal to 1 if \code{multi = FALSE} (see Details).}
+associated to the model run. \code{nbrep = 1} if \code{multi = FALSE} (see Details).}
 
 \item{write_proba}{a boolean indicating if the estimation of the
 probability to move from one location to another obtained with law
@@ -149,7 +149,12 @@ doubly constrained model is based on an Iterative Proportional Fitting
 process \insertCite{Deming1940}{TDLM}.
 }
 
-By default, ... \code{multi = TRUE}
+By default, when \code{multi = TRUE}, \code{nbrep} matrices will be generated from
+\code{proba} with multinomial random draws that will take different form according
+to the model used. In this case, the models will deal with positive integers
+as inputs and outputs. Nevertheless, it is also possible to generate a unique
+average matrix (\code{nbrep = 1}) based on an infinite number of drawings. In this
+case, the models' inputs can be either positive integer or real numbres.
 }
 \note{
 All the inputs should be based on the same number of

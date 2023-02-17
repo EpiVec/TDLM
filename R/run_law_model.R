@@ -118,7 +118,12 @@
 #' doubly constrained model is based on an Iterative Proportional Fitting
 #' process \insertCite{Deming1940}{TDLM}.
 #' 
-#' By default, ... (`multi = TRUE`). Nevertheless, it is also possible to 
+#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from 
+#' `proba` with multinomial random draws that will take different form according
+#' to the model used. In this case, the models will deal with positive integers 
+#' as inputs and outputs. Nevertheless, it is also possible to generate a unique 
+#' average matrix (`nbrep = 1`) based on an infinite number of drawings. In this
+#' case, the models' inputs can be either positive integer or real numbres. 
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID

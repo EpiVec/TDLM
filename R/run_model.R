@@ -14,16 +14,22 @@
 #'
 #' @param model a character indicating which model to use.
 #'
-#' @param nb_trips an integer indicating the total number of trips.
+#' @param nb_trips a numeric value indicating the total number of trips. Must 
+#' be an integer if `multi = TRUE` (see Details).
 #'
-#' @param out_trips a vector of integers representing the number of outgoing
-#' trips per location.
+#' @param out_trips a numeric vector representing the number of outgoing
+#' trips per location. Must be a vector of integers 
+#' if `multi = TRUE` (see Details).
 #'
-#' @param in_trips a vector of integers representing the number of incoming
-#' trips per location.
+#' @param in_trips a numeric vector representing the number of incoming
+#' trips per location. Must be a vector of integers 
+#' if `multi = TRUE` (see Details).
+#'
+#' @param multi a boolean indicating if the flows should be generated with 
+#' random draws from a multinomial distribution (see Details).  
 #'
 #' @param nbrep an integer indicating the number of replications
-#' associated to the model run.
+#' associated to the model run. `nbrep = 1` if `multi = FALSE` (see Details).
 #'
 #' @param check_names a boolean indicating if the ID location are used as
 #' vector names, matrix rownames and colnames and if they should be checked
@@ -49,6 +55,13 @@
 #' preserved (arguments `nb_trips` and `out_trips` will not be used).
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used).
+#' 
+#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from 
+#' `proba` with multinomial random draws that will take different form according
+#' to the model used. In this case, the models will deal with positive integers 
+#' as inputs and outputs. Nevertheless, it is also possible to generate a unique 
+#' average matrix (`nbrep = 1`) based on an infinite number of drawings. In this
+#' case, the models' inputs can be either positive integer or real numbers. 
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
@@ -82,6 +95,7 @@ run_model <- function(proba,
                       nb_trips = 1000,
                       out_trips = NULL,
                       in_trips = out_trips,
+                      multi = TRUE,
                       nbrep = 3,
                       check_names = FALSE) {
   # Set path to jar
@@ -98,7 +112,11 @@ run_model <- function(proba,
     )
   }
 
-  # Controls OTHER
+  # Controls
+  controls(args = multi, type = "boolean")
+  if(!multi){
+    nbrep = 1
+  }
   controls(args = nbrep, type = "strict_positive_integer")
   controls(args = check_names, type = "boolean")
   
@@ -116,64 +134,72 @@ run_model <- function(proba,
   if (!(model %in% models)) {
     stop("Please choose check among the followings values:
 UM, PCM, ACM or DCM",
-      call. = FALSE
+         call. = FALSE
     )
   }
-
   if (model == "UM") {
-    controls(args = nb_trips, type = "strict_positive_integer")
+    if(multi){
+      controls(args = nb_trips, type = "strict_positive_integer")
+    }else{
+      controls(args = nb_trips, type = "strict_positive_numeric")
+    }
   }
   if (model == "PCM") {
-    controls(
-      args = NULL,
-      vectors = list(out_trips = out_trips),
-      type = "vectors_positive_integer"
-    )
-    controls(
-      args = NULL,
-      vectors = list(out_trips = out_trips),
-      matrices = list(proba = proba),
-      type = "vectors_matrices"
-    )
-  }
-  if (model == "ACM") {
-    controls(
-      args = NULL,
-      vectors = list(in_trips = in_trips),
-      type = "vectors_positive_integer"
-    )
-    controls(
-      args = NULL,
-      vectors = list(in_trips = in_trips),
-      matrices = list(proba = proba),
-      type = "vectors_matrices"
-    )
-  }
-  if (model == "DCM") {
-    controls(
-      args = NULL,
-      vectors = list(
-        out_trips = out_trips,
-        in_trips = in_trips
-      ),
-      type = "vectors_positive_integer"
-    )
-    if (sum(out_trips) != sum(in_trips)) {
-      stop("Total number of out-going and in-coming trips must be equal.",
-        call. = FALSE
+    if(multi){
+      controls(
+        args = NULL,
+        vectors = list(out_trips = out_trips),
+        type = "vectors_positive_integer"
+      )
+    }else{
+      controls(
+        args = NULL,
+        vectors = list(out_trips = out_trips),
+        type = "vectors_positive"
       )
     }
-    controls(
-      args = NULL,
-      vectors = list(
-        out_trips = out_trips,
-        in_trips = in_trips
-      ),
-      matrices = list(proba = proba),
-      type = "vectors_matrices"
-    )
   }
-
+  if (model == "ACM") {
+    if(multi){
+      controls(
+        args = NULL,
+        vectors = list(in_trips = in_trips),
+        type = "vectors_positive_integer"
+      )
+    }else{
+      controls(
+        args = NULL,
+        vectors = list(in_trips = in_trips),
+        type = "vectors_positive"
+      )
+    }
+  }
+  if (model == "DCM") {
+    if(multi){
+      controls(
+        args = NULL,
+        vectors = list(
+          out_trips = out_trips,
+          in_trips = in_trips
+        ),
+        type = "vectors_positive_integer"
+      )
+    }else{
+      controls(
+        args = NULL,
+        vectors = list(
+          out_trips = out_trips,
+          in_trips = in_trips
+        ),
+        type = "vectors_positive"
+      )
+    }
+    if (sum(out_trips) != sum(in_trips)) {
+      stop("Total number of out-going and in-coming trips must be equal.",
+           call. = FALSE
+      )
+    }
+  }
   # Check names
   if (check_names) {
     if (model == "UM") {
@@ -250,12 +276,16 @@ UM, PCM, ACM or DCM",
   # Run TDLM
   wdin <- pathtemp
   wdout <- pathtemp
+  ismulti <- "true"
+  if(!multi){
+    ismulti <- "false"
+  }
 
   outputs <- list()
   Args <- c("Model", "#Replications")
   Values <- c(model, nbrep)
 
-  args <- paste0(wdin, " ", wdout, " ", model, " ", nbrep)
+  args <- paste0(wdin, " ", wdout, " ", model, " ", nbrep, " ", ismulti)
 
   cmd <- paste0("java -jar ", wdjar, "TDM.jar ", args)
 

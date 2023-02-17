@@ -20,7 +20,7 @@ public class TDLM {
 
     public static void main(String[] args) throws FileNotFoundException {
     	
-    	//Parameters: wdin, wdout, law, beta, pijonly, model, repli, writepij
+    	//Parameters: wdin, wdout, law, beta, pijonly, model, repli, writepij, multi
     	String wdin = args[0];
     	String wdout = args[1];
     	String law = args[2];

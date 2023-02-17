@@ -10,6 +10,7 @@ run_model(
   nb_trips = 1000,
   out_trips = NULL,
   in_trips = out_trips,
+  multi = TRUE,
   nbrep = 3,
   check_names = FALSE
 )
@@ -21,16 +22,22 @@ case.}
 
 \item{model}{a character indicating which model to use.}
 
-\item{nb_trips}{an integer indicating the total number of trips.}
+\item{nb_trips}{a numeric value indicating the total number of trips. Must
+be an integer if \code{multi = TRUE} (see Details).}
 
-\item{out_trips}{a vector of integers representing the number of outgoing
-trips per location.}
+\item{out_trips}{a numeric vector representing the number of outgoing
+trips per location. Must be a vector of integers
+if \code{multi = TRUE} (see Details).}
 
-\item{in_trips}{a vector of integers representing the number of incoming
-trips per location.}
+\item{in_trips}{a numeric vector representing the number of incoming
+trips per location. Must be a vector of integers
+if \code{multi = TRUE} (see Details).}
+
+\item{multi}{a boolean indicating if the flows should be generated with
+random draws from a multinomial distribution (see Details).}
 
 \item{nbrep}{an integer indicating the number of replications
-associated to the model run.}
+associated to the model run. \code{nbrep = 1} if \code{multi = FALSE} (see Details).}
 
 \item{check_names}{a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
@@ -71,6 +78,13 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
 \code{in_trips} will be preserved (arguments \code{nb_trips}will not be used).
 }
+
+By default, when \code{multi = TRUE}, \code{nbrep} matrices will be generated from
+\code{proba} with multinomial random draws that will take different form according
+to the model used. In this case, the models will deal with positive integers
+as inputs and outputs. Nevertheless, it is also possible to generate a unique
+average matrix (\code{nbrep = 1}) based on an infinite number of drawings. In this
+case, the models' inputs can be either positive integer or real numbers.
 }
 \note{
 All the inputs should be based on the same number of

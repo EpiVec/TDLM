@@ -281,6 +281,7 @@ GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
   model <- "UM"
   nbrep <- "1"
   pij_write <- "true"
+  ismulti <- "true"
 
   nbparam <- length(param)
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
@@ -303,7 +304,7 @@ GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
 
     args <- paste0(
       wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-      model, " ", nbrep, " ", pij_write
+      model, " ", nbrep, " ", pij_write, " ", ismulti
     )
 
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
@@ -338,7 +339,7 @@ GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
 
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write
+        model, " ", nbrep, " ", pij_write, " ", ismulti
       )
 
       cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)

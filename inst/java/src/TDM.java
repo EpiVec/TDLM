@@ -20,7 +20,7 @@ public class TDM {
 
     public static void main(String[] args) throws FileNotFoundException {
     	
-    	//Parameters: wdin, wdout, law, beta, pijonly, model, repli, writepij
+    	//Parameters: wdin, wdout, model, repli, multi
     	String wdin = args[0];
     	String wdout = args[1];
     	String model = args[2];
@@ -45,8 +45,8 @@ public class TDM {
         int k = 0;
         while (scan.hasNextLine()) {
             cols = scan.nextLine().split(";");
-            Oi[k] = Double.parseDouble(cols[2]);
-            Dj[k] = Double.parseDouble(cols[3]);
+            Oi[k] = Double.parseDouble(cols[0]);
+            Dj[k] = Double.parseDouble(cols[1]);
             k++;
         }
 
