@@ -81,6 +81,7 @@ using different models.</p>
 <span>  nb_trips <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  out_trips <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  in_trips <span class="op">=</span> <span class="va">out_trips</span>,</span>
+<span>  multi <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  nbrep <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -99,22 +100,30 @@ case.</p></dd>
 
 
 <dt>nb_trips</dt>
-<dd><p>an integer indicating the total number of trips.</p></dd>
+<dd><p>a numeric value indicating the total number of trips. Must
+be an integer if <code>multi = TRUE</code> (see Details).</p></dd>
 
 
 <dt>out_trips</dt>
-<dd><p>a vector of integers representing the number of outgoing
-trips per location.</p></dd>
+<dd><p>a numeric vector representing the number of outgoing
+trips per location. Must be a vector of integers
+if <code>multi = TRUE</code> (see Details).</p></dd>
 
 
 <dt>in_trips</dt>
-<dd><p>a vector of integers representing the number of incoming
-trips per location.</p></dd>
+<dd><p>a numeric vector representing the number of incoming
+trips per location. Must be a vector of integers
+if <code>multi = TRUE</code> (see Details).</p></dd>
+
+
+<dt>multi</dt>
+<dd><p>a boolean indicating if the flows should be generated with
+random draws from a multinomial distribution (see Details).</p></dd>
 
 
 <dt>nbrep</dt>
 <dd><p>an integer indicating the number of replications
-associated to the model run.</p></dd>
+associated to the model run. <code>nbrep = 1</code> if <code>multi = FALSE</code> (see Details).</p></dd>
 
 
 <dt>check_names</dt>
@@ -149,7 +158,13 @@ preserved (arguments <code>nb_trips</code> and <code>in_trips</code> will not be
 preserved (arguments <code>nb_trips</code> and <code>out_trips</code> will not be used).</p></li>
 <li><p>Doubly constrained model (<code>model = "DCM"</code>). Both <code>out_trips</code> and
 <code>in_trips</code> will be preserved (arguments <code>nb_trips</code>will not be used).</p></li>
-</ol></div>
+</ol><p>By default, when <code>multi = TRUE</code>, <code>nbrep</code> matrices will be generated from
+<code>proba</code> with multinomial random draws that will take different form according
+to the model used. In this case, the models will deal with positive integers
+as inputs and outputs. Nevertheless, it is also possible to generate a unique
+average matrix (<code>nbrep = 1</code>) based on an infinite number of drawings. In this
+case, the models' inputs can be either positive integer or real numbers.</p>
+    </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>All the inputs should be based on the same number of

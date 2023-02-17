@@ -125,7 +125,7 @@ for the original radiation law or the uniform law (see Details).</p></dd>
 
 
 <dt>nb_trips</dt>
-<dd><p>an numeric value indicating the total number of trips. Must
+<dd><p>a numeric value indicating the total number of trips. Must
 be an integer if <code>multi = TRUE</code> (see Details).</p></dd>
 
 
@@ -142,13 +142,13 @@ if <code>multi = TRUE</code> (see Details).</p></dd>
 
 
 <dt>multi</dt>
-<dd><p>a boolean indicating if the flows should be generate with
+<dd><p>a boolean indicating if the flows should be generated with
 random draws from a multinomial distribution (see Details).</p></dd>
 
 
 <dt>nbrep</dt>
 <dd><p>an integer indicating the number of replications
-associated to the model run. Equal to 1 if <code>multi = FALSE</code> (see Details).</p></dd>
+associated to the model run. <code>nbrep = 1</code> if <code>multi = FALSE</code> (see Details).</p></dd>
 
 
 <dt>write_proba</dt>
@@ -235,7 +235,12 @@ preserved (arguments <code>nb_trips</code> and <code>out_trips</code> will not b
 doubly constrained model is based on an Iterative Proportional Fitting
 process (Deming and Stephan 1940)
 .</p></li>
-</ol><p>By default, ... <code>multi = TRUE</code></p>
+</ol><p>By default, when <code>multi = TRUE</code>, <code>nbrep</code> matrices will be generated from
+<code>proba</code> with multinomial random draws that will take different form according
+to the model used. In this case, the models will deal with positive integers
+as inputs and outputs. Nevertheless, it is also possible to generate a unique
+average matrix (<code>nbrep = 1</code>) based on an infinite number of drawings. In this
+case, the models' inputs can be either positive integer or real numbres.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
