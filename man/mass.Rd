@@ -3,10 +3,10 @@
 \docType{data}
 \name{mass}
 \alias{mass}
-\title{Population and number of out- and in-commuters by US county in 2000
+\title{Population and number of out- and in-commuters by US Kansas county in 2000
 (data.frame)}
 \format{
-A \code{data.frame} with 3,108 rows and 3 columns:
+A \code{data.frame} with 105 rows and 3 columns:
 \describe{
 \item{rownames}{County ID.}
 \item{Population}{Number of inhabitants).}
@@ -22,6 +22,6 @@ mass
 }
 \description{
 A dataset containing the number of inhabitant, in-commuters and out-commuters
-for 3018 US counties in 2000.
+for 105 US Kansas counties in 2000.
 }
 \keyword{datasets}

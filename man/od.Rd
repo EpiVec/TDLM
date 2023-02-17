@@ -3,9 +3,9 @@
 \docType{data}
 \name{od}
 \alias{od}
-\title{Origin-Destination commuting matrix between US counties in 2000}
+\title{Origin-Destination commuting matrix between US Kansas counties in 2000}
 \format{
-A \code{matrix} with 3,108 rows and 3,108 columns. Each element of the
+A \code{matrix} with 105 rows and 105 columns. Each element of the
 matrix represents the number of commuters between two counties. County ID as
 rownames and colnames.
 }
@@ -16,6 +16,6 @@ rownames and colnames.
 od
 }
 \description{
-A dataset containing the number of commuters between 3,108 US counties.
+A dataset containing the number of commuters between 105 US Kansas counties.
 }
 \keyword{datasets}

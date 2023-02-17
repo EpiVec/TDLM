@@ -3,9 +3,9 @@
 \docType{data}
 \name{distance}
 \alias{distance}
-\title{Great-circle distances between US counties}
+\title{Great-circle distances between US Kansas counties}
 \format{
-A \code{matrix} with 3,108 rows and 3,108 columns. Each element of the
+A \code{matrix} with 105 rows and 105 columns. Each element of the
 matrix represents the distance between two counties. County ID as rownames
 and colnames.
 }
@@ -16,7 +16,7 @@ and colnames.
 distance
 }
 \description{
-A dataset containing the great-circle distance (in kilometers) between 3,108
-US counties.
+A dataset containing the great-circle distance (in kilometers) between 105
+US Kansas counties.
 }
 \keyword{datasets}
