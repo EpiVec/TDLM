@@ -29,6 +29,7 @@ public class TDLM {
     	String model = args[5];
     	double repli = Integer.parseInt(args[6]);
     	boolean writepij = Boolean.parseBoolean(args[7]);
+    	boolean multi = Boolean.parseBoolean(args[8]); 
     	
         //Load data: Inputs (mi, mj, Oi and Dj), dij and sij       
         //Number of regions n
@@ -43,8 +44,8 @@ public class TDLM {
         //Inputs
         double[] mi = new double[n];  //Number of inhabitants at origin (mi)
         double[] mj = new double[n];  //Number of inhabitants at destination (mj)
-        int[] Oi = new int[n];        //Number of out-commuters (Oi) 
-        int[] Dj = new int[n];        //Number of in-commuters (Dj)
+        double[] Oi = new double[n];  //Number of out-commuters (Oi) 
+        double[] Dj = new double[n];  //Number of in-commuters (Dj)
         scan = new Scanner(new File(wdin + "Mass.csv"));
         scan.nextLine();
         int k = 0;
@@ -52,8 +53,8 @@ public class TDLM {
             cols = scan.nextLine().split(";");
             mi[k] = Double.parseDouble(cols[0]);
             mj[k] = Double.parseDouble(cols[1]);
-            Oi[k] = Integer.parseInt(cols[2]);
-            Dj[k] = Integer.parseInt(cols[3]);
+            Oi[k] = Double.parseDouble(cols[2]);
+            Dj[k] = Double.parseDouble(cols[3]);
             k++;
         }
 
@@ -88,8 +89,6 @@ public class TDLM {
                 k++;
             }
         }
-
-        //System.out.println("Data loaded");
 
         //Build the matrix pij according to the law
         double[][] pij = proba(law, dij, sij, mi, mj, beta);
@@ -136,16 +135,16 @@ public class TDLM {
 
                 //Network generation according to the constrained model 
                 if (model.equals("UM")) {   //Unconstrained model
-                    S = UM(pij, Oi);
+                    S = UM(pij, Oi, multi);
                 }
                 if (model.equals("PCM")) {  //Production cconstrained model
-                    S = PCM(pij, Oi);
+                    S = PCM(pij, Oi, multi);
                 }
                 if (model.equals("ACM")) {  //Attraction constrained model
-                    S = ACM(pij, Dj);
+                    S = ACM(pij, Dj, multi);
                 }
                 if (model.equals("DCM")) {  //Doubly constrained model
-                    S = DCM(pij, Oi, Dj, 50, 0.01);
+                    S = DCM(pij, Oi, Dj, 50, 0.01, multi);
                 }
 
                 //Write the resulting simulated OD matrix in a file 
@@ -185,7 +184,7 @@ public class TDLM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (i != j) {
-                        W[i][j] = ((double) mi[i]) * ((double) mj[j]) * Math.exp((dij[i][j]) * (-beta));
+                        W[i][j] = (mi[i]) * (mj[j]) * Math.exp((dij[i][j]) * (-beta));
                     } else {
                         W[i][j] = 0;
                     }
@@ -198,7 +197,7 @@ public class TDLM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (i != j) {
-                        W[i][j] = ((double) mj[j]) * Math.exp((dij[i][j]) * (-beta));
+                        W[i][j] = mj[j] * Math.exp((dij[i][j]) * (-beta));
                     } else {
                         W[i][j] = 0;
                     }
@@ -211,7 +210,7 @@ public class TDLM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (i != j) {
-                        W[i][j] = ((double) mi[i]) * ((double) mj[j]) * Math.pow(dij[i][j], (-beta));
+                        W[i][j] = mi[i] * mj[j] * Math.pow(dij[i][j], (-beta));
                     } else {
                         W[i][j] = 0;
                     }
@@ -224,7 +223,7 @@ public class TDLM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (i != j) {
-                        W[i][j] = ((double) mj[j]) * Math.pow(dij[i][j], (-beta));
+                        W[i][j] = mj[j] * Math.pow(dij[i][j], (-beta));
                     } else {
                         W[i][j] = 0;
                     }
@@ -237,7 +236,7 @@ public class TDLM {
             for (int i = 0; i < W.length; i++) {
                 for (int j = 0; j < W.length; j++) {
                     if (i != j) {
-                        W[i][j] = (Math.exp(-beta * sij[i][j]) - Math.exp(-beta * (sij[i][j] + ((double) mj[j]))));
+                        W[i][j] = (Math.exp(-beta * sij[i][j]) - Math.exp(-beta * (sij[i][j] + mj[j])));
                     } else {
                         W[i][j] = 0;
                     }
@@ -253,7 +252,7 @@ public class TDLM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (i != j) {
-                        W[i][j] = ((double) mj[i]) * ((double) mj[j]) / ((((double) mj[i]) + sij[i][j]) * (((double) mj[i]) + ((double) mj[j]) + sij[i][j]));
+                        W[i][j] = mj[i] * mj[j] / ((mj[i] + sij[i][j]) * (mj[i] + mj[j] + sij[i][j]));
                     } else {
                         W[i][j] = 0;
                     }
@@ -269,7 +268,7 @@ public class TDLM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (i != j) {
-                        W[i][j] = ((Math.pow(sij[i][j] + ((double) mj[i]) + ((double) mj[j]), beta) - Math.pow(sij[i][j] + ((double) mj[i]), beta)) * (Math.pow(((double) mj[i]), beta) + 1)) / ((Math.pow(sij[i][j] + ((double) mj[i]) + ((double) mj[j]), beta) + 1) * (Math.pow(sij[i][j] + ((double) mj[i]), beta) + 1));
+                        W[i][j] = ((Math.pow(sij[i][j] + mj[i] + mj[j], beta) - Math.pow(sij[i][j] + mj[i], beta)) * (Math.pow(mj[i], beta) + 1)) / ((Math.pow(sij[i][j] + mj[i] + mj[j], beta) + 1) * (Math.pow(sij[i][j] + mj[i], beta) + 1));
                     } else {
                         W[i][j] = 0;
                     }
@@ -305,7 +304,7 @@ public class TDLM {
                 if (Wi[i] != 0) {
                     for (int j = 0; j < n; j++) {
                         if (i != j) {
-                            W[i][j] = ((double) mi[i]) * W[i][j] / Wi[i];
+                            W[i][j] = mi[i] * W[i][j] / Wi[i];
                         } else {
                             W[i][j] = 0;
                         }
@@ -319,12 +318,12 @@ public class TDLM {
 
     //UM: generate the network using the Unconstrained Model
     //inputs: pij, Oi
-    static double[][] UM(double[][] pij, int[] Oi) {
+    static double[][] UM(double[][] pij, double[] Oi, boolean multi) {
 
         int n = Oi.length;  //Number of Units
 
         //Number of commuters
-        int nbCommuters = 0;
+        double nbCommuters = 0;
         for (int i = 0; i < n; i++) {
             nbCommuters += Oi[i];
         }
@@ -346,17 +345,26 @@ public class TDLM {
         }
 
         //NbCommuters are sampled from pij
-        int nb = 0;
         double[][] S = new double[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                S[i][j] = Math.floor(nbCommuters * pij[i][j] / sumt);
-                nb += S[i][j];
+        if(multi) {
+        	int nb = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    S[i][j] = Math.floor(nbCommuters * pij[i][j] / sumt);
+                    nb += S[i][j];
+                }
             }
-        }
-        int[][] index = Multinomial_ij(nbCommuters - nb, pij, sum);
-        for (int k = 0; k < index.length; k++) {
-            S[index[k][0]][index[k][1]]++;
+
+            int[][] index = Multinomial_ij(((int) nbCommuters) - nb, pij, sum);
+            for (int k = 0; k < index.length; k++) {
+                S[index[k][0]][index[k][1]]++;
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    S[i][j] = nbCommuters * pij[i][j] / sumt;
+                }
+            }
         }
 
         return S;
@@ -364,7 +372,7 @@ public class TDLM {
 
     //PCM: generate the network using the Production Constrained Model
     //inputs: pij, Oi
-    static double[][] PCM(double[][] pij, int[] Oi) {
+    static double[][] PCM(double[][] pij, double[] Oi, boolean multi) {
 
         int n = Oi.length; //Number of regions
 
@@ -379,29 +387,40 @@ public class TDLM {
         }
 
         //NbCommuters are sampled from pij preserving Oi
-        int[] nb = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sum[i] > 0) {
-                for (int j = 0; j < n; j++) {
-                    S[i][j] = Math.floor(Oi[i] * pij[i][j] / sum[i]);
-                    nb[i] += S[i][j];
+        if(multi) {
+            int[] nb = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[i][j] = Math.floor(Oi[i] * pij[i][j] / sum[i]);
+                        nb[i] += S[i][j];
+                    }
+                }
+            }
+            for (int i = 0; i < n; i++) {
+                if (Oi[i] != 0) {
+                    int[] index = Multinomial_i(((int) Oi[i]) - nb[i], pij[i], sum[i]);
+                    for (int k = 0; k < index.length; k++) {
+                        S[i][index[k]]++;
+                    }
+                }
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[i][j] = Oi[i] * pij[i][j] / sum[i];
+                    }
                 }
             }
         }
-        for (int i = 0; i < n; i++) {
-            if (Oi[i] != 0) {
-                int[] index = Multinomial_i(Oi[i] - nb[i], pij[i], sum[i]);
-                for (int k = 0; k < index.length; k++) {
-                    S[i][index[k]]++;
-                }
-            }
-        }
+
         return S;
     }
 
     //ACM: generate the network using the Attraction Constrained Model
     //inputs: pij, Dj
-    static double[][] ACM(double[][] pij, int[] Dj) {
+    static double[][] ACM(double[][] pij, double[] Dj, boolean multi) {
 
         int n = Dj.length; //Number of regions
 
@@ -424,20 +443,30 @@ public class TDLM {
         }
 
         //NbCommuters are sampled from pij preserving Dj
-        int[] nb = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sum[i] > 0) {
-                for (int j = 0; j < n; j++) {
-                    S[j][i] = (int) Math.floor(Dj[i] * tweights[i][j] / sum[i]);
-                    nb[i] += S[j][i];
+        if(multi) {
+            int[] nb = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[j][i] = (int) Math.floor(Dj[i] * tweights[i][j] / sum[i]);
+                        nb[i] += S[j][i];
+                    }
                 }
             }
-        }
-        for (int i = 0; i < n; i++) {
-            if (Dj[i] != 0) {
-                int[] index = Multinomial_i(Dj[i] - nb[i], tweights[i], sum[i]);
-                for (int k = 0; k < index.length; k++) {
-                    S[index[k]][i]++;
+            for (int i = 0; i < n; i++) {
+                if (Dj[i] != 0) {
+                    int[] index = Multinomial_i(((int) Dj[i]) - nb[i], tweights[i], sum[i]);
+                    for (int k = 0; k < index.length; k++) {
+                        S[index[k]][i]++;
+                    }
+                }
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[j][i] = (int) Math.floor(Dj[i] * tweights[i][j] / sum[i]);
+                    }
                 }
             }
         }
@@ -447,7 +476,7 @@ public class TDLM {
 
     //DCM: generate the network using the Doubly Constrained Model
     //inputs: pij, Oi, Dj, maxIter (maximal number of iterations for the IPF procedure), closure (stopping criterion)
-    static double[][] DCM(double[][] pij, int[] Oi, int[] Dj, int maxIter, double closure) {
+    static double[][] DCM(double[][] pij, double[] Oi, double[] Dj, int maxIter, double closure, boolean multi) {
 
         int n = Oi.length; //Number of Units
 
@@ -532,9 +561,14 @@ public class TDLM {
             iter++;
         }
 
-        //NbCommuters are sampled from weights
-        double[][] S = UM(weights, Oi);
-
+        //NbCommuters are sampled from weights (or not)
+        double[][] S = new double[n][n];
+        if(multi) {
+        	S = UM(weights, Oi, multi);
+        }else {
+        	S = weights;
+        }
+        
         return S;
     }
 

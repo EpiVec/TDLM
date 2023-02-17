@@ -25,6 +25,7 @@ public class TDM {
     	String wdout = args[1];
     	String model = args[2];
     	double repli = Integer.parseInt(args[3]);
+    	boolean multi = Boolean.parseBoolean(args[4]);
     	
         //Load data: pij, Oi and Dj      
         //Number of regions n
@@ -37,15 +38,15 @@ public class TDM {
         }
 
         //Inputs
-        int[] Oi = new int[n];        //Number of out-commuters (Oi) 
-        int[] Dj = new int[n];        //Number of in-commuters (Dj)
+        double[] Oi = new double[n];  //Number of out-commuters (Oi) 
+        double[] Dj = new double[n];  //Number of in-commuters (Dj)
         scan = new Scanner(new File(wdin + "Mass.csv"));
         scan.nextLine();
         int k = 0;
         while (scan.hasNextLine()) {
             cols = scan.nextLine().split(";");
-            Oi[k] = Integer.parseInt(cols[0]);
-            Dj[k] = Integer.parseInt(cols[1]);
+            Oi[k] = Double.parseDouble(cols[2]);
+            Dj[k] = Double.parseDouble(cols[3]);
             k++;
         }
 
@@ -73,16 +74,16 @@ public class TDM {
 
             //Network generation according to the constrained model 
             if (model.equals("UM")) {   //Unconstrained model
-                S = UM(pij, Oi);
+                S = UM(pij, Oi, multi);
             }
             if (model.equals("PCM")) {  //Production cconstrained model
-                S = PCM(pij, Oi);
+                S = PCM(pij, Oi, multi);
             }
             if (model.equals("ACM")) {  //Attraction constrained model
-                S = ACM(pij, Dj);
+                S = ACM(pij, Dj, multi);
             }
             if (model.equals("DCM")) {  //Doubly constrained model
-                S = DCM(pij, Oi, Dj, 50, 0.01);
+                S = DCM(pij, Oi, Dj, 50, 0.01, multi);
             }
 
             //Write the resulting simulated OD matrix in a file 
@@ -111,12 +112,12 @@ public class TDM {
 
     //UM: generate the network using the Unconstrained Model
     //inputs: pij, Oi
-    static double[][] UM(double[][] pij, int[] Oi) {
+    static double[][] UM(double[][] pij, double[] Oi, boolean multi) {
 
         int n = Oi.length;  //Number of Units
 
         //Number of commuters
-        int nbCommuters = 0;
+        double nbCommuters = 0;
         for (int i = 0; i < n; i++) {
             nbCommuters += Oi[i];
         }
@@ -138,17 +139,26 @@ public class TDM {
         }
 
         //NbCommuters are sampled from pij
-        int nb = 0;
         double[][] S = new double[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                S[i][j] = Math.floor(nbCommuters * pij[i][j] / sumt);
-                nb += S[i][j];
+        if(multi) {
+        	int nb = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    S[i][j] = Math.floor(nbCommuters * pij[i][j] / sumt);
+                    nb += S[i][j];
+                }
             }
-        }
-        int[][] index = Multinomial_ij(nbCommuters - nb, pij, sum);
-        for (int k = 0; k < index.length; k++) {
-            S[index[k][0]][index[k][1]]++;
+
+            int[][] index = Multinomial_ij(((int) nbCommuters) - nb, pij, sum);
+            for (int k = 0; k < index.length; k++) {
+                S[index[k][0]][index[k][1]]++;
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    S[i][j] = nbCommuters * pij[i][j] / sumt;
+                }
+            }
         }
 
         return S;
@@ -156,7 +166,7 @@ public class TDM {
 
     //PCM: generate the network using the Production Constrained Model
     //inputs: pij, Oi
-    static double[][] PCM(double[][] pij, int[] Oi) {
+    static double[][] PCM(double[][] pij, double[] Oi, boolean multi) {
 
         int n = Oi.length; //Number of regions
 
@@ -171,29 +181,40 @@ public class TDM {
         }
 
         //NbCommuters are sampled from pij preserving Oi
-        int[] nb = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sum[i] > 0) {
-                for (int j = 0; j < n; j++) {
-                    S[i][j] = Math.floor(Oi[i] * pij[i][j] / sum[i]);
-                    nb[i] += S[i][j];
+        if(multi) {
+            int[] nb = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[i][j] = Math.floor(Oi[i] * pij[i][j] / sum[i]);
+                        nb[i] += S[i][j];
+                    }
+                }
+            }
+            for (int i = 0; i < n; i++) {
+                if (Oi[i] != 0) {
+                    int[] index = Multinomial_i(((int) Oi[i]) - nb[i], pij[i], sum[i]);
+                    for (int k = 0; k < index.length; k++) {
+                        S[i][index[k]]++;
+                    }
+                }
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[i][j] = Oi[i] * pij[i][j] / sum[i];
+                    }
                 }
             }
         }
-        for (int i = 0; i < n; i++) {
-            if (Oi[i] != 0) {
-                int[] index = Multinomial_i(Oi[i] - nb[i], pij[i], sum[i]);
-                for (int k = 0; k < index.length; k++) {
-                    S[i][index[k]]++;
-                }
-            }
-        }
+
         return S;
     }
 
     //ACM: generate the network using the Attraction Constrained Model
     //inputs: pij, Dj
-    static double[][] ACM(double[][] pij, int[] Dj) {
+    static double[][] ACM(double[][] pij, double[] Dj, boolean multi) {
 
         int n = Dj.length; //Number of regions
 
@@ -216,20 +237,30 @@ public class TDM {
         }
 
         //NbCommuters are sampled from pij preserving Dj
-        int[] nb = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sum[i] > 0) {
-                for (int j = 0; j < n; j++) {
-                    S[j][i] = (int) Math.floor(Dj[i] * tweights[i][j] / sum[i]);
-                    nb[i] += S[j][i];
+        if(multi) {
+            int[] nb = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[j][i] = (int) Math.floor(Dj[i] * tweights[i][j] / sum[i]);
+                        nb[i] += S[j][i];
+                    }
                 }
             }
-        }
-        for (int i = 0; i < n; i++) {
-            if (Dj[i] != 0) {
-                int[] index = Multinomial_i(Dj[i] - nb[i], tweights[i], sum[i]);
-                for (int k = 0; k < index.length; k++) {
-                    S[index[k]][i]++;
+            for (int i = 0; i < n; i++) {
+                if (Dj[i] != 0) {
+                    int[] index = Multinomial_i(((int) Dj[i]) - nb[i], tweights[i], sum[i]);
+                    for (int k = 0; k < index.length; k++) {
+                        S[index[k]][i]++;
+                    }
+                }
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                if (sum[i] > 0) {
+                    for (int j = 0; j < n; j++) {
+                        S[j][i] = (int) Math.floor(Dj[i] * tweights[i][j] / sum[i]);
+                    }
                 }
             }
         }
@@ -239,7 +270,7 @@ public class TDM {
 
     //DCM: generate the network using the Doubly Constrained Model
     //inputs: pij, Oi, Dj, maxIter (maximal number of iterations for the IPF procedure), closure (stopping criterion)
-    static double[][] DCM(double[][] pij, int[] Oi, int[] Dj, int maxIter, double closure) {
+    static double[][] DCM(double[][] pij, double[] Oi, double[] Dj, int maxIter, double closure, boolean multi) {
 
         int n = Oi.length; //Number of Units
 
@@ -324,9 +355,14 @@ public class TDM {
             iter++;
         }
 
-        //NbCommuters are sampled from weights
-        double[][] S = UM(weights, Oi);
-
+        //NbCommuters are sampled from weights (or not)
+        double[][] S = new double[n][n];
+        if(multi) {
+        	S = UM(weights, Oi, multi);
+        }else {
+        	S = weights;
+        }
+        
         return S;
     }
 
@@ -390,3 +426,6 @@ public class TDM {
         return randomIndex;
     }
 }
+
+
+
