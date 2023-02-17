@@ -15,6 +15,7 @@ run_law_model(
   nb_trips = 1000,
   out_trips = NULL,
   in_trips = out_trips,
+  multi = TRUE,
   nbrep = 3,
   write_proba = FALSE,
   check_names = FALSE
@@ -42,16 +43,22 @@ for the original radiation law or the uniform law (see Details).}
 
 \item{model}{a character indicating which model to use.}
 
-\item{nb_trips}{an integer indicating the total number of trips.}
+\item{nb_trips}{an numeric value indicating the total number of trips. Must
+be an integer if \code{multi = TRUE} (see Details).}
 
-\item{out_trips}{a vector of integers representing the number of outgoing
-trips per location.}
+\item{out_trips}{a numeric vector representing the number of outgoing
+trips per location. Must be a vector of integers
+if \code{multi = TRUE} (see Details).}
 
-\item{in_trips}{a vector of integers representing the number of incoming
-trips per location.}
+\item{in_trips}{a numeric vector representing the number of incoming
+trips per location. Must be a vector of integers
+if \code{multi = TRUE} (see Details).}
+
+\item{multi}{a boolean indicating if the flows should be generate with
+random draws from a multinomial distribution (see Details).}
 
 \item{nbrep}{an integer indicating the number of replications
-associated to the model run.}
+associated to the model run. Equal to 1 if \code{multi = FALSE} (see Details).}
 
 \item{write_proba}{a boolean indicating if the estimation of the
 probability to move from one location to another obtained with law
@@ -141,6 +148,8 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 doubly constrained model is based on an Iterative Proportional Fitting
 process \insertCite{Deming1940}{TDLM}.
 }
+
+By default, ... \code{multi = TRUE}
 }
 \note{
 All the inputs should be based on the same number of

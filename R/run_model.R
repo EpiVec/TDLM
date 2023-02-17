@@ -9,7 +9,8 @@
 #' using different models.
 #'
 #' @param proba a squared matrix of probability. The sum of the matrix element
-#' should be equal to 1.
+#' must be equal to 1. It will be normalized automatically if it is not the 
+#' case.
 #'
 #' @param model a character indicating which model to use.
 #'
@@ -97,9 +98,17 @@ run_model <- function(proba,
     )
   }
 
-  # Controls other
+  # Controls OTHER
   controls(args = nbrep, type = "strict_positive_integer")
   controls(args = check_names, type = "boolean")
+  
+  # Control PROBA
+  controls(
+    args = NULL,
+    matrices = list(proba = proba),
+    type = "matrices_proba"
+  )
+  proba = proba / sum(proba)
 
   # Controls MODEL
   models <- c("UM", "PCM", "ACM", "DCM")
@@ -110,12 +119,6 @@ UM, PCM, ACM or DCM",
       call. = FALSE
     )
   }
-
-  controls(
-    args = NULL,
-    matrices = list(proba = proba),
-    type = "matrices_proba"
-  )
 
   if (model == "UM") {
     controls(args = nb_trips, type = "strict_positive_integer")

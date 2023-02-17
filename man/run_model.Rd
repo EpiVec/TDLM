@@ -16,7 +16,8 @@ run_model(
 }
 \arguments{
 \item{proba}{a squared matrix of probability. The sum of the matrix element
-should be equal to 1.}
+must be equal to 1. It will be normalized automatically if it is not the
+case.}
 
 \item{model}{a character indicating which model to use.}
 

@@ -27,16 +27,22 @@
 #'
 #' @param model a character indicating which model to use.
 #'
-#' @param nb_trips an integer indicating the total number of trips.
+#' @param nb_trips a numeric value indicating the total number of trips. Must 
+#' be an integer if `multi = TRUE` (see Details).
 #'
-#' @param out_trips a vector of integers representing the number of outgoing
-#' trips per location.
+#' @param out_trips a numeric vector representing the number of outgoing
+#' trips per location. Must be a vector of integers 
+#' if `multi = TRUE` (see Details).
 #'
-#' @param in_trips a vector of integers representing the number of incoming
-#' trips per location.
+#' @param in_trips a numeric vector representing the number of incoming
+#' trips per location. Must be a vector of integers 
+#' if `multi = TRUE` (see Details).
+#'
+#' @param multi a boolean indicating if the flows should be generated with 
+#' random draws from a multinomial distribution (see Details).  
 #'
 #' @param nbrep an integer indicating the number of replications
-#' associated to the model run.
+#' associated to the model run. `nbrep = 1` if `multi = FALSE` (see Details).
 #'
 #' @param write_proba a boolean indicating if the estimation of the
 #' probability to move from one location to another obtained with law
@@ -111,6 +117,8 @@
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
 #' doubly constrained model is based on an Iterative Proportional Fitting
 #' process \insertCite{Deming1940}{TDLM}.
+#' 
+#' By default, ... (`multi = TRUE`). Nevertheless, it is also possible to 
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
@@ -164,6 +172,7 @@ run_law_model <- function(law = "Unif",
                           nb_trips = 1000,
                           out_trips = NULL,
                           in_trips = out_trips,
+                          multi = TRUE,
                           nbrep = 3,
                           write_proba = FALSE,
                           check_names = FALSE) {
@@ -182,6 +191,10 @@ run_law_model <- function(law = "Unif",
   }
 
   # Controls
+  controls(args = multi, type = "boolean")
+  if(!multi){
+    nbrep = 1
+  }
   controls(args = nbrep, type = "strict_positive_integer")
   controls(args = write_proba, type = "boolean")
   controls(args = check_names, type = "boolean")
@@ -273,31 +286,62 @@ UM, PCM, ACM or DCM",
     )
   }
   if (model == "UM") {
-    controls(args = nb_trips, type = "strict_positive_integer")
+    if(multi){
+      controls(args = nb_trips, type = "strict_positive_integer")
+    }else{
+      controls(args = nb_trips, type = "strict_positive_numeric")
+    }
   }
   if (model == "PCM") {
-    controls(
-      args = NULL,
-      vectors = list(out_trips = out_trips),
-      type = "vectors_positive_integer"
-    )
+    if(multi){
+      controls(
+        args = NULL,
+        vectors = list(out_trips = out_trips),
+        type = "vectors_positive_integer"
+      )
+    }else{
+      controls(
+        args = NULL,
+        vectors = list(out_trips = out_trips),
+        type = "vectors_positive"
+      )
+    }
   }
   if (model == "ACM") {
-    controls(
-      args = NULL,
-      vectors = list(in_trips = in_trips),
-      type = "vectors_positive_integer"
-    )
+    if(multi){
+      controls(
+        args = NULL,
+        vectors = list(in_trips = in_trips),
+        type = "vectors_positive_integer"
+      )
+    }else{
+      controls(
+        args = NULL,
+        vectors = list(in_trips = in_trips),
+        type = "vectors_positive"
+      )
+    }
   }
   if (model == "DCM") {
-    controls(
-      args = NULL,
-      vectors = list(
-        out_trips = out_trips,
-        in_trips = in_trips
-      ),
-      type = "vectors_positive_integer"
-    )
+    if(multi){
+      controls(
+        args = NULL,
+        vectors = list(
+          out_trips = out_trips,
+          in_trips = in_trips
+        ),
+        type = "vectors_positive_integer"
+      )
+    }else{
+      controls(
+        args = NULL,
+        vectors = list(
+          out_trips = out_trips,
+          in_trips = in_trips
+        ),
+        type = "vectors_positive"
+      )
+    }
     if (sum(out_trips) != sum(in_trips)) {
       stop("Total number of out-going and in-coming trips must be equal.",
         call. = FALSE
@@ -620,6 +664,10 @@ UM, PCM, ACM or DCM",
   if (write_proba) {
     pij_write <- "true"
   }
+  ismulti <- "true"
+  if(!multi){
+    ismulti <- "false"
+  }
 
   nbparam <- length(param)
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
@@ -642,7 +690,7 @@ UM, PCM, ACM or DCM",
 
     args <- paste0(
       wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-      model, " ", nbrep, " ", pij_write
+      model, " ", nbrep, " ", pij_write, " ", ismulti
     )
 
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
@@ -698,7 +746,7 @@ UM, PCM, ACM or DCM",
 
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write
+        model, " ", nbrep, " ", pij_write, " ", ismulti
       )
 
       cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
