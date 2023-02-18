@@ -10,7 +10,7 @@ run_model(
   nb_trips = 1000,
   out_trips = NULL,
   in_trips = out_trips,
-  multi = TRUE,
+  average = FALSE,
   nbrep = 3,
   check_names = FALSE
 )
@@ -23,21 +23,23 @@ case.}
 \item{model}{a character indicating which model to use.}
 
 \item{nb_trips}{a numeric value indicating the total number of trips. Must
-be an integer if \code{multi = TRUE} (see Details).}
+be an integer if \code{average = FALSE} (see Details).}
 
 \item{out_trips}{a numeric vector representing the number of outgoing
 trips per location. Must be a vector of integers
-if \code{multi = TRUE} (see Details).}
+if \code{average = FALSE} (see Details).}
 
 \item{in_trips}{a numeric vector representing the number of incoming
 trips per location. Must be a vector of integers
-if \code{multi = TRUE} (see Details).}
+if \code{average = FALSE} (see Details).}
 
-\item{multi}{a boolean indicating if the flows should be generated with
-random draws from a multinomial distribution (see Details).}
+\item{average}{a boolean indicating if the average mobility flow matrix
+should be generated instead of the \code{nbrep} matrices based on
+random draws (see Details).}
 
 \item{nbrep}{an integer indicating the number of replications
-associated to the model run. \code{nbrep = 1} if \code{multi = FALSE} (see Details).}
+associated to the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
+(see Details).}
 
 \item{check_names}{a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
@@ -79,12 +81,14 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \code{in_trips} will be preserved (arguments \code{nb_trips}will not be used).
 }
 
-By default, when \code{multi = TRUE}, \code{nbrep} matrices will be generated from
+By default, when \code{average = FALSE}, \code{nbrep} matrices are generated from
 \code{proba} with multinomial random draws that will take different form according
 to the model used. In this case, the models will deal with positive integers
-as inputs and outputs. Nevertheless, it is also possible to generate a unique
-average matrix (\code{nbrep = 1}) based on an infinite number of drawings. In this
-case, the models' inputs can be either positive integer or real numbers.
+as inputs and outputs. Nevertheless, it is also possible to generate an
+average matrix based on a multinomial distribution based on an infinite
+number of drawings. In this case, the models' inputs can be either positive
+integer or real numbers and the output (\code{nbrep = 1} in this case) will be a
+matrix of positive real numbers.
 }
 \note{
 All the inputs should be based on the same number of
@@ -106,7 +110,7 @@ names(Dj) <- rownames(distance)
 res <- run_model(
   proba = proba,
   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-  multi = FALSE, nbrep = 3,
+  average = FALSE, nbrep = 3,
   check_names = TRUE
 )
 print(res)

@@ -28,21 +28,23 @@
 #' @param model a character indicating which model to use.
 #'
 #' @param nb_trips a numeric value indicating the total number of trips. Must
-#' be an integer if `multi = TRUE` (see Details).
+#' be an integer if `average = FALSE` (see Details).
 #'
 #' @param out_trips a numeric vector representing the number of outgoing
 #' trips per location. Must be a vector of integers
-#' if `multi = TRUE` (see Details).
+#' if `average = FALSE` (see Details).
 #'
 #' @param in_trips a numeric vector representing the number of incoming
 #' trips per location. Must be a vector of integers
-#' if `multi = TRUE` (see Details).
+#' if `average = FALSE` (see Details).
 #'
-#' @param multi a boolean indicating if the flows should be generated with
-#' random draws from a multinomial distribution (see Details).
+#' @param average a boolean indicating if the average mobility flow matrix
+#'  should be generated instead of the `nbrep` matrices based on
+#'  random draws (see Details).
 #'
 #' @param nbrep an integer indicating the number of replications
-#' associated to the model run. `nbrep = 1` if `multi = FALSE` (see Details).
+#' associated to the model run. Note that `nbrep = 1` if `average = TRUE`
+#' (see Details).
 #'
 #' @param write_proba a boolean indicating if the estimation of the
 #' probability to move from one location to another obtained with law
@@ -118,12 +120,14 @@
 #' doubly constrained model is based on an Iterative Proportional Fitting
 #' process \insertCite{Deming1940}{TDLM}.
 #'
-#' By default, when `multi = TRUE`, `nbrep` matrices will be generated from
+#' By default, when `average = FALSE`, `nbrep` matrices are generated from
 #' `proba` with multinomial random draws that will take different form according
 #' to the model used. In this case, the models will deal with positive integers
-#' as inputs and outputs. Nevertheless, it is also possible to generate a unique
-#' average matrix (`nbrep = 1`) based on an infinite number of drawings. In this
-#' case, the models' inputs can be either positive integer or real numbres.
+#' as inputs and outputs. Nevertheless, it is also possible to generate an
+#' average matrix based on a multinomial distribution based on an infinite
+#' number of drawings. In this case, the models' inputs can be either positive
+#' integer or real numbers and the output (`nbrep = 1` in this case) will be a
+#' matrix of positive real numbers.
 #'
 #' @note All the inputs should be based on the same number of
 #' locations sorted in the same order. It is recommended to use the location ID
@@ -159,7 +163,7 @@
 #'   law = "GravExp", mass_origin = mi, mass_destination = mj,
 #'   distance = distance, opportunity = NULL, param = 0.01,
 #'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-#'   multi = FALSE, nbrep = 3,
+#'   average = FALSE, nbrep = 3,
 #'   write_proba = TRUE,
 #'   check_names = TRUE
 #' )
@@ -193,7 +197,7 @@ run_law_model <- function(law = "Unif",
                           nb_trips = 1000,
                           out_trips = NULL,
                           in_trips = out_trips,
-                          multi = TRUE,
+                          average = FALSE,
                           nbrep = 3,
                           write_proba = FALSE,
                           check_names = FALSE) {
@@ -212,8 +216,8 @@ run_law_model <- function(law = "Unif",
   }
 
   # Controls
-  controls(args = multi, type = "boolean")
-  if (!multi) {
+  controls(args = average, type = "boolean")
+  if (average) {
     nbrep <- 1
   }
   controls(args = nbrep, type = "strict_positive_integer")
@@ -307,14 +311,14 @@ UM, PCM, ACM or DCM",
     )
   }
   if (model == "UM") {
-    if (multi) {
+    if (!average) {
       controls(args = nb_trips, type = "strict_positive_integer")
     } else {
       controls(args = nb_trips, type = "strict_positive_numeric")
     }
   }
   if (model == "PCM") {
-    if (multi) {
+    if (!average) {
       controls(
         args = NULL,
         vectors = list(out_trips = out_trips),
@@ -329,7 +333,7 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "ACM") {
-    if (multi) {
+    if (!average) {
       controls(
         args = NULL,
         vectors = list(in_trips = in_trips),
@@ -344,7 +348,7 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "DCM") {
-    if (multi) {
+    if (!average) {
       controls(
         args = NULL,
         vectors = list(
@@ -685,9 +689,9 @@ UM, PCM, ACM or DCM",
   if (write_proba) {
     pij_write <- "true"
   }
-  ismulti <- "true"
-  if (!multi) {
-    ismulti <- "false"
+  multi <- "true"
+  if (average) {
+    multi <- "false"
   }
 
   nbparam <- length(param)
@@ -711,7 +715,7 @@ UM, PCM, ACM or DCM",
 
     args <- paste0(
       wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-      model, " ", nbrep, " ", pij_write, " ", ismulti
+      model, " ", nbrep, " ", pij_write, " ", multi
     )
 
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
@@ -767,7 +771,7 @@ UM, PCM, ACM or DCM",
 
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write, " ", ismulti
+        model, " ", nbrep, " ", pij_write, " ", multi
       )
 
       cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
