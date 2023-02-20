@@ -1,11 +1,11 @@
 #' Estimate mobility flows based on different trip distribution models
 #'
-#' This function estimates mobility flows using different distribution laws and
-#' models. As described in \insertCite{Lenormand2016}{TDLM}, the function
-#' uses a two-step approach to generate mobility flows by separating the trip
+#' This function estimates mobility flows using different distribution models.
+#' As described in \insertCite{Lenormand2016}{TDLM}, we
+#' propose a two-step approach to generate mobility flows by separating the trip
 #' distribution law, gravity or intervening opportunities, from the modeling
-#' approach used to generate the flows from this law.  This function only uses
-#' the second step to generate mobility flow based on a matrix of probability
+#' approach used to generate the flows from this law. This function only uses
+#' the second step to generate mobility flow based on a matrix of probabilities
 #' using different models.
 #'
 #' @param proba a squared matrix of probability. The sum of the matrix element
@@ -26,11 +26,11 @@
 #' if `average = FALSE` (see Details).
 #'
 #' @param average a boolean indicating if the average mobility flow matrix
-#'  should be generated instead of the `nbrep` matrices based on 
+#'  should be generated instead of the `nbrep` matrices based on
 #'  random draws (see Details).
 #'
 #' @param nbrep an integer indicating the number of replications
-#' associated to the model run. Note that `nbrep = 1` if `average = TRUE` 
+#' associated to the model run. Note that `nbrep = 1` if `average = TRUE`
 #' (see Details).
 #'
 #' @param check_names a boolean indicating if the ID location are used as
@@ -41,7 +41,7 @@
 #' \loadmathjax
 #'
 #' We propose four constrained models to generate the flow from the matrix
-#' of probability. These models respect different level of
+#' of probabilities. These models respect different level of
 #' constraints. These constraints can preserve the total number of trips
 #' (argument `nb_trips`) OR the number of out-going trips
 #' \mjeqn{O_{i}}{O_{i}} (argument `out_trips`) AND/OR the number of in-coming
@@ -56,15 +56,17 @@
 #' 3) Attraction constrained model (`model = "ACM"`). Only `in_trips` will be
 #' preserved (arguments `nb_trips` and `out_trips` will not be used).
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
-#' `in_trips` will be preserved (arguments `nb_trips`will not be used).
+#' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
+#' doubly constrained model is based on an Iterative Proportional Fitting
+#' process \insertCite{Deming1940}{TDLM}.
 #'
 #' By default, when `average = FALSE`, `nbrep` matrices are generated from
-#' `proba` with multinomial random draws that will take different form according
-#' to the model used. In this case, the models will deal with positive integers
-#' as inputs and outputs. Nevertheless, it is also possible to generate an
-#' average matrix based on a multinomial distribution based on an infinite 
-#' number of drawings. In this case, the models' inputs can be either positive 
-#' integer or real numbers and the output (`nbrep = 1` in this case) will be a 
+#' `proba` with multinomial random draws that will take different forms
+#' according to the model used. In this case, the models will deal with positive
+#' integers as inputs and outputs. Nevertheless, it is also possible to generate
+#' an average matrix based on a multinomial distribution (based on an infinite
+#' number of drawings. In this case, the models' inputs can be either positive
+#' integer or real numbers and the output (`nbrep = 1` in this case) will be a
 #' matrix of positive real numbers.
 #'
 #' @note All the inputs should be based on the same number of
@@ -76,9 +78,8 @@
 #' before running the main package's functions.
 #'
 #' @return
-#' An object of class `TDLM`. A list of list of matrix containing for each
-#' parameter value the `nbrep` simulated matrices . If `length(param) == 1` or
-#' `law == "Rad"` or `law == "Unif` only a list of matrix will be returned.
+#' An object of class `TDLM`. A list of matrices containing the 
+#' `nbrep` simulated matrices. 
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
@@ -88,21 +89,25 @@
 #' @examples
 #' data(mass)
 #' data(od)
+#'
 #' proba <- od / sum(od)
+#'
 #' Oi <- as.numeric(mass[, 2])
-#' names(Oi) <- rownames(distance)
 #' Dj <- as.numeric(mass[, 3])
-#' names(Dj) <- rownames(distance)
+#'
 #' res <- run_model(
 #'   proba = proba,
 #'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
 #'   average = FALSE, nbrep = 3,
-#'   check_names = TRUE
+#'   check_names = FALSE
 #' )
+#'
 #' print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
+#'
+#' \insertRef{Deming1940}{TDLM}
 #'
 #' @export
 run_model <- function(proba,
@@ -298,7 +303,11 @@ UM, PCM, ACM or DCM",
 
   outputs <- list()
   Args <- c("Model", "#Replications")
-  Values <- c(model, nbrep)
+  if (average) {
+    Values <- c(model, paste0(nbrep, "(average)"))
+  } else {
+    Values <- c(model, nbrep)
+  }
 
   args <- paste0(wdin, " ", wdout, " ", model, " ", nbrep, " ", multi)
 

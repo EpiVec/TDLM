@@ -15,7 +15,7 @@ run_law(
 )
 }
 \arguments{
-\item{law}{a character indicating which law to use.}
+\item{law}{a character indicating which law to use (see Details).}
 
 \item{mass_origin}{a numeric vector representing the mass at origin (i.e.
 demand).}
@@ -39,14 +39,15 @@ vector names, matrix rownames and colnames and if they should be checked
 (see Note).}
 }
 \value{
-An object of class \code{TDLM}. A list of list of matrix containing for each
-parameter value the matrix of probability. If \code{length(param) == 1} or
-\code{law == "Rad"} or \verb{law == "Unif} only a list of matrix will be returned.
+An object of class \code{TDLM}. A list of list of matrices containing for each
+parameter value the matrix of probabilities (called \code{proba}). If
+\code{length(param) == 1} or \code{law == "Rad"} or \verb{law == "Unif} only a list of
+matrices will be returned.
 }
 \description{
 This function estimates mobility flows using different distribution laws.
-As described in \insertCite{Lenormand2016}{TDLM}, the function
-uses a two-step approach to generate mobility flows by separating the trip
+As described in \insertCite{Lenormand2016}{TDLM}, we
+propose a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
 approach used to generate the flows from this law. This function only uses
 the first step to generate a probability distribution based on the different
@@ -70,8 +71,12 @@ the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
 distance and the number of opportunities can be adjusted with a parameter
 (argument \code{param}) except for the original radiation law or the uniform law.
 
-In this package we consider eight probabilistic laws described in details in
-\insertCite{Lenormand2016}{TDLM}.
+In this package we consider eight probabilistic laws
+described in details in \insertCite{Lenormand2016;textual}{TDLM}. Four
+gravity laws
+\insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
+intervening opportunity laws
+\insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
 \enumerate{
 \item Gravity law with an exponential distance decay function
 (\code{law = "GravExp"}). The arguments \code{mass_origin}, \code{mass_destination}
@@ -108,20 +113,33 @@ before running the main package's functions.
 \examples{
 data(mass)
 data(distance)
+
 mi <- as.numeric(mass[, 1])
-names(mi) <- rownames(distance)
-mj <- as.numeric(mass[, 1])
-names(mj) <- rownames(distance)
+mj <- mi
+
 res <- run_law(
   law = "GravExp", mass_origin = mi, mass_destination = mj,
   distance = distance, opportunity = NULL, param = 0.01,
-  check_names = TRUE
+  check_names = FALSE
 )
+
 print(res)
 
 }
 \references{
 \insertRef{Lenormand2016}{TDLM}
+
+\insertRef{Carey1858}{TDLM}
+
+\insertRef{Zipf1946}{TDLM}
+
+\insertRef{Barthelemy2011}{TDLM}
+
+\insertRef{Schneider1959}{TDLM}
+
+\insertRef{Simini2012}{TDLM}
+
+\insertRef{Yang2014}{TDLM}
 }
 \seealso{
 \code{\link[=gof]{gof()}} \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_model]{run_model()}} \code{\link[=check_format_names]{check_format_names()}}

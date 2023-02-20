@@ -22,7 +22,7 @@ run_law_model(
 )
 }
 \arguments{
-\item{law}{a character indicating which law to use.}
+\item{law}{a character indicating which law to use (see Details).}
 
 \item{mass_origin}{a numeric vector representing the mass at origin (i.e.
 demand).}
@@ -63,18 +63,19 @@ associated to the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
 (see Details).}
 
 \item{write_proba}{a boolean indicating if the estimation of the
-probability to move from one location to another obtained with law
-should be returned along with the flows estimations.}
+probability to move from one location to another obtained with the
+distribution law should be returned along with the flows estimations.}
 
 \item{check_names}{a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
 (see Note).}
 }
 \value{
-An object of class \code{TDLM}. A list of list of matrix containing for each
-parameter value the \code{nbrep} simulated matrices and the matrix of probability
-(called \code{proba}) if \code{write_proba = TRUE}. If \code{length(param) == 1} or
-\code{law == "Rad"} or \verb{law == "Unif} only a list of matrix will be returned.
+An object of class \code{TDLM}. A list of list of matrices containing for each
+parameter value the \code{nbrep} simulated matrices and the matrix of
+probabilities (called \code{proba}) if \code{write_proba = TRUE}.
+If \code{length(param) == 1} or \code{law == "Rad"} or \verb{law == "Unif} only a list of
+matrices will be returned.
 }
 \description{
 This function estimates mobility flows using different distribution laws and
@@ -99,10 +100,11 @@ distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument \code{distance}) OR
 the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
 (argument \code{opportunity}) depending on the chosen law. Both the effect of the
 distance and the number of opportunities can be adjusted with a parameter
-(argument \code{param}) except for the original radiation law or the uniform law.
+(argument \code{param}) except for the original radiation law and the uniform law.
 
 In this package we consider eight probabilistic laws
-as described in \insertCite{Lenormand2016;textual}{TDLM}. Four gravity laws
+described in details in \insertCite{Lenormand2016;textual}{TDLM}. Four
+gravity laws
 \insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
 intervening opportunity laws
 \insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
@@ -130,7 +132,7 @@ arguments \code{mass_origin}, \code{mass_destination} (optional), \code{opportun
 extract the number of locations.
 }
 
-Second, we propose four constrained models to generate the flow from these
+Second, we propose four constrained models to generate the flows from these
 distribution of probability. These models respect different level of
 constraints. These constraints can preserve the total number of trips
 (argument \code{nb_trips}) OR the number of out-going trips
@@ -152,10 +154,10 @@ process \insertCite{Deming1940}{TDLM}.
 }
 
 By default, when \code{average = FALSE}, \code{nbrep} matrices are generated from
-\code{proba} with multinomial random draws that will take different form according
-to the model used. In this case, the models will deal with positive integers
-as inputs and outputs. Nevertheless, it is also possible to generate an
-average matrix based on a multinomial distribution based on an infinite
+\code{proba} with multinomial random draws that will take different forms
+according to the model used. In this case, the models will deal with positive
+integers as inputs and outputs. Nevertheless, it is also possible to generate
+an average matrix based on a multinomial distribution (based on an infinite
 number of drawings. In this case, the models' inputs can be either positive
 integer or real numbers and the output (\code{nbrep = 1} in this case) will be a
 matrix of positive real numbers.
@@ -172,22 +174,21 @@ before running the main package's functions.
 \examples{
 data(mass)
 data(distance)
+
 mi <- as.numeric(mass[, 1])
-names(mi) <- rownames(distance)
-mj <- as.numeric(mass[, 1])
-names(mj) <- rownames(distance)
+mj <- mi
 Oi <- as.numeric(mass[, 2])
-names(Oi) <- rownames(distance)
 Dj <- as.numeric(mass[, 3])
-names(Dj) <- rownames(distance)
+
 res <- run_law_model(
   law = "GravExp", mass_origin = mi, mass_destination = mj,
   distance = distance, opportunity = NULL, param = 0.01,
   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
   average = FALSE, nbrep = 3,
-  write_proba = TRUE,
-  check_names = TRUE
+  write_proba = FALSE,
+  check_names = FALSE
 )
+
 print(res)
 
 }

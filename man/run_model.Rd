@@ -46,24 +46,23 @@ vector names, matrix rownames and colnames and if they should be checked
 (see Note).}
 }
 \value{
-An object of class \code{TDLM}. A list of list of matrix containing for each
-parameter value the \code{nbrep} simulated matrices . If \code{length(param) == 1} or
-\code{law == "Rad"} or \verb{law == "Unif} only a list of matrix will be returned.
+An object of class \code{TDLM}. A list of matrices containing the
+\code{nbrep} simulated matrices.
 }
 \description{
-This function estimates mobility flows using different distribution laws and
-models. As described in \insertCite{Lenormand2016}{TDLM}, the function
-uses a two-step approach to generate mobility flows by separating the trip
+This function estimates mobility flows using different distribution models.
+As described in \insertCite{Lenormand2016}{TDLM}, we
+propose a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law.  This function only uses
-the second step to generate mobility flow based on a matrix of probability
+approach used to generate the flows from this law. This function only uses
+the second step to generate mobility flow based on a matrix of probabilities
 using different models.
 }
 \details{
 \loadmathjax
 
 We propose four constrained models to generate the flow from the matrix
-of probability. These models respect different level of
+of probabilities. These models respect different level of
 constraints. These constraints can preserve the total number of trips
 (argument \code{nb_trips}) OR the number of out-going trips
 \mjeqn{O_{i}}{O_{i}} (argument \code{out_trips}) AND/OR the number of in-coming
@@ -78,14 +77,16 @@ preserved (arguments \code{nb_trips} and \code{in_trips} will not be used).
 \item Attraction constrained model (\code{model = "ACM"}). Only \code{in_trips} will be
 preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
-\code{in_trips} will be preserved (arguments \code{nb_trips}will not be used).
+\code{in_trips} will be preserved (arguments \code{nb_trips}will not be used). The
+doubly constrained model is based on an Iterative Proportional Fitting
+process \insertCite{Deming1940}{TDLM}.
 }
 
 By default, when \code{average = FALSE}, \code{nbrep} matrices are generated from
-\code{proba} with multinomial random draws that will take different form according
-to the model used. In this case, the models will deal with positive integers
-as inputs and outputs. Nevertheless, it is also possible to generate an
-average matrix based on a multinomial distribution based on an infinite
+\code{proba} with multinomial random draws that will take different forms
+according to the model used. In this case, the models will deal with positive
+integers as inputs and outputs. Nevertheless, it is also possible to generate
+an average matrix based on a multinomial distribution (based on an infinite
 number of drawings. In this case, the models' inputs can be either positive
 integer or real numbers and the output (\code{nbrep = 1} in this case) will be a
 matrix of positive real numbers.
@@ -102,22 +103,26 @@ before running the main package's functions.
 \examples{
 data(mass)
 data(od)
+
 proba <- od / sum(od)
+
 Oi <- as.numeric(mass[, 2])
-names(Oi) <- rownames(distance)
 Dj <- as.numeric(mass[, 3])
-names(Dj) <- rownames(distance)
+
 res <- run_model(
   proba = proba,
   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
   average = FALSE, nbrep = 3,
-  check_names = TRUE
+  check_names = FALSE
 )
+
 print(res)
 
 }
 \references{
 \insertRef{Lenormand2016}{TDLM}
+
+\insertRef{Deming1940}{TDLM}
 }
 \seealso{
 \code{\link[=gof]{gof()}} \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_law]{run_law()}} \code{\link[=check_format_names]{check_format_names()}}

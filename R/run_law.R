@@ -1,14 +1,14 @@
 #' Estimate mobility flows based on different trip distribution laws
 #'
 #' This function estimates mobility flows using different distribution laws.
-#' As described in \insertCite{Lenormand2016}{TDLM}, the function
-#' uses a two-step approach to generate mobility flows by separating the trip
+#' As described in \insertCite{Lenormand2016}{TDLM}, we
+#' propose a two-step approach to generate mobility flows by separating the trip
 #' distribution law, gravity or intervening opportunities, from the modeling
 #' approach used to generate the flows from this law. This function only uses
 #' the first step to generate a probability distribution based on the different
 #' laws.
 #'
-#' @param law a character indicating which law to use.
+#' @param law a character indicating which law to use (see Details).
 #'
 #' @param mass_origin a numeric vector representing the mass at origin (i.e.
 #' demand).
@@ -49,8 +49,12 @@
 #' distance and the number of opportunities can be adjusted with a parameter
 #' (argument `param`) except for the original radiation law or the uniform law.
 #'
-#' In this package we consider eight probabilistic laws described in details in
-#' \insertCite{Lenormand2016}{TDLM}.
+#' In this package we consider eight probabilistic laws
+#' described in details in \insertCite{Lenormand2016;textual}{TDLM}. Four
+#' gravity laws
+#' \insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
+#' intervening opportunity laws
+#' \insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
 #'
 #' 1) Gravity law with an exponential distance decay function
 #' (`law = "GravExp"`). The arguments `mass_origin`, `mass_destination`
@@ -83,9 +87,10 @@
 #' before running the main package's functions.
 #'
 #' @return
-#' An object of class `TDLM`. A list of list of matrix containing for each
-#' parameter value the matrix of probability. If `length(param) == 1` or
-#' `law == "Rad"` or `law == "Unif` only a list of matrix will be returned.
+#' An object of class `TDLM`. A list of list of matrices containing for each
+#' parameter value the matrix of probabilities (called `proba`). If
+#' `length(param) == 1` or `law == "Rad"` or `law == "Unif` only a list of
+#' matrices will be returned.
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
@@ -95,19 +100,32 @@
 #' @examples
 #' data(mass)
 #' data(distance)
+#'
 #' mi <- as.numeric(mass[, 1])
-#' names(mi) <- rownames(distance)
-#' mj <- as.numeric(mass[, 1])
-#' names(mj) <- rownames(distance)
+#' mj <- mi
+#'
 #' res <- run_law(
 #'   law = "GravExp", mass_origin = mi, mass_destination = mj,
 #'   distance = distance, opportunity = NULL, param = 0.01,
-#'   check_names = TRUE
+#'   check_names = FALSE
 #' )
+#'
 #' print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
+#'
+#' \insertRef{Carey1858}{TDLM}
+#'
+#' \insertRef{Zipf1946}{TDLM}
+#'
+#' \insertRef{Barthelemy2011}{TDLM}
+#'
+#' \insertRef{Schneider1959}{TDLM}
+#'
+#' \insertRef{Simini2012}{TDLM}
+#'
+#' \insertRef{Yang2014}{TDLM}
 #'
 #' @export
 run_law <- function(law = "Unif",
@@ -296,18 +314,20 @@ GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
 
     outputs <- list()
-    Args <- c("Law", "#Parameters", "Parameter")
     if ((law == "Rad") | (law == "Rand")) {
       if (law == "Rand") {
         beta <- "0.01"
-        Values <- c("Unif", 1, NA)
+        Args <- c("Law")
+        Values <- c("Unif")
       }
       if (law == "Rad") {
         beta <- "0.01"
-        Values <- c(law, 1, NA)
+        Args <- c("Law")
+        Values <- c(law)
       }
     } else {
       beta <- param
+      Args <- c("Law", "#Parameters", "Parameter")
       Values <- c(law, 1, param)
     }
 

@@ -6,7 +6,7 @@
 #' the trip distribution law, gravity or intervening opportunities, from the
 #' modeling approach used to generate the flows from this law.
 #'
-#' @param law a character indicating which law to use.
+#' @param law a character indicating which law to use (see Details).
 #'
 #' @param mass_origin a numeric vector representing the mass at origin (i.e.
 #' demand).
@@ -47,8 +47,8 @@
 #' (see Details).
 #'
 #' @param write_proba a boolean indicating if the estimation of the
-#' probability to move from one location to another obtained with law
-#' should be returned along with the flows estimations.
+#' probability to move from one location to another obtained with the
+#' distribution law should be returned along with the flows estimations.
 #'
 #' @param check_names a boolean indicating if the ID location are used as
 #' vector names, matrix rownames and colnames and if they should be checked
@@ -70,10 +70,11 @@
 #' the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
 #' (argument `opportunity`) depending on the chosen law. Both the effect of the
 #' distance and the number of opportunities can be adjusted with a parameter
-#' (argument `param`) except for the original radiation law or the uniform law.
+#' (argument `param`) except for the original radiation law and the uniform law.
 #'
 #' In this package we consider eight probabilistic laws
-#' as described in \insertCite{Lenormand2016;textual}{TDLM}. Four gravity laws
+#' described in details in \insertCite{Lenormand2016;textual}{TDLM}. Four
+#' gravity laws
 #' \insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
 #' intervening opportunity laws
 #' \insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
@@ -100,7 +101,7 @@
 #' 8) Uniform law (`law = "Unif"`). The argument `mass_origin` will be used to
 #' extract the number of locations.
 #'
-#' Second, we propose four constrained models to generate the flow from these
+#' Second, we propose four constrained models to generate the flows from these
 #' distribution of probability. These models respect different level of
 #' constraints. These constraints can preserve the total number of trips
 #' (argument `nb_trips`) OR the number of out-going trips
@@ -121,10 +122,10 @@
 #' process \insertCite{Deming1940}{TDLM}.
 #'
 #' By default, when `average = FALSE`, `nbrep` matrices are generated from
-#' `proba` with multinomial random draws that will take different form according
-#' to the model used. In this case, the models will deal with positive integers
-#' as inputs and outputs. Nevertheless, it is also possible to generate an
-#' average matrix based on a multinomial distribution based on an infinite
+#' `proba` with multinomial random draws that will take different forms
+#' according to the model used. In this case, the models will deal with positive
+#' integers as inputs and outputs. Nevertheless, it is also possible to generate
+#' an average matrix based on a multinomial distribution (based on an infinite
 #' number of drawings. In this case, the models' inputs can be either positive
 #' integer or real numbers and the output (`nbrep = 1` in this case) will be a
 #' matrix of positive real numbers.
@@ -138,10 +139,11 @@
 #' before running the main package's functions.
 #'
 #' @return
-#' An object of class `TDLM`. A list of list of matrix containing for each
-#' parameter value the `nbrep` simulated matrices and the matrix of probability
-#' (called `proba`) if `write_proba = TRUE`. If `length(param) == 1` or
-#' `law == "Rad"` or `law == "Unif` only a list of matrix will be returned.
+#' An object of class `TDLM`. A list of list of matrices containing for each
+#' parameter value the `nbrep` simulated matrices and the matrix of
+#' probabilities (called `proba`) if `write_proba = TRUE`.
+#' If `length(param) == 1` or `law == "Rad"` or `law == "Unif` only a list of
+#' matrices will be returned.
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
@@ -151,22 +153,21 @@
 #' @examples
 #' data(mass)
 #' data(distance)
+#'
 #' mi <- as.numeric(mass[, 1])
-#' names(mi) <- rownames(distance)
-#' mj <- as.numeric(mass[, 1])
-#' names(mj) <- rownames(distance)
+#' mj <- mi
 #' Oi <- as.numeric(mass[, 2])
-#' names(Oi) <- rownames(distance)
 #' Dj <- as.numeric(mass[, 3])
-#' names(Dj) <- rownames(distance)
+#'
 #' res <- run_law_model(
 #'   law = "GravExp", mass_origin = mi, mass_destination = mj,
 #'   distance = distance, opportunity = NULL, param = 0.01,
 #'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
 #'   average = FALSE, nbrep = 3,
-#'   write_proba = TRUE,
-#'   check_names = TRUE
+#'   write_proba = FALSE,
+#'   check_names = FALSE
 #' )
+#'
 #' print(res)
 #'
 #' @references
@@ -698,19 +699,34 @@ UM, PCM, ACM or DCM",
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
 
     outputs <- list()
-    Args <- c("Law", "Model", "#Replications", "#Parameters", "Parameter")
     if ((law == "Rad") | (law == "Rand")) {
       if (law == "Rand") {
         beta <- "0.01"
-        Values <- c("Unif", model, nbrep, 1, NA)
+        Args <- c("Law", "Model", "#Replications")
+        if (average) {
+          Values <- c("Unif", model, paste0(nbrep, "(average)"))
+        } else {
+          Values <- c("Unif", model, nbrep)
+        }
       }
       if (law == "Rad") {
         beta <- "0.01"
-        Values <- c(law, model, nbrep, 1, NA)
+        Args <- c("Law", "Model", "#Replications")
+        Values <- c(law, model, nbrep)
+        if (average) {
+          Values <- c(law, model, paste0(nbrep, "(average)"))
+        } else {
+          Values <- c(law, model, nbrep)
+        }
       }
     } else {
       beta <- param
-      Values <- c(law, model, nbrep, 1, param)
+      Args <- c("Law", "Model", "#Replications", "#Parameters", "Parameter")
+      if (average) {
+        Values <- c(law, model, paste0(nbrep, "(average)"), 1, param)
+      } else {
+        Values <- c(law, model, nbrep, 1, param)
+      }
     }
 
     args <- paste0(
@@ -763,8 +779,15 @@ UM, PCM, ACM or DCM",
   } else { # Param > 1
 
     outputs <- list()
-    Args <- c("Law", "Model", "#Replications", "#Parameters", paste0("Parameter ", 1:nbparam))
-    Values <- c(law, model, nbrep, nbparam, param)
+    Args <- c(
+      "Law", "Model", "#Replications", "#Parameters",
+      paste0("Parameter ", 1:nbparam)
+    )
+    if (average) {
+      Values <- c(law, model, paste0(nbrep, "(average)"), nbparam, param)
+    } else {
+      Values <- c(law, model, nbrep, nbparam, param)
+    }
     for (i in 1:nbparam) {
       beta <- param[i]
       outputs[[i]] <- list()
