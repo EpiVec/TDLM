@@ -22,27 +22,34 @@ vectors will be considered (by default).}
 A message indicating if the check has passed or failed.
 }
 \description{
-This function checks that the TDLM's inputs have the required format.
+This function checks that the TDLM's inputs have the required format (an
+names).
 }
 \details{
 The \code{TDLM}'s inputs should be based on the same number of
-locations sorted in the same order. \code{check = "format"} will run basic check
+locations sorted in the same order. \code{check = "format"} will run basic checks
 to ensure that the structure of the inputs (dimensions, class, type...) is
-correct. It is recommended to use the location ID
-as vector names, matrix rownames and matrix colnames, set
-\code{check  = "format_and_names"} to check the names (\code{check = "format_and_names"} by default). The checks are run successively so run the
-function as many times as needed to get the message indicating that the
-inputs passed the check successfully.
+correct.
+
+It is recommended to use the location ID as vector names, matrix rownames and
+matrix colnames. Set \code{check  = "format_and_names"} to check the inputs'
+names. The checks are run successively, so run the function as many times as
+needed to get the message indicating that the inputs passed the check
+successfully.
 }
 \examples{
 data(mass)
 data(distance)
 
-mi=as.numeric(mass[,1])
-names(mi)=rownames(mass)
-mj=mi
-check_format_names(vectors=list(mi=mi,mj=mj), 
-                   matrices=list(distance=distance))
+mi <- as.numeric(mass[, 1])
+names(mi) <- rownames(mass)
+mj <- mi
+
+check_format_names(
+  vectors = list(mi = mi, mj = mj),
+  matrices = list(distance = distance),
+  check = "format_and_names"
+)
 
 }
 \author{

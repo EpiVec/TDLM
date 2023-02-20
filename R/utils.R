@@ -176,10 +176,10 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
-      #if (sum(matrix) != 1) {
-      #  message(paste0("It seems that the element of ", namemat, " do not 
-#exactly sum to 1. Note that it will be renormalized anyway."))
-      #}
+      # if (sum(matrix) != 1) {
+      #  message(paste0("It seems that the element of ", namemat, " do not
+      # exactly sum to 1. Note that it will be renormalized anyway."))
+      # }
     }
   }
 
@@ -669,23 +669,26 @@ controls <- function(args = NULL,
       }
     }
   }
-  
+
   # strict_positive_numeric ####################################################
   if (type == "strict_positive_numeric") {
     if (length(args) > 1) {
       stop(paste0(deparse(substitute(args)), " must be of length 1."),
-           call. = FALSE
+        call. = FALSE
       )
     }
     if (!is.numeric(args)) {
       stop(paste0(deparse(substitute(args)), " must be numeric."),
-           call. = FALSE
+        call. = FALSE
       )
     } else {
       if (args <= 0) {
-        stop(paste0(deparse(substitute(args)), 
-                    " must be strictly higher than 0."),
-             call. = FALSE
+        stop(
+          paste0(
+            deparse(substitute(args)),
+            " must be strictly higher than 0."
+          ),
+          call. = FALSE
         )
       }
     }
@@ -709,7 +712,7 @@ controls <- function(args = NULL,
         )
       } else {
         if (args < 0) {
-          stop(paste0(deparse(substitute(args)),  " must be higher than 0."),
+          stop(paste0(deparse(substitute(args)), " must be higher than 0."),
             call. = FALSE
           )
         }

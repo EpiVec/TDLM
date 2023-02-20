@@ -1,6 +1,7 @@
 #' Check format of TDLM's inputs
 #'
-#' This function checks that the TDLM's inputs have the required format.
+#' This function checks that the TDLM's inputs have the required format (an
+#' names).
 #'
 #' @param vectors a list of vectors. The list can contain one vector. It is
 #' recommended to name each element of the list. If `vectors = NULL` only the
@@ -14,14 +15,15 @@
 #' ("format" or "format_and_names") should be used (see Details).
 #'
 #' @details The `TDLM`'s inputs should be based on the same number of
-#' locations sorted in the same order. `check = "format"` will run basic check
+#' locations sorted in the same order. `check = "format"` will run basic checks
 #' to ensure that the structure of the inputs (dimensions, class, type...) is
-#' correct. It is recommended to use the location ID
-#' as vector names, matrix rownames and matrix colnames, set
-#' `check  = "format_and_names"` to check the names (`check =
-#' "format_and_names"` by default). The checks are run successively so run the
-#' function as many times as needed to get the message indicating that the
-#' inputs passed the check successfully.
+#' correct. 
+#' 
+#' It is recommended to use the location ID as vector names, matrix rownames and
+#' matrix colnames. Set `check  = "format_and_names"` to check the inputs' 
+#' names. The checks are run successively, so run the function as many times as 
+#' needed to get the message indicating that the inputs passed the check 
+#' successfully.
 #'
 #' @return
 #' A message indicating if the check has passed or failed.
@@ -32,12 +34,16 @@
 #' @examples
 #' data(mass)
 #' data(distance)
+#'
+#' mi <- as.numeric(mass[, 1])
+#' names(mi) <- rownames(mass)
+#' mj <- mi
 #' 
-#' mi=as.numeric(mass[,1])
-#' names(mi)=rownames(mass)
-#' mj=mi
-#' check_format_names(vectors=list(mi=mi,mj=mj), 
-#'                    matrices=list(distance=distance))
+#' check_format_names(
+#'   vectors = list(mi = mi, mj = mj),
+#'   matrices = list(distance = distance),
+#'   check = "format_and_names"
+#' )
 #'
 #' @export
 check_format_names <- function(vectors,
@@ -45,7 +51,9 @@ check_format_names <- function(vectors,
                                check = "format_and_names") {
   # Controls
   if (is.null(vectors) & is.null(matrices)) {
-    stop("At least one of the vectors or matrices argument should be non-null.")
+    stop("At least one of the vectors or matrices argument should be non-null.",
+      call. = FALSE
+    )
   }
   if (!is.null(vectors)) {
     controls(args = vectors, type = "list")
@@ -90,13 +98,17 @@ format or format_and_names", call. = FALSE)
   if (is.null(vectors) & !is.null(matrices)) {
     controls(
       args = NULL,
-      vectors = vectors,
+      matrices = matrices,
+      type = "matrices_gof"
+    )
+    controls(
+      args = NULL,
       matrices = matrices,
       type = "matrices_matrices"
     )
   }
 
-  if (is.null(vectors) & is.null(matrices)) {
+  if (!is.null(vectors) & !is.null(matrices)) {
     controls(
       args = NULL,
       vectors = vectors,
@@ -105,7 +117,7 @@ format or format_and_names", call. = FALSE)
     controls(
       args = NULL,
       matrices = matrices,
-      type = "matrices_positive"
+      type = "matrices_gof"
     )
     controls(
       args = NULL,
@@ -117,23 +129,30 @@ format or format_and_names", call. = FALSE)
 
   # Names
   if (check == "format_and_names") {
-    if (!is.null(matrices)) {
+    if (!is.null(vectors) & is.null(matrices)) {
+      controls(
+        args = NULL,
+        vectors = vectors,
+        type = "vectors_checknames"
+      )
+    }
+    if (is.null(vectors) & !is.null(matrices)) {
+      controls(
+        args = NULL,
+        matrices = matrices,
+        type = "matrices_checknames"
+      )
+    }
+    if (!is.null(vectors) & !is.null(matrices)) {
       controls(
         args = NULL,
         vectors = vectors,
         matrices = matrices,
         type = "vectors_matrices_checknames"
       )
-    } else {
-      controls(
-        args = NULL,
-        vectors = vectors,
-        matrices = matrices,
-        type = "vectors_checknames"
-      )
     }
   }
 
   # Return
-  message(paste0("The inputs passed the ", check, " check successfully!"))
+  message(paste0("The inputs passed the ", check, " checks successfully!"))
 }
