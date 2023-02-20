@@ -90,7 +90,7 @@ modeling approach used to generate the flows from this law.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>law</dt>
-<dd><p>a character indicating which law to use.</p></dd>
+<dd><p>a character indicating which law to use (see Details).</p></dd>
 
 
 <dt>mass_origin</dt>
@@ -155,8 +155,8 @@ associated to the model run. Note that <code>nbrep = 1</code> if <code>average =
 
 <dt>write_proba</dt>
 <dd><p>a boolean indicating if the estimation of the
-probability to move from one location to another obtained with law
-should be returned along with the flows estimations.</p></dd>
+probability to move from one location to another obtained with the
+distribution law should be returned along with the flows estimations.</p></dd>
 
 
 <dt>check_names</dt>
@@ -169,10 +169,11 @@ vector names, matrix rownames and colnames and if they should be checked
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of class <code>TDLM</code>. A list of list of matrix containing for each
-parameter value the <code>nbrep</code> simulated matrices and the matrix of probability
-(called <code>proba</code>) if <code>write_proba = TRUE</code>. If <code>length(param) == 1</code> or
-<code>law == "Rad"</code> or <code>law == "Unif</code> only a list of matrix will be returned.</p>
+<p>An object of class <code>TDLM</code>. A list of list of matrices containing for each
+parameter value the <code>nbrep</code> simulated matrices and the matrix of
+probabilities (called <code>proba</code>) if <code>write_proba = TRUE</code>.
+If <code>length(param) == 1</code> or <code>law == "Rad"</code> or <code>law == "Unif</code> only a list of
+matrices will be returned.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -190,10 +191,11 @@ distance <em></em>\(d_{ij}\) between locations (argument <code>distance</code>) 
 the number of opportunities <em></em>\(s_{ij}\) between locations
 (argument <code>opportunity</code>) depending on the chosen law. Both the effect of the
 distance and the number of opportunities can be adjusted with a parameter
-(argument <code>param</code>) except for the original radiation law or the uniform law.</p>
+(argument <code>param</code>) except for the original radiation law and the uniform law.</p>
 <p>In this package we consider eight probabilistic laws
-as described in Lenormand et al. (2016)
-. Four gravity laws
+described in details in Lenormand et al. (2016)
+. Four
+gravity laws
 (Carey 1858; Zipf 1946; Barthelemy 2011; Lenormand et al. 2016)
 , three
 intervening opportunity laws
@@ -219,7 +221,7 @@ arguments <code>mass_origin</code>, <code>mass_destination</code> (optional), <c
 <code>mass_destination</code> (optional), <code>opportunity</code> and <code>param</code> will be used.</p></li>
 <li><p>Uniform law (<code>law = "Unif"</code>). The argument <code>mass_origin</code> will be used to
 extract the number of locations.</p></li>
-</ol><p>Second, we propose four constrained models to generate the flow from these
+</ol><p>Second, we propose four constrained models to generate the flows from these
 distribution of probability. These models respect different level of
 constraints. These constraints can preserve the total number of trips
 (argument <code>nb_trips</code>) OR the number of out-going trips
@@ -238,10 +240,10 @@ doubly constrained model is based on an Iterative Proportional Fitting
 process (Deming and Stephan 1940)
 .</p></li>
 </ol><p>By default, when <code>average = FALSE</code>, <code>nbrep</code> matrices are generated from
-<code>proba</code> with multinomial random draws that will take different form according
-to the model used. In this case, the models will deal with positive integers
-as inputs and outputs. Nevertheless, it is also possible to generate an
-average matrix based on a multinomial distribution based on an infinite
+<code>proba</code> with multinomial random draws that will take different forms
+according to the model used. In this case, the models will deal with positive
+integers as inputs and outputs. Nevertheless, it is also possible to generate
+an average matrix based on a multinomial distribution (based on an infinite
 number of drawings. In this case, the models' inputs can be either positive
 integer or real numbers and the output (<code>nbrep = 1</code> in this case) will be a
 matrix of positive real numbers.</p>
@@ -296,22 +298,21 @@ Lippincott.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mi</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">mj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mj</span> <span class="op">&lt;-</span> <span class="va">mi</span></span></span>
 <span class="r-in"><span><span class="va">Oi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Oi</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">Dj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Dj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">run_law_model</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  law <span class="op">=</span> <span class="st">"GravExp"</span>, mass_origin <span class="op">=</span> <span class="va">mi</span>, mass_destination <span class="op">=</span> <span class="va">mj</span>,</span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">distance</span>, opportunity <span class="op">=</span> <span class="cn">NULL</span>, param <span class="op">=</span> <span class="fl">0.01</span>,</span></span>
 <span class="r-in"><span>  model <span class="op">=</span> <span class="st">"DCM"</span>, nb_trips <span class="op">=</span> <span class="cn">NULL</span>, out_trips <span class="op">=</span> <span class="va">Oi</span>, in_trips <span class="op">=</span> <span class="va">Dj</span>,</span></span>
 <span class="r-in"><span>  average <span class="op">=</span> <span class="cn">FALSE</span>, nbrep <span class="op">=</span> <span class="fl">3</span>,</span></span>
-<span class="r-in"><span>  write_proba <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  check_names <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  write_proba <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Argument   Value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           Law GravExp</span>
