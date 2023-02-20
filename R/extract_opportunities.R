@@ -4,8 +4,9 @@
 #' as defined in \insertCite{Lenormand2016}{TDLM}.
 #' For a given pair of location the number of opportunities between the location
 #' of origin and the location of destination is based on the number of
-#' opportunities in a circle of radius distance between origin and destination
-#' centered in the origin (excluding the origin and destination).
+#' opportunities in a circle of radius equal to the distance between origin and
+#' destination centered in the origin. The number of opportunities at origin
+#' and destination are not included.
 #'
 #' @param opportunity a numeric vector representing the number of opportunities
 #' per location. The value should be positive.
@@ -36,7 +37,9 @@
 #' @examples
 #' data(mass)
 #' data(distance)
+#' 
 #' opportunity <- mass[, 1]
+#'
 #' sij <- extract_opportunities(
 #'   opportunity = opportunity,
 #'   distance = distance,

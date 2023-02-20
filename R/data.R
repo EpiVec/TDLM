@@ -1,13 +1,12 @@
 #' Population and number of out- and in-commuters by US Kansas county in 2000
-#' (data.frame)
 #'
-#' A dataset containing the number of inhabitant, in-commuters and out-commuters
+#' A dataset containing the number of inhabitants, in-commuters and out-commuters
 #' for 105 US Kansas counties in 2000.
 #'
 #' @format A `data.frame` with 105 rows and 3 columns:
 #' \describe{
 #'   \item{rownames}{County ID.}
-#'   \item{Population}{Number of inhabitants).}
+#'   \item{Population}{Number of inhabitants.}
 #'   \item{Out-commuters}{Number of out-commuters.}
 #'   \item{In-commuters}{Number of in-commuters.}
 #' }
@@ -27,7 +26,8 @@
 
 #' Origin-Destination commuting matrix between US Kansas counties in 2000
 #'
-#' A dataset containing the number of commuters between 105 US Kansas counties.
+#' A dataset containing the number of commuters between 105 US Kansas counties
+#' in 2000.
 #'
 #' @format A `matrix` with 105 rows and 105 columns. Each element of the
 #' matrix represents the number of commuters between two counties. County ID as

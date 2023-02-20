@@ -16,6 +16,7 @@ rownames and colnames.
 od
 }
 \description{
-A dataset containing the number of commuters between 105 US Kansas counties.
+A dataset containing the number of commuters between 105 US Kansas counties
+in 2000.
 }
 \keyword{datasets}

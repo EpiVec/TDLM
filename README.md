@@ -13,6 +13,7 @@
 The package `TDLM` can be installed with the following command line in R session:
 
 ``` r
+# install.packages("devtools")
 devtools::install_github("EpiVec/TDLM")
 ```
 
@@ -22,7 +23,7 @@ A tutorial vignette is available [here](https://epivec.github.io/TDLM/articles/T
 
 ## 3 Dependencies
 
-`TDLM` depends on ... .
+`TDLM` depends on `Ecume`, `mathjaxr`. `Rdpack`. `readr`. `rmarkdown` and `sf`.
 
 ## 4  Citation
 

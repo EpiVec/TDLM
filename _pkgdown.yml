@@ -10,11 +10,11 @@ reference:
   desc: >
   contents:
   - check_format_names
+  - extract_opportunities  
   
 - title: Main functions
   desc: >
   contents:
-  - extract_opportunities
   - run_law_model
   - run_law
   - run_model
