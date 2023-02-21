@@ -159,7 +159,8 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [gof()] [run_law()] [run_model()] [check_format_names()]
+#' @seealso [gof()] [run_law()] [run_model()] [extract_opportunities()]
+#' [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -215,6 +216,9 @@ run_law_model <- function(law = "Unif",
                           mindiff = 0.01,
                           write_proba = FALSE,
                           check_names = FALSE) {
+  # Option (disabling scientific notation)
+  options(scipen = 999)
+
   # Set path to jar
   libpath <- .libPaths()[1]
   wdjar <- paste0(libpath, "/TDLM/java/")
@@ -323,6 +327,14 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, RadExt or Unif",
 UM, PCM, ACM or DCM",
       call. = FALSE
     )
+  }
+
+  if (model == "DCM") {
+    controls(args = maxiter, type = "strict_positive_integer")
+    controls(args = mindiff, type = "strict_positive_numeric")
+  } else {
+    maxiter <- "50"
+    mindiff <- "0.01"
   }
 
   if (model == "UM") {

@@ -37,7 +37,7 @@
 #' @examples
 #' data(mass)
 #' data(distance)
-#' 
+#'
 #' opportunity <- mass[, 1]
 #'
 #' sij <- extract_opportunities(
@@ -51,6 +51,9 @@
 #'
 #' @export
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
+  # Option (disabling scientific notation)
+  options(scipen = 999)
+
   # Set path to jar
   libpath <- .libPaths()[1]
   wdjar <- paste0(libpath, "/TDLM/java/")

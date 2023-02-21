@@ -223,7 +223,8 @@ print(res)
 \insertRef{Deming1940}{TDLM}
 }
 \seealso{
-\code{\link[=gof]{gof()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=check_format_names]{check_format_names()}}
+\code{\link[=gof]{gof()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=extract_opportunities]{extract_opportunities()}}
+\code{\link[=check_format_names]{check_format_names()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

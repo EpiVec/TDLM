@@ -95,7 +95,8 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [gof()] [run_law_model()] [run_model()] [check_format_names()]
+#' @seealso [gof()] [run_law_model()] [run_model()] [extract_opportunities()] 
+#' [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -110,7 +111,7 @@
 #'   check_names = FALSE
 #' )
 #'
-#' #print(res)
+#' # print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -135,6 +136,9 @@ run_law <- function(law = "Unif",
                     opportunity = NULL,
                     param = NULL,
                     check_names = FALSE) {
+  # Option (disabling scientific notation)
+  options(scipen = 999)
+
   # Set path to jar
   libpath <- .libPaths()[1]
   wdjar <- paste0(libpath, "/TDLM/java/")
@@ -310,7 +314,7 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
   pij_write <- "true"
   ismulti <- "true"
   maxiterDCM <- "50"
-  minratioDCM <- "0.02"
+  minratioDCM <- "0.01"
 
   nbparam <- length(param)
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1

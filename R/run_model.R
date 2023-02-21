@@ -113,7 +113,7 @@
 #'   check_names = FALSE
 #' )
 #'
-#' #print(res)
+#' # print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -131,6 +131,9 @@ run_model <- function(proba,
                       maxiter = 50,
                       mindiff = 0.01,
                       check_names = FALSE) {
+  # Option (disabling scientific notation)
+  options(scipen = 999)
+
   # Set path to jar
   libpath <- .libPaths()[1]
   wdjar <- paste0(libpath, "/TDLM/java/")
@@ -172,7 +175,15 @@ UM, PCM, ACM or DCM",
       call. = FALSE
     )
   }
-  
+
+  if (model == "DCM") {
+    controls(args = maxiter, type = "strict_positive_integer")
+    controls(args = mindiff, type = "strict_positive_numeric")
+  } else {
+    maxiter <- "50"
+    mindiff <- "0.01"
+  }
+
   if (model == "UM") {
     if (!average) {
       controls(args = nb_trips, type = "strict_positive_integer")
@@ -211,8 +222,6 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "DCM") {
-    controls(args = maxiter, type = "strict_positive_integer")
-    controls(args = mindiff, type = "strict_positive_numeric")
     if (!average) {
       controls(
         args = NULL,

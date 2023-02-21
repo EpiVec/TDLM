@@ -123,7 +123,7 @@ res <- run_law(
   check_names = FALSE
 )
 
-#print(res)
+# print(res)
 
 }
 \references{
@@ -142,7 +142,8 @@ res <- run_law(
 \insertRef{Yang2014}{TDLM}
 }
 \seealso{
-\code{\link[=gof]{gof()}} \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_model]{run_model()}} \code{\link[=check_format_names]{check_format_names()}}
+\code{\link[=gof]{gof()}} \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_model]{run_model()}} \code{\link[=extract_opportunities]{extract_opportunities()}}
+\code{\link[=check_format_names]{check_format_names()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
