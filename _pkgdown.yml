@@ -10,7 +10,8 @@ reference:
   desc: >
   contents:
   - check_format_names
-  - extract_opportunities  
+  - extract_opportunities 
+  - extract_spatial_information 
   
 - title: Main functions
   desc: >

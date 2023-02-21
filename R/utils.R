@@ -757,6 +757,8 @@ controls <- function(args = NULL,
   }
 }
 
+
+# gofi #########################################################################
 gofi <- function(sim, obs, distance,
                  measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS"),
                  bin_size) {
@@ -854,4 +856,21 @@ gofi <- function(sim, obs, distance,
   # Return output
   res <- data.frame(res)
   return(res)
+}
+
+# haversine ####################################################################
+haversine=function(lon1,lat1,lon2,lat2) {
+  R=6367 # Earth mean radius [km]
+  lon1=lon1*pi/180
+  lat1=lat1*pi/180
+  lon2=lon2*pi/180
+  lat2=lat2*pi/180
+  
+  dlon = lon2 - lon1
+  dlat = lat2 - lat1
+  
+  a = sin(dlat/2)^2 + cos(lat1) * cos(lat2) * sin(dlon/2)^2
+  c = 2 * asin(pmin(1,sqrt(a)))
+  d = R * c
+  return(d)
 }

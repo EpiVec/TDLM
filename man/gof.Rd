@@ -120,7 +120,7 @@ Dj <- as.numeric(mass[, 3])
 
 res <- run_law_model(
   law = "GravExp", mass_origin = mi, mass_destination = mj,
-  distance = distance, opportunity = NULL, param = c(0.01,0.02,0.03),
+  distance = distance, opportunity = NULL, param = c(0.01, 0.02, 0.03),
   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
   average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
   write_proba = FALSE,
