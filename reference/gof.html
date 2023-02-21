@@ -76,7 +76,7 @@ Origin-Destination matrix.</p>
     <dl><dt>sim</dt>
 <dd><p>an object of class <code>TDLM</code> (output of <code><a href="run_law_model.html">run_law_model()</a></code>,
 <code><a href="run_law.html">run_law()</a></code> or <code><a href="run_model.html">run_model()</a></code>).
-A matrix or a list of matrix can also be used (see Note).</p></dd>
+A matrix or a list of matrices can also be used (see Note).</p></dd>
 
 
 <dt>obs</dt>
@@ -208,13 +208,39 @@ before running the main package's functions.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">od</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">gof</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  sim <span class="op">=</span> <span class="va">od</span>, obs <span class="op">=</span> <span class="va">od</span>, measures <span class="op">=</span> <span class="st">"all"</span>, distance <span class="op">=</span> <span class="va">distance</span>, bin_size <span class="op">=</span> <span class="fl">2</span>,</span></span>
-<span class="r-in"><span>  use_proba <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>  check_names <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="va">mi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mj</span> <span class="op">&lt;-</span> <span class="va">mi</span></span></span>
+<span class="r-in"><span><span class="va">Oi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Dj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">mass</span><span class="op">[</span>, <span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="run_law_model.html">run_law_model</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  law <span class="op">=</span> <span class="st">"GravExp"</span>, mass_origin <span class="op">=</span> <span class="va">mi</span>, mass_destination <span class="op">=</span> <span class="va">mj</span>,</span></span>
+<span class="r-in"><span>  distance <span class="op">=</span> <span class="va">distance</span>, opportunity <span class="op">=</span> <span class="cn">NULL</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>,<span class="fl">0.02</span>,<span class="fl">0.03</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="st">"DCM"</span>, nb_trips <span class="op">=</span> <span class="cn">NULL</span>, out_trips <span class="op">=</span> <span class="va">Oi</span>, in_trips <span class="op">=</span> <span class="va">Dj</span>,</span></span>
+<span class="r-in"><span>  average <span class="op">=</span> <span class="cn">FALSE</span>, nbrep <span class="op">=</span> <span class="fl">3</span>, maxiter <span class="op">=</span> <span class="fl">50</span>, mindiff <span class="op">=</span> <span class="fl">0.01</span>,</span></span>
+<span class="r-in"><span>  write_proba <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Matrix CPC NRMSE KL CPL CPC_d KS_stat KS_pval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    sim   1     0  0   1     1       0       1</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">gof</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  sim <span class="op">=</span> <span class="va">res</span>, obs <span class="op">=</span> <span class="va">od</span>, measures <span class="op">=</span> <span class="st">"all"</span>, distance <span class="op">=</span> <span class="va">distance</span>, bin_size <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  use_proba <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Parameter    Simulation       CPC    NRMSE        KL       CPL     CPC_d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 parameter_1 replication_1 0.4573964 38.93718 0.9394774 0.4261871 0.5140631</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 parameter_1 replication_2 0.4572916 38.92790 0.9392020 0.4259868 0.5142178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 parameter_2 replication_1 0.6153025 26.28098 0.5030634 0.5241231 0.6687248</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 parameter_2 replication_2 0.6149181 26.35699 0.5038760 0.5244798 0.6681857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 parameter_3 replication_1 0.7110563 18.72723 0.2978044 0.5960814 0.7725247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 parameter_3 replication_2 0.7111611 18.72793 0.2975844 0.5953997 0.7724348</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     KS_stat        KS_pval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.4831799 0.000001515612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.4830302 0.000001527345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.3226335 0.008875876312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.3232075 0.008642243729</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.2104082 0.244801853335</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.2104931 0.244410371478</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
