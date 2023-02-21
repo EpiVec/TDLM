@@ -83,6 +83,8 @@ using different models.</p>
 <span>  in_trips <span class="op">=</span> <span class="va">out_trips</span>,</span>
 <span>  average <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  nbrep <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  maxiter <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  mindiff <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -128,6 +130,16 @@ associated to the model run. Note that <code>nbrep = 1</code> if <code>average =
 (see Details).</p></dd>
 
 
+<dt>maxiter</dt>
+<dd><p>an integer indicating the maximal number of iterations for
+adjusting the Doubly Constrained Model (see Details).</p></dd>
+
+
+<dt>mindiff</dt>
+<dd><p>a numeric strictly positive value indicating the
+stopping criterion for adjusting the Doubly Constrained Model (see Details).</p></dd>
+
+
 <dt>check_names</dt>
 <dd><p>a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
@@ -161,7 +173,12 @@ preserved (arguments <code>nb_trips</code> and <code>out_trips</code> will not b
 <code>in_trips</code> will be preserved (arguments <code>nb_trips</code>will not be used). The
 doubly constrained model is based on an Iterative Proportional Fitting
 process (Deming and Stephan 1940)
-.</p></li>
+. The arguments <code>maxiter</code> (50 by
+default) and <code>mindiff</code> (0.01 by default) can be used to tune the model.
+<code>mindiff</code> is the minimal tolerated relative error between the
+simulated and observed marginals. <code>maxiter</code>
+ensures that the algorithm stops even if it has not converged toward the
+<code>mindiff</code> wanted value.</p></li>
 </ol><p>By default, when <code>average = FALSE</code>, <code>nbrep</code> matrices are generated from
 <code>proba</code> with multinomial random draws that will take different forms
 according to the model used. In this case, the models will deal with positive
@@ -212,14 +229,11 @@ before running the main package's functions.</p>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">run_model</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  proba <span class="op">=</span> <span class="va">proba</span>,</span></span>
 <span class="r-in"><span>  model <span class="op">=</span> <span class="st">"DCM"</span>, nb_trips <span class="op">=</span> <span class="cn">NULL</span>, out_trips <span class="op">=</span> <span class="va">Oi</span>, in_trips <span class="op">=</span> <span class="va">Dj</span>,</span></span>
-<span class="r-in"><span>  average <span class="op">=</span> <span class="cn">FALSE</span>, nbrep <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  average <span class="op">=</span> <span class="cn">FALSE</span>, nbrep <span class="op">=</span> <span class="fl">3</span>, maxiter <span class="op">=</span> <span class="fl">50</span>, mindiff <span class="op">=</span> <span class="fl">0.01</span>,</span></span>
 <span class="r-in"><span>  check_names <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        Argument Value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         Model   DCM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 #Replications     3</span>
+<span class="r-in"><span><span class="co">#print(res)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
