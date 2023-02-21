@@ -161,12 +161,12 @@ run_law <- function(law = "Unif",
     "Rand"
   )
   dist_laws <- c("GravExp", "NGravExp", "GravPow", "NGravPow")
-  oppo_laws <- c("Schneider", "Rad", "ExtRad")
+  oppo_laws <- c("Schneider", "Rad", "RadExt")
   rand_laws <- c("Rand")
   controls(args = law, type = "character")
   if (!(law %in% laws)) {
-    stop("Please choose check among the followings values:
-GravExp, NGravEx, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
+    stop("Please choose law among the followings values:
+GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
       call. = FALSE
     )
   }
