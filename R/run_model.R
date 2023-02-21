@@ -154,8 +154,6 @@ run_model <- function(proba,
     nbrep <- 1
   }
   controls(args = nbrep, type = "strict_positive_integer")
-  controls(args = maxiter, type = "strict_positive_integer")
-  controls(args = mindiff, type = "strict_positive_numeric")
   controls(args = check_names, type = "boolean")
 
   # Control PROBA
