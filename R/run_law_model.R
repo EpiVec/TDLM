@@ -96,7 +96,7 @@
 #' `param` will be used.
 #' 6) Radiation law (`law = "Rad"`). The arguments `mass_origin`,
 #' `mass_destination` (optional) and `opportunity` will be used.
-#' 7) Extended radiation law (`law = "ExtRad"`). The arguments `mass_origin`,
+#' 7) Extended radiation law (`law = "RadExt"`). The arguments `mass_origin`,
 #' `mass_destination` (optional), `opportunity` and `param` will be used.
 #' 8) Uniform law (`law = "Unif"`). The argument `mass_origin` will be used to
 #' extract the number of locations.
@@ -230,7 +230,7 @@ run_law_model <- function(law = "Unif",
     law <- "Rand"
   }
   laws <- c(
-    "GravExp", "NGravExp", "GravPow", "NGravPow", "Schneider", "Rad", "ExtRad",
+    "GravExp", "NGravExp", "GravPow", "NGravPow", "Schneider", "Rad", "RadExt",
     "Rand"
   )
   dist_laws <- c("GravExp", "NGravExp", "GravPow", "NGravPow")
@@ -704,7 +704,7 @@ UM, PCM, ACM or DCM",
         beta <- "0.01"
         Args <- c("Law", "Model", "#Replications")
         if (average) {
-          Values <- c("Unif", model, paste0(nbrep, "(average)"))
+          Values <- c("Unif", model, paste0(nbrep, " (average)"))
         } else {
           Values <- c("Unif", model, nbrep)
         }
@@ -714,7 +714,7 @@ UM, PCM, ACM or DCM",
         Args <- c("Law", "Model", "#Replications")
         Values <- c(law, model, nbrep)
         if (average) {
-          Values <- c(law, model, paste0(nbrep, "(average)"))
+          Values <- c(law, model, paste0(nbrep, " (average)"))
         } else {
           Values <- c(law, model, nbrep)
         }
@@ -723,7 +723,7 @@ UM, PCM, ACM or DCM",
       beta <- param
       Args <- c("Law", "Model", "#Replications", "#Parameters", "Parameter")
       if (average) {
-        Values <- c(law, model, paste0(nbrep, "(average)"), 1, param)
+        Values <- c(law, model, paste0(nbrep, " (average)"), 1, param)
       } else {
         Values <- c(law, model, nbrep, 1, param)
       }
@@ -784,7 +784,7 @@ UM, PCM, ACM or DCM",
       paste0("Parameter ", 1:nbparam)
     )
     if (average) {
-      Values <- c(law, model, paste0(nbrep, "(average)"), nbparam, param)
+      Values <- c(law, model, paste0(nbrep, " (average)"), nbparam, param)
     } else {
       Values <- c(law, model, nbrep, nbparam, param)
     }

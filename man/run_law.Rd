@@ -95,7 +95,7 @@ arguments \code{mass_origin}, \code{mass_destination} (optional), \code{opportun
 \code{param} will be used.
 \item Radiation law (\code{law = "Rad"}). The arguments \code{mass_origin},
 \code{mass_destination} (optional) and \code{opportunity} will be used.
-\item Extended radiation law (\code{law = "ExtRad"}). The arguments \code{mass_origin},
+\item Extended radiation law (\code{law = "RadExt"}). The arguments \code{mass_origin},
 \code{mass_destination} (optional), \code{opportunity} and \code{param} will be used.
 \item Uniform law (\code{law = "Unif"}). The argument \code{mass_origin} will be used to
 extract the number of locations.

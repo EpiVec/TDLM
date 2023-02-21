@@ -304,7 +304,7 @@ UM, PCM, ACM or DCM",
   outputs <- list()
   Args <- c("Model", "#Replications")
   if (average) {
-    Values <- c(model, paste0(nbrep, "(average)"))
+    Values <- c(model, paste0(nbrep, " (average)"))
   } else {
     Values <- c(model, nbrep)
   }

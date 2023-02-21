@@ -73,7 +73,7 @@
 #' `param` will be used.
 #' 6) Radiation law (`law = "Rad"`). The arguments `mass_origin`,
 #' `mass_destination` (optional) and `opportunity` will be used.
-#' 7) Extended radiation law (`law = "ExtRad"`). The arguments `mass_origin`,
+#' 7) Extended radiation law (`law = "RadExt"`). The arguments `mass_origin`,
 #' `mass_destination` (optional), `opportunity` and `param` will be used.
 #' 8) Uniform law (`law = "Unif"`). The argument `mass_origin` will be used to
 #' extract the number of locations.
@@ -157,7 +157,7 @@ run_law <- function(law = "Unif",
     law <- "Rand"
   }
   laws <- c(
-    "GravExp", "NGravExp", "GravPow", "NGravPow", "Schneider", "Rad", "ExtRad",
+    "GravExp", "NGravExp", "GravPow", "NGravPow", "Schneider", "Rad", "RadExt",
     "Rand"
   )
   dist_laws <- c("GravExp", "NGravExp", "GravPow", "NGravPow")
