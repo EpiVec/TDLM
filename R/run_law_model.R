@@ -825,7 +825,7 @@ UM, PCM, ACM or DCM",
 
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write, " ", multi, " "
+        model, " ", nbrep, " ", pij_write, " ", multi, " ",
         maxiterDCM, " ", minratioDCM
       )
 
