@@ -6,7 +6,7 @@
 #'
 #' @param sim an object of class `TDLM` (output of [run_law_model()],
 #' [run_law()] or [run_model()]).
-#' A matrix or a list of matrix can also be used (see Note).
+#' A matrix or a list of matrices can also be used (see Note).
 #'
 #' @param obs a squared matrix representing the observed mobility flows.
 #'
@@ -102,10 +102,24 @@
 #' data(distance)
 #' data(od)
 #'
+#' mi <- as.numeric(mass[, 1])
+#' mj <- mi
+#' Oi <- as.numeric(mass[, 2])
+#' Dj <- as.numeric(mass[, 3])
+#'
+#' res <- run_law_model(
+#'   law = "GravExp", mass_origin = mi, mass_destination = mj,
+#'   distance = distance, opportunity = NULL, param = c(0.01, 0.02, 0.03),
+#'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
+#'   average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
+#'   write_proba = FALSE,
+#'   check_names = FALSE
+#' )
+#'
 #' gof(
-#'   sim = od, obs = od, measures = "all", distance = distance, bin_size = 2,
+#'   sim = res, obs = od, measures = "all", distance = distance, bin_size = 2,
 #'   use_proba = FALSE,
-#'   check_names = TRUE
+#'   check_names = FALSE
 #' )
 #'
 #' @references
