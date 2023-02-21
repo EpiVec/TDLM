@@ -123,7 +123,7 @@ res <- run_law(
   check_names = FALSE
 )
 
-print(res)
+#print(res)
 
 }
 \references{

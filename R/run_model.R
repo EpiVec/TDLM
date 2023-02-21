@@ -33,6 +33,12 @@
 #' associated to the model run. Note that `nbrep = 1` if `average = TRUE`
 #' (see Details).
 #'
+#' @param maxiter an integer indicating the maximal number of iterations for
+#' adjusting the Doubly Constrained Model (see Details).
+#'
+#' @param mindiff a numeric strictly positive value indicating the
+#' stopping criterion for adjusting the Doubly Constrained Model (see Details).
+#'
 #' @param check_names a boolean indicating if the ID location are used as
 #' vector names, matrix rownames and colnames and if they should be checked
 #' (see Note).
@@ -58,7 +64,12 @@
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
 #' doubly constrained model is based on an Iterative Proportional Fitting
-#' process \insertCite{Deming1940}{TDLM}.
+#' process \insertCite{Deming1940}{TDLM}. The arguments `maxiter` (50 by
+#' default) and `mindiff` (0.01 by default) can be used to tune the model.
+#' `mindiff` is the minimal tolerated relative error between the
+#' simulated and observed marginals. `maxiter`
+#' ensures that the algorithm stops even if it has not converged toward the
+#' `mindiff` wanted value.
 #'
 #' By default, when `average = FALSE`, `nbrep` matrices are generated from
 #' `proba` with multinomial random draws that will take different forms
@@ -78,8 +89,8 @@
 #' before running the main package's functions.
 #'
 #' @return
-#' An object of class `TDLM`. A list of matrices containing the 
-#' `nbrep` simulated matrices. 
+#' An object of class `TDLM`. A list of matrices containing the
+#' `nbrep` simulated matrices.
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
@@ -98,11 +109,11 @@
 #' res <- run_model(
 #'   proba = proba,
 #'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-#'   average = FALSE, nbrep = 3,
+#'   average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
 #'   check_names = FALSE
 #' )
 #'
-#' print(res)
+#' #print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -117,6 +128,8 @@ run_model <- function(proba,
                       in_trips = out_trips,
                       average = FALSE,
                       nbrep = 3,
+                      maxiter = 50,
+                      mindiff = 0.01,
                       check_names = FALSE) {
   # Set path to jar
   libpath <- .libPaths()[1]
@@ -138,6 +151,8 @@ run_model <- function(proba,
     nbrep <- 1
   }
   controls(args = nbrep, type = "strict_positive_integer")
+  controls(args = maxiter, type = "strict_positive_integer")
+  controls(args = mindiff, type = "strict_positive_numeric")
   controls(args = check_names, type = "boolean")
 
   # Control PROBA
@@ -157,6 +172,7 @@ UM, PCM, ACM or DCM",
       call. = FALSE
     )
   }
+  
   if (model == "UM") {
     if (!average) {
       controls(args = nb_trips, type = "strict_positive_integer")
@@ -195,6 +211,8 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "DCM") {
+    controls(args = maxiter, type = "strict_positive_integer")
+    controls(args = mindiff, type = "strict_positive_numeric")
     if (!average) {
       controls(
         args = NULL,
@@ -300,6 +318,8 @@ UM, PCM, ACM or DCM",
   if (average) {
     multi <- "false"
   }
+  maxiterDCM <- maxiter
+  minratioDCM <- mindiff
 
   outputs <- list()
   Args <- c("Model", "#Replications")
@@ -309,7 +329,10 @@ UM, PCM, ACM or DCM",
     Values <- c(model, nbrep)
   }
 
-  args <- paste0(wdin, " ", wdout, " ", model, " ", nbrep, " ", multi)
+  args <- paste0(
+    wdin, " ", wdout, " ", model, " ", nbrep, " ", multi, " ",
+    maxiterDCM, " ", minratioDCM
+  )
 
   cmd <- paste0("java -jar ", wdjar, "TDM.jar ", args)
 

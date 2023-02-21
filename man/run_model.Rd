@@ -12,6 +12,8 @@ run_model(
   in_trips = out_trips,
   average = FALSE,
   nbrep = 3,
+  maxiter = 50,
+  mindiff = 0.01,
   check_names = FALSE
 )
 }
@@ -40,6 +42,12 @@ random draws (see Details).}
 \item{nbrep}{an integer indicating the number of replications
 associated to the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
 (see Details).}
+
+\item{maxiter}{an integer indicating the maximal number of iterations for
+adjusting the Doubly Constrained Model (see Details).}
+
+\item{mindiff}{a numeric strictly positive value indicating the
+stopping criterion for adjusting the Doubly Constrained Model (see Details).}
 
 \item{check_names}{a boolean indicating if the ID location are used as
 vector names, matrix rownames and colnames and if they should be checked
@@ -79,7 +87,12 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
 \code{in_trips} will be preserved (arguments \code{nb_trips}will not be used). The
 doubly constrained model is based on an Iterative Proportional Fitting
-process \insertCite{Deming1940}{TDLM}.
+process \insertCite{Deming1940}{TDLM}. The arguments \code{maxiter} (50 by
+default) and \code{mindiff} (0.01 by default) can be used to tune the model.
+\code{mindiff} is the minimal tolerated relative error between the
+simulated and observed marginals. \code{maxiter}
+ensures that the algorithm stops even if it has not converged toward the
+\code{mindiff} wanted value.
 }
 
 By default, when \code{average = FALSE}, \code{nbrep} matrices are generated from
@@ -112,11 +125,11 @@ Dj <- as.numeric(mass[, 3])
 res <- run_model(
   proba = proba,
   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-  average = FALSE, nbrep = 3,
+  average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
   check_names = FALSE
 )
 
-print(res)
+#print(res)
 
 }
 \references{

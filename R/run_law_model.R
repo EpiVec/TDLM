@@ -46,6 +46,12 @@
 #' associated to the model run. Note that `nbrep = 1` if `average = TRUE`
 #' (see Details).
 #'
+#' @param maxiter an integer indicating the maximal number of iterations for
+#' adjusting the Doubly Constrained Model (see Details).
+#'
+#' @param mindiff a numeric strictly positive value indicating the
+#' stopping criterion for adjusting the Doubly Constrained Model (see Details).
+#'
 #' @param write_proba a boolean indicating if the estimation of the
 #' probability to move from one location to another obtained with the
 #' distribution law should be returned along with the flows estimations.
@@ -119,7 +125,12 @@
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
 #' doubly constrained model is based on an Iterative Proportional Fitting
-#' process \insertCite{Deming1940}{TDLM}.
+#' process \insertCite{Deming1940}{TDLM}. The arguments `maxiter` (50 by
+#' default) and `mindiff` (0.01 by default) can be used to tune the model.
+#' `mindiff` is the minimal tolerated relative error between the
+#' simulated and observed marginals. `maxiter`
+#' ensures that the algorithm stops even if it has not converged toward the
+#' `mindiff` wanted value.
 #'
 #' By default, when `average = FALSE`, `nbrep` matrices are generated from
 #' `proba` with multinomial random draws that will take different forms
@@ -163,7 +174,7 @@
 #'   law = "GravExp", mass_origin = mi, mass_destination = mj,
 #'   distance = distance, opportunity = NULL, param = 0.01,
 #'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-#'   average = FALSE, nbrep = 3,
+#'   average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
 #'   write_proba = FALSE,
 #'   check_names = FALSE
 #' )
@@ -200,6 +211,8 @@ run_law_model <- function(law = "Unif",
                           in_trips = out_trips,
                           average = FALSE,
                           nbrep = 3,
+                          maxiter = 50,
+                          mindiff = 0.01,
                           write_proba = FALSE,
                           check_names = FALSE) {
   # Set path to jar
@@ -311,6 +324,7 @@ UM, PCM, ACM or DCM",
       call. = FALSE
     )
   }
+
   if (model == "UM") {
     if (!average) {
       controls(args = nb_trips, type = "strict_positive_integer")
@@ -349,6 +363,8 @@ UM, PCM, ACM or DCM",
     }
   }
   if (model == "DCM") {
+    controls(args = maxiter, type = "strict_positive_integer")
+    controls(args = mindiff, type = "strict_positive_numeric")
     if (!average) {
       controls(
         args = NULL,
@@ -694,6 +710,8 @@ UM, PCM, ACM or DCM",
   if (average) {
     multi <- "false"
   }
+  maxiterDCM <- maxiter
+  minratioDCM <- mindiff
 
   nbparam <- length(param)
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
@@ -731,7 +749,8 @@ UM, PCM, ACM or DCM",
 
     args <- paste0(
       wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-      model, " ", nbrep, " ", pij_write, " ", multi
+      model, " ", nbrep, " ", pij_write, " ", multi, " ",
+      maxiterDCM, " ", minratioDCM
     )
 
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
@@ -794,7 +813,8 @@ UM, PCM, ACM or DCM",
 
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write, " ", multi
+        model, " ", nbrep, " ", pij_write, " ", multi,
+        maxiterDCM, " ", minratioDCM
       )
 
       cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)

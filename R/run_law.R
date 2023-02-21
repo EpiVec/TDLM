@@ -110,7 +110,7 @@
 #'   check_names = FALSE
 #' )
 #'
-#' print(res)
+#' #print(res)
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -309,6 +309,8 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
   nbrep <- "1"
   pij_write <- "true"
   ismulti <- "true"
+  maxiterDCM <- "50"
+  minratioDCM <- "0.02"
 
   nbparam <- length(param)
   if ((law == "Rad") | (law == "Rand") | (nbparam == 1)) { # Param 1
@@ -333,7 +335,8 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
 
     args <- paste0(
       wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-      model, " ", nbrep, " ", pij_write, " ", ismulti
+      model, " ", nbrep, " ", pij_write, " ", ismulti, " ",
+      maxiterDCM, " ", minratioDCM
     )
 
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
@@ -368,7 +371,8 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
 
       args <- paste0(
         wdin, " ", wdout, " ", law, " ", beta, " ", pij_only, " ",
-        model, " ", nbrep, " ", pij_write, " ", ismulti
+        model, " ", nbrep, " ", pij_write, " ", ismulti, " ",
+        maxiterDCM, " ", minratioDCM
       )
 
       cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)

@@ -24,8 +24,10 @@ public class TDM {
     	String wdin = args[0];
     	String wdout = args[1];
     	String model = args[2];
-    	double repli = Integer.parseInt(args[3]);
+    	int repli = Integer.parseInt(args[3]);
     	boolean multi = Boolean.parseBoolean(args[4]);
+    	int maxiterDCM = Integer.parseInt(args[5]);
+    	double minratioDCM = Double.parseDouble(args[6]);
     	
         //Load data: pij, Oi and Dj      
         //Number of regions n
@@ -83,7 +85,7 @@ public class TDM {
                 S = ACM(pij, Dj, multi);
             }
             if (model.equals("DCM")) {  //Doubly constrained model
-                S = DCM(pij, Oi, Dj, 50, 0.01, multi);
+                S = DCM(pij, Oi, Dj, maxiterDCM, minratioDCM, multi);
             }
 
             //Write the resulting simulated OD matrix in a file 
@@ -308,6 +310,21 @@ public class TDM {
         //Repeat the process while iter lower than maxIter and the distances between observed and simulated marginal 
         //are above a threshold 
         while ((critOut > closure || critIn > closure) && (iter <= maxIter)) {
+        	
+            //Compute sin
+            for (int i = 0; i < n; i++) {
+                sin[i] = 0;
+                for (int k = 0; k < n; k++) {
+                    sin[i] += weights[k][i];
+                }
+            }
+            //Each column of weights is proportionally adjusted to equal the observed marginal column (specifically, each cell is divided 
+            //by the simulated marginal column, then multiplied by the observed marginal column).
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    weights[i][j] = marg[j][1] * weights[i][j] / sin[j];
+                }
+            }
 
             //Compute sout
             for (int i = 0; i < n; i++) {
@@ -321,21 +338,6 @@ public class TDM {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     weights[i][j] = marg[i][0] * weights[i][j] / sout[i];
-                }
-            }
-
-            //Compute sin
-            for (int i = 0; i < n; i++) {
-                sin[i] = 0;
-                for (int k = 0; k < n; k++) {
-                    sin[i] += weights[k][i];
-                }
-            }
-            //Each column of weights is proportionally adjusted to equal the observed marginal column (specifically, each cell is divided 
-            //by the simulated marginal column, then multiplied by the observed marginal column).
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    weights[i][j] = marg[j][1] * weights[i][j] / sin[j];
                 }
             }
 
