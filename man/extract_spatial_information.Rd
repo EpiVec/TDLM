@@ -2,39 +2,54 @@
 % Please edit documentation in R/extract_spatial_information.R
 \name{extract_spatial_information}
 \alias{extract_spatial_information}
-\title{Extract the distance and average surface area from a spatial object}
+\title{Extract distances and surface areas from a spatial object}
 \usage{
-extract_spatial_information(geometry, names = NULL, stdist = FALSE)
+extract_spatial_information(geometry, id = NULL, show_progress = FALSE)
 }
 \arguments{
 \item{geometry}{a spatial object that can be handled by the \code{sf} package.}
 
-\item{names}{.}
+\item{id}{name or number of the column to use as rownames and colnames for
+the output distance matrix (optional, NULL by default). A vector with length
+equal to the number of locations can also be used.}
 
-\item{stdist}{a boolean indicating if the ... (see Details).}
+\item{show_progress}{a boolean indicating if a progress bar should be
+displayed.}
 }
 \value{
 A list composed of two elements. The first element is a squared matrix
 representing the great-circle distance (in kilometer) between locations. The
-second element is the average surface area of the locations
+second element is a vector containing the surface area of each location
 (in squared kilometer).
 }
 \description{
-This function returns a matrix of distances (in kilometer) along with the
-average surface area of the locations (in squared kilometer).
+This function returns a matrix of distances between locations (in kilometer)
+along with a vector surface areas of the locations (in squared kilometer).
 }
 \details{
-the \link[sf:geos_measures]{st_distance} functions from
-the \href{https://cran.rstudio.com/web/packages/sf/index.html}{sf} package.
-
-#' the \link[sf:geos_measures]{st_area} functions from
-the \href{https://cran.rstudio.com/web/packages/sf/index.html}{sf} package.
+The \code{geometry} must be projected in a valid coordinate reference
+system. It will be reprojected in degrees longitude/latitude to compute the
+great-circle distances between centroids' locations with an internal function
+and to compute the surface area with the function \link[sf:geos_measures]{st_area} from
+the \href{https://cran.rstudio.com/web/packages/sf/index.html}{sf} package. The
+centroid of the locations are extracted with the function
+\link[sfExtras:st_centroid_coords]{st_centroid_coords} from
+the \href{https://cran.rstudio.com/web/packages/sfExtras/index.html}{sfExtras}
+package.
 }
 \note{
-By default
+The outputs are based on the locations contained in \code{geometry} and
+sorted in the same order. An optional \code{id} can also be provided to be used as
+names for the outputs.
 }
 \examples{
 data(county)
+
+res <- extract_spatial_information(county, id = "ID")
+
+dim(res$distance)
+
+length(res$surface)
 
 }
 \seealso{

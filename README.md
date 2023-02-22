@@ -23,7 +23,7 @@ A tutorial vignette is available [here](https://epivec.github.io/TDLM/articles/T
 
 ## 3 Dependencies
 
-`TDLM` depends on `Ecume`, `mathjaxr`. `Rdpack`. `readr`. `rmarkdown` and `sf`.
+`TDLM` depends on `Ecume`, `mathjaxr`. `Rdpack`. `readr`. `rmarkdown`, `sf` and `sfExtras`.
 
 ## 4  Citation
 
