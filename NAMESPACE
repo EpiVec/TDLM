@@ -2,6 +2,7 @@
 
 S3method(print,TDLM)
 S3method(str,TDLM)
+export(calib_param)
 export(check_format_names)
 export(extract_opportunities)
 export(extract_spatial_information)

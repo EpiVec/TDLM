@@ -32,7 +32,8 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [check_format_names()]
+#' @seealso [calib_param()] [extract_spatial_information()] 
+#' [check_format_names()]
 #'
 #' @examples
 #' data(mass)

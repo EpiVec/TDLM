@@ -24,7 +24,7 @@ second element is a vector containing the surface area of each location
 }
 \description{
 This function returns a matrix of distances between locations (in kilometer)
-along with a vector surface areas of the locations (in squared kilometer).
+along with a vector surface areas of the locations (in square kilometer).
 }
 \details{
 The \code{geometry} must be projected in a valid coordinate reference
@@ -49,7 +49,7 @@ length(res$surface)
 
 }
 \seealso{
-\code{\link[=extract_opportunities]{extract_opportunities()}} \code{\link[=check_format_names]{check_format_names()}}
+\code{\link[=calib_param]{calib_param()}} \code{\link[=extract_opportunities]{extract_opportunities()}} \code{\link[=check_format_names]{check_format_names()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

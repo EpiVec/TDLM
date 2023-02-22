@@ -12,6 +12,7 @@ reference:
   - check_format_names
   - extract_opportunities 
   - extract_spatial_information 
+  - calib_param
   
 - title: Main functions
   desc: >

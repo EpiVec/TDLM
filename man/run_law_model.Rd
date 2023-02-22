@@ -36,7 +36,8 @@ destination (i.e. attractiveness).}
 (see Details).}
 
 \item{opportunity}{a squared matrix representing the number of opportunities
-between locations (see Details).}
+between locations (see Details). Can be easily computed with
+\code{\link[=extract_opportunities]{extract_opportunities()}}.}
 
 \item{param}{a vector of numeric value(s) used to adjust the importance of
 \code{distance} or \code{opportunity} associated with the chosen law. A single value or

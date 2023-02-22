@@ -55,6 +55,7 @@ sij <- extract_opportunities(
 \insertRef{Lenormand2016}{TDLM}
 }
 \seealso{
+\code{\link[=calib_param]{calib_param()}} \code{\link[=extract_spatial_information]{extract_spatial_information()}}
 \code{\link[=check_format_names]{check_format_names()}}
 }
 \author{

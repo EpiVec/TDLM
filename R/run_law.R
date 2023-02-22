@@ -20,7 +20,8 @@
 #' (see Details).
 #'
 #' @param opportunity a squared matrix representing the number of opportunities
-#' between locations (see Details).
+#' between locations (see Details). Can be easily computed with 
+#' [extract_opportunities()].
 #'
 #' @param param a vector of numeric value(s) used to adjust the importance of
 #' `distance` or `opportunity` associated with the chosen law. A single value or

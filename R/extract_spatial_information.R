@@ -1,7 +1,7 @@
 #' Extract distances and surface areas from a spatial object
 #'
 #' This function returns a matrix of distances between locations (in kilometer)
-#'  along with a vector surface areas of the locations (in squared kilometer).
+#'  along with a vector surface areas of the locations (in square kilometer).
 #'
 #' @param geometry a spatial object that can be handled by the `sf` package.
 #'
@@ -31,7 +31,7 @@
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
 #'
-#' @seealso [extract_opportunities()] [check_format_names()]
+#' @seealso [calib_param()] [extract_opportunities()] [check_format_names()]
 #'
 #' @examples
 #' data(county)
