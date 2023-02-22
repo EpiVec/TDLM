@@ -31,11 +31,7 @@ The \code{geometry} must be projected in a valid coordinate reference
 system. It will be reprojected in degrees longitude/latitude to compute the
 great-circle distances between centroids' locations with an internal function
 and to compute the surface area with the function \link[sf:geos_measures]{st_area} from
-the \href{https://cran.rstudio.com/web/packages/sf/index.html}{sf} package. The
-centroid of the locations are extracted with the function
-\link[sfExtras:st_centroid_coords]{st_centroid_coords} from
-the \href{https://cran.rstudio.com/web/packages/sfExtras/index.html}{sfExtras}
-package.
+the \href{https://cran.rstudio.com/web/packages/sf/index.html}{sf} package.
 }
 \note{
 The outputs are based on the locations contained in \code{geometry} and

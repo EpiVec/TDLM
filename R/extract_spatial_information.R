@@ -16,11 +16,7 @@
 #' system. It will be reprojected in degrees longitude/latitude to compute the
 #' great-circle distances between centroids' locations with an internal function
 #' and to compute the surface area with the function [st_area][sf::st_area] from
-#' the [sf](https://cran.rstudio.com/web/packages/sf/index.html) package. The
-#' centroid of the locations are extracted with the function
-#' [st_centroid_coords][sfExtras::st_centroid_coords] from
-#' the [sfExtras](https://cran.rstudio.com/web/packages/sfExtras/index.html)
-#'  package.
+#' the [sf](https://cran.rstudio.com/web/packages/sf/index.html) package.
 #
 #' @note The outputs are based on the locations contained in `geometry` and
 #' sorted in the same order. An optional `id` can also be provided to be used as
@@ -142,11 +138,18 @@ extract_spatial_information <- function(geometry,
   # Project geometry in lon/lat
   geometry <- sf::st_transform(geometry, 4326)
 
-  # Extract distances
-  lonlat <- sfExtras::st_centroid_coords(geometry)
-  lon <- as.numeric(lonlat[, 1])
-  lat <- as.numeric(lonlat[, 2])
+  # Extract centroids (inspired by sfExtras::st_centroid_coords)
+  lon <- as.numeric(vapply(geometry$geometry,
+    function(x) sf::st_centroid(x)[[1]],
+    FUN.VALUE = double(1)
+  ))
+  lat <- as.numeric(vapply(geometry$geometry,
+    function(x) sf::st_centroid(x)[[2]],
+    FUN.VALUE = double(1)
+  ))
+  lonlat <- cbind(lon, lat)
 
+  # Extract distances
   if (show_progress) {
     pb <- utils::txtProgressBar(min = 0, max = dim(lonlat)[1], style = 3)
     distance <- NULL
