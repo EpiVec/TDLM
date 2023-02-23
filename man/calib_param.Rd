@@ -18,8 +18,8 @@ the average surface area of the locations.
 }
 \description{
 This function returns an estimation of the optimal parameter value based on
-the average surface area of the locations (in square kilometer) according and
-according to the law. This estimation has only been tested on commuting data
+the average surface area of the locations (in square kilometer) according to
+the law. This estimation has only been tested on commuting data
 (in kilometer).
 }
 \details{

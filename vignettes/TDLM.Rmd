@@ -15,6 +15,7 @@ vignette: >
   %\VignetteIndexEntry{Tutorial for TDLM}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+bibliography: '`r system.file("REFERENCES.bib", package="TDLM")`'
 ---
 
 ```{r setup, include=FALSE}
@@ -32,13 +33,13 @@ options(tinytex.verbose = TRUE)
 
 ```
 
-## 0. Brief introduction
+This tutorial aims at describing the different features of the R package `TDLM`. 
+The main purpose of the `TDLM`'s package is to propose a
 
 
+[@Lenormand2016]
 
-
-
-
+# References
 
 
 
