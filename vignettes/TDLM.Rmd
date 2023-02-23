@@ -33,11 +33,46 @@ options(tinytex.verbose = TRUE)
 
 ```
 
+# Introduction
+
 This tutorial aims at describing the different features of the R package `TDLM`. 
-The main purpose of the `TDLM`'s package is to propose a
+The main purpose of the `TDLM`'s package is to propose a rigorous framework to 
+fairly compare trip distribution laws and models [@Lenormand2016]. This general
+framework is based on a two-step approach to generate mobility flows by 
+separating the trip distribution law, gravity or intervening opportunities, from 
+the modeling approach used to generate the flows from this law.
+
+# A short note on terminology
+
+This framework is part of the four-step travel model. It corresponds to the 
+second step, called trip distribution, the aim of which is to match the origins
+with the destinations.  
+
+# Spatial interaction data
+
+<br>
+<center>
+  <img align="bottom" width="75%" height="75%" src="../man/figures/OD.png">
+</center> 
+<br>
+<center>
+  <b>Figure 1: Schematic representation of the Origin-Destination table.</b>
+</center> 
+<br>
+
+# Aggregated inputs information
+
+# Gravity and intervening opportunities laws
+
+# Constrained models
+
+# Goodness-of-fit measures
+
+# Parameter calibration
+
+# Example of commuting in Kansas
 
 
-[@Lenormand2016]
 
 # References
 
