@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Maxime
 Lenormand</h4>
             
-            <h4 data-toc-skip class="date">2023-02-23</h4>
+            <h4 data-toc-skip class="date">2023-02-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EpiVec/TDLM/blob/HEAD/vignettes/TDLM.Rmd" class="external-link"><code>vignettes/TDLM.Rmd</code></a></small>
       <div class="d-none name"><code>TDLM.Rmd</code></div>
@@ -104,31 +104,74 @@ modeling approach used to generate the flows from this law.</p>
 </h2>
 <p>This framework is part of the four-step travel model. It corresponds
 to the second step, called trip distribution, the aim of which is to
-match the origins with the destinations.</p>
+match the trip origins with the trip destinations. The model used to
+generate the trips or flows, and more generally the degree of
+interaction between different locations, are often called spatial
+interaction models. According to the research area, a matrix or a
+network formalism can be used to describe these spatial interactions.
+Origin-Destination matrix (or trip table) are often used in geography or
+transportation while in statistical physics or in the study of complex
+systems the term mobility networks is usually preferred.</p>
 </div>
 <div class="section level2">
-<h2 id="spatial-interaction-data">Spatial interaction data<a class="anchor" aria-label="anchor" href="#spatial-interaction-data"></a>
+<h2 id="origindestination-matrix">Origin–Destination matrix<a class="anchor" aria-label="anchor" href="#origindestination-matrix"></a>
 </h2>
+<p>The description of movements in a certain area is represented by an
+Origin-Destination matrix (OD matrix). The area of interest is divided
+into <span class="math inline">\(n\)</span> locations and <span class="math inline">\(T_{ij}\)</span> represents the volume of flows
+between location <span class="math inline">\(i\)</span> and location
+<span class="math inline">\(j\)</span>. This volume usually represents a
+number of trips or a commuting flow (i.e. number of individuals living
+in <span class="math inline">\(i\)</span> and working in <span class="math inline">\(j\)</span>). The OD matrix is squared, contains
+only positive values and can be a zero-diagonal matrix (Figure 1).</p>
 <br><center>
-<img align="bottom" width="75%" height="75%" src="../reference/figures/OD.png">
+<img align="bottom" width="60%" height="60%" src="../reference/figures/OD.png">
 </center>
 <br><center>
-<b>Figure 1: Schematic representation of the Origin-Destination
-table.</b>
+<b>Figure 1: Schematic representation of an Origin-Destination
+matrix.</b>
 </center>
 <p><br></p>
 </div>
 <div class="section level2">
 <h2 id="aggregated-inputs-information">Aggregated inputs information<a class="anchor" aria-label="anchor" href="#aggregated-inputs-information"></a>
 </h2>
+<p>Three categories of inputs are considered</p>
+<br><center>
+<img align="bottom" width="75%" height="75%" src="../reference/figures/Inputs.png">
+</center>
+<br><center>
+<b>Figure 2: Schematic representation of the aggregated inputs
+information. </b>
+</center>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="gravity-and-intervening-opportunities-laws">Gravity and intervening opportunities laws<a class="anchor" aria-label="anchor" href="#gravity-and-intervening-opportunities-laws"></a>
 </h2>
+<br><center>
+<img align="bottom" width="60%" height="60%" src="../reference/figures/Proba.png">
+</center>
+<br><center>
+<b>Figure 3: Schematic representation of the matrix of probabilities.
+</b>
+</center>
+<p><br></p>
+<br><center>
+<img align="bottom" width="50%" height="50%" src="../reference/figures/GravVsOpp.png">
+</center>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="constrained-models">Constrained models<a class="anchor" aria-label="anchor" href="#constrained-models"></a>
 </h2>
+<br><center>
+<img align="bottom" width="80%" height="80%" src="../reference/figures/Models.png">
+</center>
+<br><center>
+<b>Figure 4: Schematic representation of the constrained models. </b>
+</center>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="goodness-of-fit-measures">Goodness-of-fit measures<a class="anchor" aria-label="anchor" href="#goodness-of-fit-measures"></a>
@@ -141,6 +184,31 @@ table.</b>
 <div class="section level2">
 <h2 id="example-of-commuting-in-kansas">Example of commuting in Kansas<a class="anchor" aria-label="anchor" href="#example-of-commuting-in-kansas"></a>
 </h2>
+<div class="section level3">
+<h3 id="origindestination-matrix-1">Origin–Destination matrix<a class="anchor" aria-label="anchor" href="#origindestination-matrix-1"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="aggregated-inputs-information-1">Aggregated inputs information<a class="anchor" aria-label="anchor" href="#aggregated-inputs-information-1"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="run-functions">Run functions<a class="anchor" aria-label="anchor" href="#run-functions"></a>
+</h3>
+<p>In this package, only inter-location flows are considered for the
+distribution laws, meaning that the matrix of probabilities (and
+associated simulated OD matrices) generated by a given distribution law
+with <a href="https://epivec.github.io/TDLM/reference/run_law_model.html">run_law_model</a>
+or <a href="https://epivec.github.io/TDLM/reference/run_law.html">run_law</a>
+is a zero-diagonal matrix. Nevertheless, it is possible to generate
+intra-location flows with <a href="https://epivec.github.io/TDLM/reference/run_law.html">run_model</a>
+taking any kind of matrix of probabilities as input (see the example of
+Kansas below).</p>
+</div>
+<div class="section level3">
+<h3 id="parameter-calibration-and-model-evalution">Parameter calibration and model evalution<a class="anchor" aria-label="anchor" href="#parameter-calibration-and-model-evalution"></a>
+</h3>
+</div>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
