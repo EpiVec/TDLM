@@ -160,7 +160,7 @@ run_model <- function(proba,
   controls(
     args = NULL,
     matrices = list(proba = proba),
-    type = "matrices_proba"
+    type = "matrices_positive"
   )
   proba <- proba / sum(proba)
 

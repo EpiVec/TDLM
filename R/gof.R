@@ -192,7 +192,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
             distance = distance,
             matrices_in_sim = sim[[2]][[1]]
           ),
-          type = "matrices_gof"
+          type = "matrices_positive"
         )
         controls(
           args = NULL,
@@ -211,7 +211,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
             distance = distance,
             matrices_in_sim = sim[[2]]
           ),
-          type = "matrices_gof"
+          type = "matrices_positive"
         )
         controls(
           args = NULL,
@@ -257,7 +257,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
             obs = obs,
             matrices_in_sim = sim[[2]][[1]]
           ),
-          type = "matrices_gof"
+          type = "matrices_positive"
         )
         controls(
           args = NULL,
@@ -274,7 +274,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
             obs = obs,
             matrices_in_sim = sim[[2]]
           ),
-          type = "matrices_gof"
+          type = "matrices_positive"
         )
         controls(
           args = NULL,
@@ -339,7 +339,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
           obs = obs,
           distance = distance
         ), sim),
-        type = "matrices_gof"
+        type = "matrices_positive"
       )
       controls(
         args = NULL,
@@ -366,7 +366,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
       controls(
         args = NULL,
         matrices = c(list(obs = obs), sim),
-        type = "matrices_gof"
+        type = "matrices_positive"
       )
       controls(
         args = NULL,

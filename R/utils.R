@@ -128,101 +128,11 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
-      if (sum(diag(matrix)) > 0) {
-        stop(paste0("The diagonal of ", namemat, " must be null."),
-          call. = FALSE
-        )
-      }
-    }
-  }
-
-  # matrices_proba #############################################################
-  if (type == "matrices_proba") {
-    nbm <- length(matrices)
-    for (k in 1:nbm) {
-      matrix <- matrices[[k]]
-      namemat <- names(matrices)[k]
-
-      if (!is.matrix(matrix)) {
-        stop(paste0(namemat, " must be a matrix."),
-          call. = FALSE
-        )
-      }
-      n <- dim(matrix)[1]
-      m <- dim(matrix)[2]
-      if (n != m) {
-        stop(paste0(namemat, " must be squared."),
-          call. = FALSE
-        )
-      }
-      if (n < 2) {
-        stop(paste0(namemat, " must contain at least two locations."),
-          call. = FALSE
-        )
-      }
-      if (sum(is.na(matrix)) > 0) {
-        stop(paste0("NA(s) detected in ", namemat, "."),
-          call. = FALSE
-        )
-      }
-      if (sum(matrix != 0) == 0) {
-        stop(paste0(namemat, " must contain at least one strictly positive 
-        value."),
-          call. = FALSE
-        )
-      }
-      if (sum(matrix < 0) > 0) {
-        stop(paste0(namemat, " must contain only positive values."),
-          call. = FALSE
-        )
-      }
-      # if (sum(matrix) != 1) {
-      #  message(paste0("It seems that the element of ", namemat, " do not
-      # exactly sum to 1. Note that it will be renormalized anyway."))
-      # }
-    }
-  }
-
-  # matrices_gof ###############################################################
-  if (type == "matrices_gof") {
-    nbm <- length(matrices)
-    for (k in 1:nbm) {
-      matrix <- matrices[[k]]
-      namemat <- names(matrices)[k]
-
-      if (!is.matrix(matrix)) {
-        stop(paste0(namemat, " must be a matrix."),
-          call. = FALSE
-        )
-      }
-      n <- dim(matrix)[1]
-      m <- dim(matrix)[2]
-      if (n != m) {
-        stop(paste0(namemat, " must be squared."),
-          call. = FALSE
-        )
-      }
-      if (n < 2) {
-        stop(paste0(namemat, " must contain at least two locations."),
-          call. = FALSE
-        )
-      }
-      if (sum(is.na(matrix)) > 0) {
-        stop(paste0("NA(s) detected in ", namemat, "."),
-          call. = FALSE
-        )
-      }
-      if (sum(matrix != 0) == 0) {
-        stop(paste0(namemat, " must contain at least one strictly positive 
-        value."),
-          call. = FALSE
-        )
-      }
-      if (sum(matrix < 0) > 0) {
-        stop(paste0(namemat, " must contain only positive values."),
-          call. = FALSE
-        )
-      }
+      #if (sum(diag(matrix)) > 0) {
+      #  stop(paste0("The diagonal of ", namemat, " must be null."),
+      #    call. = FALSE
+      #  )
+      #}
     }
   }
 

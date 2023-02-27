@@ -99,7 +99,7 @@ format or format_and_names", call. = FALSE)
     controls(
       args = NULL,
       matrices = matrices,
-      type = "matrices_gof"
+      type = "matrices_positive"
     )
     controls(
       args = NULL,
