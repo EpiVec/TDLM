@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Maxime
 Lenormand</h4>
             
-            <h4 data-toc-skip class="date">2023-02-27</h4>
+            <h4 data-toc-skip class="date">2023-03-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EpiVec/TDLM/blob/HEAD/vignettes/TDLM.Rmd" class="external-link"><code>vignettes/TDLM.Rmd</code></a></small>
       <div class="d-none name"><code>TDLM.Rmd</code></div>
@@ -136,7 +136,23 @@ matrix.</b>
 <div class="section level2">
 <h2 id="aggregated-inputs-information">Aggregated inputs information<a class="anchor" aria-label="anchor" href="#aggregated-inputs-information"></a>
 </h2>
-<p>Three categories of inputs are considered</p>
+<p>Three categories of inputs are usually considered to simulate an OD
+matrix (Figure 2). The masses and distances are the main ingredients
+used to generate a matrix of probabilities based on a given distribution
+law. Hence, the probability <span class="math inline">\(p_{ij}\)</span>
+to observe a trip from location <span class="math inline">\(i\)</span>
+to another location <span class="math inline">\(j\)</span> is based on
+the masses, the demand at origin (<span class="math inline">\(m_i\)</span>) and the offer at destination (<span class="math inline">\(m_j\)</span>). Typically, the population is used
+as surrogate for the demand and offer. The probability of movements also
+depends on the costs based on the distance <span class="math inline">\(d_{ij}\)</span> between locations or the number of
+opportunities <span class="math inline">\(s_{ij}\)</span> between
+locations depending on the chosen law (more details in the next “Trip
+distribution laws” section). In general both the effect of the cost can
+be adjusted with a parameter.</p>
+<p>The margins are used to generate an OD matrix based on the matrix of
+probabilities by preserving the total number of trips (<span class="math inline">\(N\)</span>), the number of out-going trips (<span class="math inline">\(O_i\)</span>) and/or the number of in-coming trips
+(<span class="math inline">\(D_j\)</span>) (more details in the
+“Contrained distribution models” section).</p>
 <br><center>
 <img align="bottom" width="75%" height="75%" src="../reference/figures/Inputs.png">
 </center>
@@ -147,8 +163,16 @@ information. </b>
 <p><br></p>
 </div>
 <div class="section level2">
-<h2 id="gravity-and-intervening-opportunities-laws">Gravity and intervening opportunities laws<a class="anchor" aria-label="anchor" href="#gravity-and-intervening-opportunities-laws"></a>
+<h2 id="trip-distribution-laws">Trip distribution laws<a class="anchor" aria-label="anchor" href="#trip-distribution-laws"></a>
 </h2>
+<p>The purpose of a trip distribution law is to estimate the probability
+<span class="math inline">\(p_{ij}\)</span> that out of all the possible
+travels in the system we have one between the location <span class="math inline">\(i\)</span> and the location <span class="math inline">\(j\)</span>. This probability is asymmetric in
+<span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> as the flows themselves. It takes the
+form of squared matrix of probabilities. This probability is normalized
+to all possible couples of origins and destinations, <span class="math inline">\(\sum_{i,j=1}^n p_{ij} =1\)</span>. Hence, a matrix
+of probabilities can be obtained by normalizing any OD matrix (Figure
+3).</p>
 <br><center>
 <img align="bottom" width="60%" height="60%" src="../reference/figures/Proba.png">
 </center>
@@ -157,29 +181,69 @@ information. </b>
 </b>
 </center>
 <p><br></p>
+<p>As mentioned in the previous section, most of the trip distribution
+law depends on the demand at origin (<span class="math inline">\(m_i\)</span>), the offer at destination (<span class="math inline">\(m_j\)</span>) and a cost to move from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>. There are two major approaches for the
+estimation of the matrix of probability. The traditional gravity
+approach, in analogy with the Newton’s law of gravitation, is based on
+the assumption that the amount of trips between two locations is related
+to their populations and decays with a function of the distance <span class="math inline">\(d_{ij}\)</span> between locations. In contrast to
+the gravity law, the laws of intervening opportunities hinges on the
+assumption that the number of opportunities <span class="math inline">\(s_{ij}\)</span> between locations plays a more
+important role than the distance <span class="citation">(Lenormand,
+Bassolas, and Ramasco 2016)</span>. This fundamental difference between
+the two schools of thought is illustrated in Figure 4.</p>
 <br><center>
 <img align="bottom" width="50%" height="50%" src="../reference/figures/GravVsOpp.png">
 </center>
+<br><center>
+<b>Figure 4: Illustration of the fundamental difference between gravity
+and intervening opportunity laws. </b>
+</center>
 <p><br></p>
+<p>It is important to note that the effect of the cost between locations
+(distance or number of opportunities) can usually be adjusted with a
+parameter that can be calibrated automatically or by comparing the
+simulated matrix with observed data (more details in the example based
+on real commuting data in Kansas below).</p>
 </div>
 <div class="section level2">
-<h2 id="constrained-models">Constrained models<a class="anchor" aria-label="anchor" href="#constrained-models"></a>
+<h2 id="constrained-distribution-models">Constrained distribution models<a class="anchor" aria-label="anchor" href="#constrained-distribution-models"></a>
 </h2>
+<p>The purpose of the trip distribution models is to generate an OD
+matrix <span class="math inline">\(\tilde{T}=(\tilde{T}_{ij})\)</span>
+by drawing at random <span class="math inline">\(N\)</span> trips from
+the trip distribution law <span class="math inline">\((p_{ij})_{1 \leq
+i,j \leq n}\)</span> respecting different level of constraints according
+to the model. We considered four different types of models in this
+package. As can be observed in Figure 5, the four models respect
+different level of constraints from the total number of trips to the
+total number of out-going and in-coming trips by locations (i.e. the
+margins).</p>
 <br><center>
 <img align="bottom" width="80%" height="80%" src="../reference/figures/Models.png">
 </center>
 <br><center>
-<b>Figure 4: Schematic representation of the constrained models. </b>
+<b>Figure 5: Schematic representation of the constrained distribution
+models. </b>
 </center>
 <p><br></p>
+<p>More specifically, the volume of flows <span class="math inline">\(\tilde{T}_{ij}\)</span> is generated from the
+matrix of probability with multinomial random draws that will take
+different forms according to the model used <span class="citation">(Lenormand, Bassolas, and Ramasco 2016)</span>.
+Therefore, since the process is stochastic, each simulated matrix is
+unique and composed of integers. Note that it is also possible to
+generate an average matrix from the multinomial trials.</p>
 </div>
 <div class="section level2">
 <h2 id="goodness-of-fit-measures">Goodness-of-fit measures<a class="anchor" aria-label="anchor" href="#goodness-of-fit-measures"></a>
 </h2>
-</div>
-<div class="section level2">
-<h2 id="parameter-calibration">Parameter calibration<a class="anchor" aria-label="anchor" href="#parameter-calibration"></a>
-</h2>
+<p>Finally, the trip distribution laws can be calibrated and both the
+trip distribution laws and models can be evaluated by comparing a
+simulated matrix <span class="math inline">\(\tilde{T}\)</span> with the
+observed one <span class="math inline">\(T\)</span>. These comparison
+are based on different goodness-of-fit measures that can take into
+accounts the distance between location or not (more details in the
+example based on real commuting data in Kansas below).</p>
 </div>
 <div class="section level2">
 <h2 id="example-of-commuting-in-kansas">Example of commuting in Kansas<a class="anchor" aria-label="anchor" href="#example-of-commuting-in-kansas"></a>
