@@ -57,9 +57,9 @@ complex systems the term mobility networks is usually preferred.
 # Origin–Destination matrix
 
 The description of movements in a certain area is represented by an
-Origin-Destination matrix (OD matrix). The area of interest is divided into $n$ locations 
-and $T_{ij}$ represents the volume of flows between location $i$ and 
-location $j$. This volume usually represents a number of trips 
+Origin-Destination matrix (OD matrix). The area of interest is divided into 
+$n$ locations and $T_{ij}$ represents the volume of flows between location $i$ 
+and location $j$. This volume usually represents a number of trips 
 or a commuting flow (i.e. number of individuals living in $i$ and working in 
 $j$). The OD matrix is squared, contains only positive values and can be a
 zero-diagonal matrix (Figure 1). 
@@ -76,7 +76,22 @@ zero-diagonal matrix (Figure 1).
 
 # Aggregated inputs information
 
-Three categories of inputs are considered 
+Three categories of inputs are usually considered to simulate an OD matrix 
+(Figure 2). The masses and distances are the main ingredients used to generate a 
+matrix of probabilities based on a given distribution law. Hence, the 
+probability $p_{ij}$ to observe a trip from location $i$ to another location $j$
+is based on the masses, the demand at origin ($m_i$) and the offer at 
+destination  ($m_j$). Typically, the population is used as surrogate for the 
+demand and offer. The probability of movements also depends on the costs based 
+on the distance $d_{ij}$ between locations or the number of opportunities 
+$s_{ij}$ between locations depending on the chosen law (more details in the next 
+"Trip distribution laws" section). In general both the effect of the cost can be
+adjusted with a parameter.
+
+The margins are used to generate an OD matrix based on the matrix of 
+probabilities by preserving the total number of trips ($N$), 
+the number of out-going trips ($O_i$) and/or the number of in-coming trips 
+($D_j$) (more details in the "Contrained distribution models" section).
 
 <br>
 <center>
@@ -89,7 +104,15 @@ Three categories of inputs are considered
 </center> 
 <br>
 
-# Gravity and intervening opportunities laws
+# Trip distribution laws
+
+The purpose of a trip distribution law is to estimate the probability $p_{ij}$ 
+that out of all the possible travels in the system we have one between the 
+location $i$ and the location $j$. This probability is asymmetric in $i$ and $j$
+as the flows themselves. It takes the form of squared matrix of probabilities.
+This probability is normalized to all possible couples of origins and 
+destinations, $\sum_{i,j=1}^n p_{ij} =1$. Hence, a matrix of probabilities can 
+be obtained by normalizing any OD matrix (Figure 3).
 
 <br>
 <center>
@@ -102,7 +125,17 @@ Three categories of inputs are considered
 </center> 
 <br>
 
-
+As mentioned in the previous section, most of the trip distribution law depends
+on the demand at origin ($m_i$), the offer at destination  ($m_j$) and a cost to 
+move from $i$ to $j$. There are two major approaches for the estimation of the
+matrix of probability. The traditional gravity approach, in analogy with the 
+Newton's law of gravitation, is based on the assumption that the amount of trips
+between two locations is related to their populations and decays with a function
+of the distance $d_{ij}$ between locations. In contrast to the gravity law, the 
+laws of intervening opportunities hinges on the assumption that the number of 
+opportunities $s_{ij}$ between locations plays a more important role than the 
+distance [@Lenormand2016]. This fundamental difference between the two schools
+of thought is illustrated in Figure 4.
 
 <br>
 <center>
@@ -110,10 +143,28 @@ Three categories of inputs are considered
   src="../man/figures/GravVsOpp.png">
 </center> 
 <br>
+<center>
+  <b>Figure 4: Illustration of the fundamental difference between gravity and 
+  intervening opportunity laws.
+  </b>
+</center> 
+<br>
 
+It is important to note that the effect of the cost between locations (distance 
+or number of opportunities) can usually be adjusted with a parameter that can be
+calibrated automatically or by comparing the simulated matrix with observed
+data (more details in the example based on real commuting data in Kansas below).  
 
+# Constrained distribution models
 
-# Constrained models
+The purpose of the trip distribution models is to generate an OD matrix 
+$\tilde{T}=(\tilde{T}_{ij})$ by 
+drawing at random $N$ trips from the trip distribution law 
+$(p_{ij})_{1 \leq i,j \leq n}$ respecting different level of constraints 
+according to the model. We considered four different types of models in this
+package. As can be observed in Figure 5, the four models respect different level
+of constraints from the total number of trips to the total number of out-going 
+and in-coming trips by locations (i.e. the margins).
 
 <br>
 <center>
@@ -121,14 +172,26 @@ Three categories of inputs are considered
 </center> 
 <br>
 <center>
-  <b>Figure 4: Schematic representation of the constrained models.
+  <b>Figure 5: Schematic representation of the constrained distribution models.
   </b>
 </center> 
 <br>
 
+More specifically, the volume of flows $\tilde{T}_{ij}$ is generated from the
+matrix of probability with multinomial random draws that will take different 
+forms according to the model used [@Lenormand2016]. Therefore, since the process
+is stochastic, each simulated matrix is unique and composed of integers. Note 
+that it is also possible to generate an average matrix from the multinomial 
+trials.
+
 # Goodness-of-fit measures
 
-# Parameter calibration
+Finally, the trip distribution laws can be calibrated and both the trip 
+distribution laws and models can be evaluated by comparing a simulated matrix
+$\tilde{T}$ with the observed one $T$. These comparison are based on different
+goodness-of-fit measures that can take into accounts the distance between 
+location or not (more details in the example based on real commuting data in 
+Kansas below).
 
 # Example of commuting in Kansas
 
