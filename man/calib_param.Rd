@@ -2,7 +2,7 @@
 % Please edit documentation in R/calib_param.R
 \name{calib_param}
 \alias{calib_param}
-\title{Automatic calibration of trip distribution parameters}
+\title{Automatic calibration of trip distribution laws' parameter}
 \usage{
 calib_param(av_surf, law = "NGravExp")
 }

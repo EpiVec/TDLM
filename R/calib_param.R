@@ -1,4 +1,4 @@
-#' Automatic calibration of trip distribution parameters
+#' Automatic calibration of trip distribution laws' parameter
 #'
 #' This function returns an estimation of the optimal parameter value based on
 #' the average surface area of the locations (in square kilometer) according to

@@ -138,7 +138,7 @@
 #' according to the model used. In this case, the models will deal with positive
 #' integers as inputs and outputs. Nevertheless, it is also possible to generate
 #' an average matrix based on a multinomial distribution (based on an infinite
-#' number of drawings. In this case, the models' inputs can be either positive
+#' number of drawings). In this case, the models' inputs can be either positive
 #' integer or real numbers and the output (`nbrep = 1` in this case) will be a
 #' matrix of positive real numbers.
 #'
