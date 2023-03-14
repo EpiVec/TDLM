@@ -415,7 +415,6 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
       nameres <- merge(names(sim[[2]]),names(sim)[-1])
       nameres <- nameres[,c(2,1)]
       res <- data.frame(Parameter = nameres[, 1], 
-                        Parameter_Value = sim$info[-c(1:4),2],
                         Simulation = nameres[, 2])
     } else {
       res <- data.frame(Simulation = names(sim)[-1])
