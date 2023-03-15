@@ -472,7 +472,9 @@ in [@Lenormand2016]) for commuting in US Kansas counties is around 0.085.
 print(calib_param(av_surf = mean(spi$surface), law = "NGravExp"))
 ```
 
-This is just an estimation so in order to 
+This is just an estimation so in order to rigorously calibrate and evaluate the
+trip distribution law and model we need to compute the goodness-of-fit 
+measure for a wide range of parameter values.
 
 ```{r}
 res <- run_law_model(law = "NGravExp", 
@@ -489,13 +491,20 @@ res <- run_law_model(law = "NGravExp",
                      in_trips = Dj,
                      average = FALSE, 
                      nbrep = 3)
+
+calib <- gof(sim = res, obs = od, measures = "all", distance = distance)
+
+print(calib)
 ```
 
 
 
 ```{r}
-calib <- gof(sim = res, obs = od, measures = "all", distance = distance)
+cpc <- aggregate(calib$CPC, list(calib$Parameter), mean)[,2]
+
+plot(seq(0.05,0.1,0.005), cpc)
 ```
+
 
 ---
 
