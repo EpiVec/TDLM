@@ -16,7 +16,7 @@
 #' system. It will be reprojected in degrees longitude/latitude to compute the
 #' great-circle distances between centroids' locations with an internal function
 #' and to compute the surface area with the function [st_area][sf::st_area] from
-#' the [sf](https://cran.rstudio.com/web/packages/sf/index.html) package.
+#' the [sf](https://cran.r-project.org/package=sf) package.
 #
 #' @note The outputs are based on the locations contained in `geometry` and
 #' sorted in the same order. An optional `id` can also be provided to be used as

@@ -281,7 +281,7 @@ opportunities, respectively.
 
 The first function takes as input a spatial object containing the geometry of 
 the locations that can be handled by the 
-[sf](https://cran.rstudio.com/web/packages/sf/index.html) 
+[sf](https://cran.r-project.org/package=sf) 
 package. It returns a matrix of great-circle distances between locations 
 (express in km). An optional `id` can also be provided to be used as names for
 the outputs. 

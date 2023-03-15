@@ -10,7 +10,7 @@ matrix represents the distance between two counties. County ID as rownames
 and colnames.
 }
 \source{
-\url{https://www.sciencebase.gov/catalog/item/4f4e4a2ee4b07f02db615738}
+\url{https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html}
 }
 \usage{
 distance

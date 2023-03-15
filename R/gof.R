@@ -68,7 +68,7 @@
 #' and the Kolmogorv-Smirnov statistic and p-value \insertCite{Massey1951}{TDLM}
 #' , noted KS. It is based on the observed and simulated flow distance
 #' distribution and computed with the [ks_test][Ecume::ks_test] function from
-#' the [Ecume](https://cran.rstudio.com/web/packages/Ecume/index.html) package.
+#' the [Ecume](https://cran.r-project.org/package=Ecume) package.
 #'
 #' @note By default, if `sim` is an output of [run_law_model()]
 #' the measure(s) are computed only for the simulated OD matrices and

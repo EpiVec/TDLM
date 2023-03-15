@@ -90,7 +90,7 @@ sum of observed (and simulated) flows at a distance comprised in the bin
 and the Kolmogorv-Smirnov statistic and p-value \insertCite{Massey1951}{TDLM}
 , noted KS. It is based on the observed and simulated flow distance
 distribution and computed with the \link[Ecume:ks_test]{ks_test} function from
-the \href{https://cran.rstudio.com/web/packages/Ecume/index.html}{Ecume} package.
+the \href{https://cran.r-project.org/package=Ecume}{Ecume} package.
 }
 \note{
 By default, if \code{sim} is an output of \code{\link[=run_law_model]{run_law_model()}}

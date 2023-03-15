@@ -1,6 +1,6 @@
 Package: TDLM
 Type: Package
-Title: Systematic comparison of trip distribution laws and models
+Title: Systematic Comparison of Trip Distribution Laws and Models
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Maxime",

@@ -21,7 +21,7 @@
 #' @format A `matrix` with 105 rows and 105 columns. Each element of the
 #' matrix represents the distance between two counties. County ID as rownames
 #' and colnames.
-#' @source <https://www.sciencebase.gov/catalog/item/4f4e4a2ee4b07f02db615738>
+#' @source <https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html>
 "distance"
 
 #' Origin-Destination commuting matrix between US Kansas counties in 2000
@@ -47,5 +47,5 @@
 #'   \item{Area}{Surface area of the county (in square kilometer).}
 #'   \item{geometry}{Geometry of the county.}
 #' }
-#' @source <https://www.sciencebase.gov/catalog/item/4f4e4a2ee4b07f02db615738>
+#' @source <https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html>
 "county"
