@@ -109,6 +109,7 @@ this function (\code{check_names = FALSE} by default). Note that the function
 before running the main package's functions.
 }
 \examples{
+\dontrun{
 data(mass)
 data(distance)
 data(od)
@@ -132,6 +133,7 @@ gof(
   use_proba = FALSE,
   check_names = FALSE
 )
+}
 
 }
 \references{

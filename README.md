@@ -27,5 +27,5 @@ A tutorial vignette is available [here](https://epivec.github.io/TDLM/articles/T
 
 ## 4  Citation
 
-Lenormand M, Bassolas A & Ramasco JJ (2016) [Systematic comparison of trip distribution laws and models.](https://www.maximelenormand.com/Publications#trippaper) *Journal of Transport Geography* 51, 158-169.
+Lenormand M, Bassolas A & Ramasco JJ (2016) [Systematic comparison of trip distribution laws and models.](https://www.sciencedirect.com/science/article/abs/pii/S0966692315002422) *Journal of Transport Geography* 51, 158-169.
 

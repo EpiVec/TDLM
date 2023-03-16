@@ -98,6 +98,7 @@
 #' [check_format_names()]
 #'
 #' @examples
+#' \dontrun{
 #' data(mass)
 #' data(distance)
 #' data(od)
@@ -121,6 +122,7 @@
 #'   use_proba = FALSE,
 #'   check_names = FALSE
 #' )
+#' }
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
