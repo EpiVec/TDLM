@@ -83,7 +83,7 @@ vector names, matrix rownames and colnames and if they should be checked
 An object of class \code{TDLM}. A list of list of matrices containing for each
 parameter value the \code{nbrep} simulated matrices and the matrix of
 probabilities (called \code{proba}) if \code{write_proba = TRUE}.
-If \code{length(param) == 1} or \code{law == "Rad"} or \verb{law == "Unif} only a list of
+If \code{length(param) = 1} or \code{law = "Rad"} or \verb{law = "Unif} only a list of
 matrices will be returned.
 }
 \description{

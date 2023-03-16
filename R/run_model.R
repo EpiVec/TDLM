@@ -1,7 +1,7 @@
 #' Estimate mobility flows based on different trip distribution models
 #'
 #' This function estimates mobility flows using different distribution models.
-#' As described in \insertCite{Lenormand2016}{TDLM}, we
+#' As described in \insertCite{Lenormand2016;textual}{TDLM}, we
 #' propose a two-step approach to generate mobility flows by separating the trip
 #' distribution law, gravity or intervening opportunities, from the modeling
 #' approach used to generate the flows from this law. This function only uses

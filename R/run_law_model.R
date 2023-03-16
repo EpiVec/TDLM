@@ -154,7 +154,7 @@
 #' An object of class `TDLM`. A list of list of matrices containing for each
 #' parameter value the `nbrep` simulated matrices and the matrix of
 #' probabilities (called `proba`) if `write_proba = TRUE`.
-#' If `length(param) == 1` or `law == "Rad"` or `law == "Unif` only a list of
+#' If `length(param) = 1` or `law = "Rad"` or `law = "Unif` only a list of
 #' matrices will be returned.
 #'
 #' @author

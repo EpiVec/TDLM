@@ -22,7 +22,7 @@ between a pair of locations.
 }
 \description{
 This function computes the number of opportunities between pairs of locations
-as defined in \insertCite{Lenormand2016}{TDLM}.
+as defined in \insertCite{Lenormand2016;textual}{TDLM}.
 For a given pair of location the number of opportunities between the location
 of origin and the location of destination is based on the number of
 opportunities in a circle of radius equal to the distance between origin and

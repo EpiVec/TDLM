@@ -42,12 +42,12 @@ vector names, matrix rownames and colnames and if they should be checked
 \value{
 An object of class \code{TDLM}. A list of list of matrices containing for each
 parameter value the matrix of probabilities (called \code{proba}). If
-\code{length(param) == 1} or \code{law == "Rad"} or \verb{law == "Unif} only a list of
+\code{length(param) = 1} or \code{law = "Rad"} or \verb{law = "Unif} only a list of
 matrices will be returned.
 }
 \description{
 This function estimates mobility flows using different distribution laws.
-As described in \insertCite{Lenormand2016}{TDLM}, we
+As described in \insertCite{Lenormand2016;textual}{TDLM}, we
 propose a two-step approach to generate mobility flows by separating the trip
 distribution law, gravity or intervening opportunities, from the modeling
 approach used to generate the flows from this law. This function only uses

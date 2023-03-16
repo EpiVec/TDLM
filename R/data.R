@@ -15,7 +15,7 @@
 
 #' Great-circle distances between US Kansas counties
 #'
-#' A dataset containing the great-circle distance (in kilometers) between 105
+#' A dataset containing the great-circle distance (in kilometer) between 105
 #' US Kansas counties.
 #'
 #' @format A `matrix` with 105 rows and 105 columns. Each element of the

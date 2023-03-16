@@ -26,7 +26,7 @@
 #' A list composed of two elements. The first element is a squared matrix
 #' representing the great-circle distance (in kilometer) between locations. The
 #' second element is a vector containing the surface area of each location
-#' (in squared kilometer).
+#' (in square kilometer).
 #'
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

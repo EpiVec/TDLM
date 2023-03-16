@@ -1,7 +1,7 @@
 #' Estimate mobility flows based on different trip distribution laws
 #'
 #' This function estimates mobility flows using different distribution laws.
-#' As described in \insertCite{Lenormand2016}{TDLM}, we
+#' As described in \insertCite{Lenormand2016;textual}{TDLM}, we
 #' propose a two-step approach to generate mobility flows by separating the trip
 #' distribution law, gravity or intervening opportunities, from the modeling
 #' approach used to generate the flows from this law. This function only uses
@@ -90,7 +90,7 @@
 #' @return
 #' An object of class `TDLM`. A list of list of matrices containing for each
 #' parameter value the matrix of probabilities (called `proba`). If
-#' `length(param) == 1` or `law == "Rad"` or `law == "Unif` only a list of
+#' `length(param) = 1` or `law = "Rad"` or `law = "Unif` only a list of
 #' matrices will be returned.
 #'
 #' @author

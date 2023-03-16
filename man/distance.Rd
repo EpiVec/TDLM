@@ -16,7 +16,7 @@ and colnames.
 distance
 }
 \description{
-A dataset containing the great-circle distance (in kilometers) between 105
+A dataset containing the great-circle distance (in kilometer) between 105
 US Kansas counties.
 }
 \keyword{datasets}

@@ -20,7 +20,7 @@ displayed.}
 A list composed of two elements. The first element is a squared matrix
 representing the great-circle distance (in kilometer) between locations. The
 second element is a vector containing the surface area of each location
-(in squared kilometer).
+(in square kilometer).
 }
 \description{
 This function returns a matrix of distances between locations (in kilometer)
