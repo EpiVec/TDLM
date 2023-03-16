@@ -6,3 +6,5 @@
 ^pkgdown/
 ^\.github$
 ^CITATION\.cff$
+
+LICENSE

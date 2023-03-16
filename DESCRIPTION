@@ -9,9 +9,9 @@ Authors@R:
               role = c("aut", "cre"),
               comment = c(ORCID = "0000-0001-6362-3473"))
        )
-Description: An R package to compare trip distribution laws and models.
+Description: The main purpose of this package is to propose a rigorous framework to fairly compare trip distribution laws and models as described in Lenormand et al. (2016) <doi:10.1016/j.jtrangeo.2015.12.008>.
 Depends: R (>= 4.0.0)
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression:xz
