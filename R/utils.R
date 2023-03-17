@@ -672,8 +672,8 @@ controls <- function(args = NULL,
 gofi <- function(sim, obs, distance,
                  measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS"),
                  bin_size) {
-  # sim is a matrix
-  # obs is a list of matrix
+  # sim is a list of matrix
+  # obs is a matrix
   # distance is a matrix
 
   # Initialization
@@ -699,7 +699,7 @@ gofi <- function(sim, obs, distance,
   # Loop over sim
   for (k in 1:length(sim)) {
     m <- 1
-
+    
     simk <- sim[[k]]
     Nk <- sum(simk)
 

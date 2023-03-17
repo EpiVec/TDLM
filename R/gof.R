@@ -98,7 +98,6 @@
 #' [check_format_names()]
 #'
 #' @examples
-#' \dontrun{
 #' data(mass)
 #' data(distance)
 #' data(od)
@@ -110,19 +109,19 @@
 #'
 #' res <- run_law_model(
 #'   law = "GravExp", mass_origin = mi, mass_destination = mj,
-#'   distance = distance, opportunity = NULL, param = c(0.01, 0.02, 0.03),
+#'   distance = distance, opportunity = NULL, param = 0.01,
 #'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-#'   average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
+#'   average = FALSE, nbrep = 1, maxiter = 50, mindiff = 0.01,
 #'   write_proba = FALSE,
 #'   check_names = FALSE
 #' )
 #'
 #' gof(
-#'   sim = res, obs = od, measures = "all", distance = distance, bin_size = 2,
+#'   sim = res, obs = od, measures = "CPC", distance = NULL, bin_size = 2,
 #'   use_proba = FALSE,
 #'   check_names = FALSE
 #' )
-#' }
+#'
 #'
 #' @references
 #' \insertRef{Lenormand2016}{TDLM}
@@ -400,12 +399,14 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
         }
         message("proba matrix used!")
       } else {
-        if (hlist == 2) {
-          for (k in 2:length(sim)) {
-            sim[[k]] <- sim[[k]][-length(sim[[k]])]
+        if(isproba){
+          if (hlist == 2) {
+            for (k in 2:length(sim)) {
+              sim[[k]] <- sim[[k]][-length(sim[[k]])]
+            }
+          } else {
+            sim <- sim[-length(sim)]
           }
-        } else {
-          sim <- sim[-length(sim)]
         }
       }
     }
@@ -427,7 +428,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
   } else {
     res <- data.frame(Matrix = names(sim))
   }
-
+  
   # Compute GOF
   if (tdlm) {
     if (hlist == 2) {

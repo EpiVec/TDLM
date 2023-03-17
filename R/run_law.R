@@ -137,7 +137,10 @@ run_law <- function(law = "Unif",
                     opportunity = NULL,
                     param = NULL,
                     check_names = FALSE) {
+  
   # Option (disabling scientific notation)
+  oldop <- options()
+  on.exit(options(oldop))
   options(scipen = 999)
 
   # Set path to jar
@@ -271,11 +274,7 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
   }
 
   # Create temp
-  pathtemp <- paste0(
-    wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))),
-    "/"
-  )
-  dir.create(pathtemp, showWarnings = FALSE, recursive = TRUE)
+  pathtemp <- paste0(tempdir(),"/")
 
   # Format and export data
   mass <- cbind(
@@ -405,7 +404,7 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
   }
 
   # Delete temp
-  unlink(pathtemp, recursive = TRUE)
+  #unlink(pathtemp, recursive = TRUE)
 
   # Class TDLM
   outputs <- outputs[c(length(outputs), 1:(length(outputs) - 1))]

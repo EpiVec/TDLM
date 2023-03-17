@@ -52,7 +52,10 @@
 #'
 #' @export
 extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
+  
   # Option (disabling scientific notation)
+  oldop <- options()
+  on.exit(options(oldop))
   options(scipen = 999)
 
   # Set path to jar
@@ -99,11 +102,7 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   }
 
   # Create temp
-  pathtemp <- paste0(
-    wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))),
-    "/"
-  )
-  dir.create(pathtemp, showWarnings = FALSE, recursive = TRUE)
+  pathtemp <- paste0(tempdir(),"/")
 
   # Format data
   mass <- cbind(opportunity, opportunity, opportunity, opportunity)
@@ -146,7 +145,7 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   }
 
   # Delete temp
-  unlink(pathtemp, recursive = TRUE)
+  #unlink(pathtemp, recursive = TRUE)
 
   # Return output
   return(sij)

@@ -505,6 +505,7 @@ an associated average Common Part of Commuter equal to 85.6%.
 ```{r}
 cpc <- aggregate(calib$CPC, list(calib$Parameter_value), mean)[,2]
 
+oldmar <- par()$mar
 par(mar = c(4.5, 6, 1, 1))
 plot(seq(0.05,0.1,0.005), cpc, type="b", pch=16, cex=2, lty=1, lwd=3, 
      col="steelblue3", axes=FALSE, xlab="", ylab="")
@@ -513,7 +514,7 @@ axis(2, cex.axis=1.2, las=1)
 mtext("Parameter value", 1, line = 3.25, cex = 1.75)
 mtext("Common Part of Commuters", 2, line = 4, cex = 1.75)
 box(lwd=1.5)
-
+par(mar = oldmar)
 ```
 
 ---

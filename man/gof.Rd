@@ -109,7 +109,6 @@ this function (\code{check_names = FALSE} by default). Note that the function
 before running the main package's functions.
 }
 \examples{
-\dontrun{
 data(mass)
 data(distance)
 data(od)
@@ -121,19 +120,19 @@ Dj <- as.numeric(mass[, 3])
 
 res <- run_law_model(
   law = "GravExp", mass_origin = mi, mass_destination = mj,
-  distance = distance, opportunity = NULL, param = c(0.01, 0.02, 0.03),
+  distance = distance, opportunity = NULL, param = 0.01,
   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-  average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
+  average = FALSE, nbrep = 1, maxiter = 50, mindiff = 0.01,
   write_proba = FALSE,
   check_names = FALSE
 )
 
 gof(
-  sim = res, obs = od, measures = "all", distance = distance, bin_size = 2,
+  sim = res, obs = od, measures = "CPC", distance = NULL, bin_size = 2,
   use_proba = FALSE,
   check_names = FALSE
 )
-}
+
 
 }
 \references{

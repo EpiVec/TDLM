@@ -217,7 +217,10 @@ run_law_model <- function(law = "Unif",
                           mindiff = 0.01,
                           write_proba = FALSE,
                           check_names = FALSE) {
+  
   # Option (disabling scientific notation)
+  oldop <- options()
+  on.exit(options(oldop))
   options(scipen = 999)
 
   # Set path to jar
@@ -667,11 +670,7 @@ UM, PCM, ACM or DCM",
   }
 
   # Create temp
-  pathtemp <- paste0(
-    wdjar, "temp_", round(as.numeric(as.POSIXct(Sys.time()))),
-    "/"
-  )
-  dir.create(pathtemp, showWarnings = FALSE, recursive = TRUE)
+  pathtemp <- paste0(tempdir(),"/")
 
   # Format and export data
   if (model == "UM") {
@@ -876,7 +875,7 @@ UM, PCM, ACM or DCM",
   }
 
   # Delete temp
-  unlink(pathtemp, recursive = TRUE)
+  #unlink(pathtemp, recursive = TRUE)
 
   # Class TDLM
   outputs <- outputs[c(length(outputs), 1:(length(outputs) - 1))]
