@@ -1,4 +1,4 @@
-# bioRgeo v0.1.0 (Release date: 20??-??-??)
+# TDLM v0.1.0 
 
-First release in GitHub
+First release on CRAN
 

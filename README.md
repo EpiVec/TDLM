@@ -3,7 +3,8 @@
 # Systematic comparison of trip distribution laws and models 
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions) 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/TDLM)](https://cran.r-project.org/package=TDLM)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/TDLM)](http://r-pkg.org/pkg/TDLM)
 [![version](https://img.shields.io/github/v/release/EpiVec/TDLM?label=version&style=flat&logo=github)](https://github.com/EpiVec/TDLM) 
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3) 
 <!-- badges: end -->
@@ -12,9 +13,17 @@
 
 The package `TDLM` can be installed with the following command line in R session:
 
+From the CRAN
+
+``` r
+install.packages("TDLM")
+```
+
+or from GitHub
+
 ``` r
 # install.packages("devtools")
-devtools::install_github("EpiVec/TDLM")
+devtools::install_github("EpiVec/TDLM", build_vignettes = TRUE)
 ```
 
 ## 2 Tutorial
