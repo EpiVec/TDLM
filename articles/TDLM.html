@@ -506,11 +506,11 @@ contain a table <code>info</code> summarizing the simulation run.</p>
 <span><span class="co">##  $ info         :'data.frame':   5 obs. of  2 variables:</span></span>
 <span><span class="co">##   ..$ Argument: chr [1:5] "Law" "Model" "#Replications" "#Parameters" ...</span></span>
 <span><span class="co">##   ..$ Value   : chr [1:5] "NGravExp" "DCM" "3" "1" ...</span></span>
-<span><span class="co">##  $ replication_1: num [1:105, 1:105] 0 24 4 0 2 15 4 102 5 6 ...</span></span>
+<span><span class="co">##  $ replication_1: num [1:105, 1:105] 0 23 4 0 2 15 4 106 5 6 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##  $ replication_2: num [1:105, 1:105] 0 24 4 0 2 16 4 108 5 7 ...</span></span>
+<span><span class="co">##  $ replication_2: num [1:105, 1:105] 0 24 4 1 2 15 4 103 5 6 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##  $ replication_3: num [1:105, 1:105] 0 23 4 0 3 15 4 105 5 6 ...</span></span>
+<span><span class="co">##  $ replication_3: num [1:105, 1:105] 0 24 4 0 2 15 4 105 6 6 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##  $ proba        : num [1:105, 1:105] 0.00 4.31e-05 2.16e-05 3.90e-06 1.81e-05 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
@@ -553,20 +553,20 @@ each parameter value).</p>
 <span><span class="co">##   ..$ Argument: chr [1:6] "Law" "Model" "#Replications" "#Parameters" ...</span></span>
 <span><span class="co">##   ..$ Value   : chr [1:6] "NGravExp" "DCM" "3" "2" ...</span></span>
 <span><span class="co">##  $ parameter_1:List of 4</span></span>
-<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 25 4 0 2 15 4 101 5 6 ...</span></span>
+<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 23 4 0 2 15 4 103 5 6 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 26 4 0 2 16 4 104 5 6 ...</span></span>
+<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 23 4 0 2 15 4 101 5 6 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 23 4 0 2 15 4 104 6 7 ...</span></span>
+<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 23 4 0 2 16 4 101 5 6 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##   ..$ proba        : num [1:105, 1:105] 0.00 4.31e-05 2.16e-05 3.90e-06 1.81e-05 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##  $ parameter_2:List of 4</span></span>
-<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 54 2 0 0 39 1 77 5 7 ...</span></span>
+<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 56 2 0 0 38 1 77 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 53 2 0 0 38 1 77 6 7 ...</span></span>
+<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 53 2 0 0 39 1 76 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 53 2 0 0 40 1 78 5 7 ...</span></span>
+<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 54 2 0 0 38 1 77 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##   ..$ proba        : num [1:105, 1:105] 0.00 8.13e-05 8.17e-06 7.10e-07 3.16e-06 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
@@ -604,14 +604,14 @@ case) will be a matrix of positive real numbers.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span><span class="op">$</span><span class="va">replication_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
-<span><span class="co">##  [1,]    0   32    0    0    0  121    0    1    0     0</span></span>
-<span><span class="co">##  [2,]  567    0    0    0    0   22    0    0    0     0</span></span>
-<span><span class="co">##  [3,]    0    0    0    0    0    0  198    0    0     0</span></span>
+<span><span class="co">##  [1,]    0   32    0    0    0  124    0    1    0     0</span></span>
+<span><span class="co">##  [2,]  570    0    0    0    0   22    0    0    0     0</span></span>
+<span><span class="co">##  [3,]    0    0    0    0    0    0  199    0    0     0</span></span>
 <span><span class="co">##  [4,]    0    0    0    0    0    0    0    0    0     0</span></span>
 <span><span class="co">##  [5,]    0    0    0    1    0    0    0    3    0     0</span></span>
 <span><span class="co">##  [6,]   17    2    0    0    0    0    0    0    0     0</span></span>
-<span><span class="co">##  [7,]    0    0  201    0    0    0    0    0    0     0</span></span>
-<span><span class="co">##  [8,]    4    1    1    1   11    5    1    0    0     1</span></span>
+<span><span class="co">##  [7,]    0    0  200    0    0    0    0    0    0     0</span></span>
+<span><span class="co">##  [8,]    4    1    1    1   10    5    1    0    0     1</span></span>
 <span><span class="co">##  [9,]    0    0    0    0    0    0    0   39    0     0</span></span>
 <span><span class="co">## [10,]    0    0    0    0    0    0    0   13    0     0</span></span></code></pre>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
@@ -715,73 +715,73 @@ goodness-of-fit measure for a wide range of parameter values.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">calib</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       Parameter Parameter_value    Simulation       CPC     NRMSE         KL</span></span>
-<span><span class="co">## 1   parameter_1            0.05 replication_1 0.8163037 10.516165 0.12945279</span></span>
-<span><span class="co">## 2   parameter_1            0.05 replication_2 0.8161839 10.523734 0.12978436</span></span>
-<span><span class="co">## 3   parameter_1            0.05 replication_3 0.8164235 10.514301 0.12938662</span></span>
-<span><span class="co">## 4   parameter_2           0.055 replication_1 0.8316621  9.424458 0.11311412</span></span>
-<span><span class="co">## 5   parameter_2           0.055 replication_2 0.8315772  9.411813 0.11326432</span></span>
-<span><span class="co">## 6   parameter_2           0.055 replication_3 0.8316221  9.413024 0.11334592</span></span>
-<span><span class="co">## 7   parameter_3            0.06 replication_1 0.8440955  8.640758 0.09815967</span></span>
-<span><span class="co">## 8   parameter_3            0.06 replication_2 0.8441254  8.638142 0.09801975</span></span>
-<span><span class="co">## 9   parameter_3            0.06 replication_3 0.8440256  8.643982 0.09826664</span></span>
-<span><span class="co">## 10  parameter_4           0.065 replication_1 0.8521415  8.177168 0.08782202</span></span>
-<span><span class="co">## 11  parameter_4           0.065 replication_2 0.8520267  8.174342 0.08803971</span></span>
-<span><span class="co">## 12  parameter_4           0.065 replication_3 0.8520517  8.178097 0.08782012</span></span>
-<span><span class="co">## 13  parameter_5            0.07 replication_1 0.8552362  7.953101 0.08032767</span></span>
-<span><span class="co">## 14  parameter_5            0.07 replication_2 0.8552861  7.963720 0.08016111</span></span>
-<span><span class="co">## 15  parameter_5            0.07 replication_3 0.8552611  7.954859 0.08028030</span></span>
-<span><span class="co">## 16  parameter_6           0.075 replication_1 0.8556355  7.960020 0.07926927</span></span>
-<span><span class="co">## 17  parameter_6           0.075 replication_2 0.8555606  7.969641 0.07935176</span></span>
-<span><span class="co">## 18  parameter_6           0.075 replication_3 0.8557253  7.951452 0.07935030</span></span>
-<span><span class="co">## 19  parameter_7            0.08 replication_1 0.8550116  8.113738 0.07428569</span></span>
-<span><span class="co">## 20  parameter_7            0.08 replication_2 0.8551613  8.112430 0.07430373</span></span>
-<span><span class="co">## 21  parameter_7            0.08 replication_3 0.8550914  8.115504 0.07431591</span></span>
-<span><span class="co">## 22  parameter_8           0.085 replication_1 0.8531448  8.371736 0.07378546</span></span>
-<span><span class="co">## 23  parameter_8           0.085 replication_2 0.8530799  8.380242 0.07385169</span></span>
-<span><span class="co">## 24  parameter_8           0.085 replication_3 0.8530999  8.380962 0.07386918</span></span>
-<span><span class="co">## 25  parameter_9            0.09 replication_1 0.8498555  8.710992 0.07519045</span></span>
-<span><span class="co">## 26  parameter_9            0.09 replication_2 0.8497756  8.714242 0.07527667</span></span>
-<span><span class="co">## 27  parameter_9            0.09 replication_3 0.8499703  8.699353 0.07510268</span></span>
-<span><span class="co">## 28 parameter_10           0.095 replication_1 0.8462917  9.085519 0.08091026</span></span>
-<span><span class="co">## 29 parameter_10           0.095 replication_2 0.8464364  9.079672 0.08088331</span></span>
-<span><span class="co">## 30 parameter_10           0.095 replication_3 0.8463067  9.091629 0.08087695</span></span>
-<span><span class="co">## 31 parameter_11             0.1 replication_1 0.8422687  9.491315 0.08336512</span></span>
-<span><span class="co">## 32 parameter_11             0.1 replication_2 0.8423535  9.486964 0.08347907</span></span>
-<span><span class="co">## 33 parameter_11             0.1 replication_3 0.8424384  9.475036 0.08341418</span></span>
+<span><span class="co">## 1   parameter_1            0.05 replication_1 0.8164934 10.501736 0.12956796</span></span>
+<span><span class="co">## 2   parameter_1            0.05 replication_2 0.8163586 10.514443 0.12950963</span></span>
+<span><span class="co">## 3   parameter_1            0.05 replication_3 0.8163287 10.530667 0.12960215</span></span>
+<span><span class="co">## 4   parameter_2           0.055 replication_1 0.8317819  9.420447 0.11295727</span></span>
+<span><span class="co">## 5   parameter_2           0.055 replication_2 0.8316122  9.416096 0.11345006</span></span>
+<span><span class="co">## 6   parameter_2           0.055 replication_3 0.8316870  9.408957 0.11326354</span></span>
+<span><span class="co">## 7   parameter_3            0.06 replication_1 0.8438509  8.643354 0.09829697</span></span>
+<span><span class="co">## 8   parameter_3            0.06 replication_2 0.8439807  8.637355 0.09831866</span></span>
+<span><span class="co">## 9   parameter_3            0.06 replication_3 0.8440256  8.655708 0.09799566</span></span>
+<span><span class="co">## 10  parameter_4           0.065 replication_1 0.8520267  8.179811 0.08798415</span></span>
+<span><span class="co">## 11  parameter_4           0.065 replication_2 0.8522264  8.159423 0.08802628</span></span>
+<span><span class="co">## 12  parameter_4           0.065 replication_3 0.8520617  8.170085 0.08800906</span></span>
+<span><span class="co">## 13  parameter_5            0.07 replication_1 0.8553460  7.953537 0.08021964</span></span>
+<span><span class="co">## 14  parameter_5            0.07 replication_2 0.8553011  7.963094 0.08026852</span></span>
+<span><span class="co">## 15  parameter_5            0.07 replication_3 0.8553560  7.953328 0.08026248</span></span>
+<span><span class="co">## 16  parameter_6           0.075 replication_1 0.8557153  7.946636 0.07920759</span></span>
+<span><span class="co">## 17  parameter_6           0.075 replication_2 0.8557802  7.953974 0.07937953</span></span>
+<span><span class="co">## 18  parameter_6           0.075 replication_3 0.8556804  7.966763 0.07915267</span></span>
+<span><span class="co">## 19  parameter_7            0.08 replication_1 0.8550665  8.113438 0.07425334</span></span>
+<span><span class="co">## 20  parameter_7            0.08 replication_2 0.8549966  8.119010 0.07438827</span></span>
+<span><span class="co">## 21  parameter_7            0.08 replication_3 0.8551663  8.112285 0.07423195</span></span>
+<span><span class="co">## 22  parameter_8           0.085 replication_1 0.8530899  8.381228 0.07378650</span></span>
+<span><span class="co">## 23  parameter_8           0.085 replication_2 0.8530999  8.375884 0.07382990</span></span>
+<span><span class="co">## 24  parameter_8           0.085 replication_3 0.8530949  8.380765 0.07385735</span></span>
+<span><span class="co">## 25  parameter_9            0.09 replication_1 0.8499853  8.700936 0.07527250</span></span>
+<span><span class="co">## 26  parameter_9            0.09 replication_2 0.8498555  8.712669 0.07538257</span></span>
+<span><span class="co">## 27  parameter_9            0.09 replication_3 0.8497706  8.717945 0.07527902</span></span>
+<span><span class="co">## 28 parameter_10           0.095 replication_1 0.8464714  9.078695 0.08096942</span></span>
+<span><span class="co">## 29 parameter_10           0.095 replication_2 0.8464115  9.086719 0.08081822</span></span>
+<span><span class="co">## 30 parameter_10           0.095 replication_3 0.8465013  9.080004 0.08111135</span></span>
+<span><span class="co">## 31 parameter_11             0.1 replication_1 0.8422886  9.488804 0.08349852</span></span>
+<span><span class="co">## 32 parameter_11             0.1 replication_2 0.8422936  9.492448 0.08345470</span></span>
+<span><span class="co">## 33 parameter_11             0.1 replication_3 0.8421938  9.494870 0.08490392</span></span>
 <span><span class="co">##          CPL     CPC_d    KS_stat   KS_pval</span></span>
-<span><span class="co">## 1  0.6589339 0.8954664 0.07298164 0.9998572</span></span>
-<span><span class="co">## 2  0.6597582 0.8951020 0.07325617 0.9998454</span></span>
-<span><span class="co">## 3  0.6597531 0.8952967 0.07315634 0.9998495</span></span>
-<span><span class="co">## 4  0.6706494 0.9155116 0.04999652 1.0000000</span></span>
-<span><span class="co">## 5  0.6709979 0.9155565 0.04994661 1.0000000</span></span>
-<span><span class="co">## 6  0.6711723 0.9155166 0.04994162 1.0000000</span></span>
-<span><span class="co">## 7  0.6717063 0.9319680 0.03026575 1.0000000</span></span>
-<span><span class="co">## 8  0.6727961 0.9319031 0.03029071 1.0000000</span></span>
-<span><span class="co">## 9  0.6722507 0.9317883 0.03022083 1.0000000</span></span>
-<span><span class="co">## 10 0.6726710 0.9431237 0.03374971 1.0000000</span></span>
-<span><span class="co">## 11 0.6730391 0.9429440 0.03376468 1.0000000</span></span>
-<span><span class="co">## 12 0.6726761 0.9429041 0.03376967 1.0000000</span></span>
-<span><span class="co">## 13 0.6744526 0.9495675 0.03746826 1.0000000</span></span>
-<span><span class="co">## 14 0.6748466 0.9495276 0.03743332 1.0000000</span></span>
-<span><span class="co">## 15 0.6740589 0.9495425 0.03744829 1.0000000</span></span>
-<span><span class="co">## 16 0.6724917 0.9480402 0.04357766 1.0000000</span></span>
-<span><span class="co">## 17 0.6722892 0.9479253 0.04357267 1.0000000</span></span>
-<span><span class="co">## 18 0.6722892 0.9480851 0.04357766 1.0000000</span></span>
-<span><span class="co">## 19 0.6629492 0.9408626 0.04949739 1.0000000</span></span>
-<span><span class="co">## 20 0.6631546 0.9408426 0.04949739 1.0000000</span></span>
-<span><span class="co">## 21 0.6629492 0.9408327 0.04948241 1.0000000</span></span>
-<span><span class="co">## 22 0.6505564 0.9330312 0.05649025 1.0000000</span></span>
-<span><span class="co">## 23 0.6509704 0.9330012 0.05648526 1.0000000</span></span>
-<span><span class="co">## 24 0.6511776 0.9329413 0.05653518 1.0000000</span></span>
-<span><span class="co">## 25 0.6408588 0.9257438 0.06234010 0.9999993</span></span>
-<span><span class="co">## 26 0.6406504 0.9257738 0.06234510 0.9999993</span></span>
-<span><span class="co">## 27 0.6408588 0.9257089 0.06238004 0.9999993</span></span>
-<span><span class="co">## 28 0.6348575 0.9186611 0.06728652 0.9999940</span></span>
-<span><span class="co">## 29 0.6348575 0.9187759 0.06727155 0.9999941</span></span>
-<span><span class="co">## 30 0.6346472 0.9186312 0.06724659 0.9999942</span></span>
-<span><span class="co">## 31 0.6235613 0.9120626 0.07274705 0.9999606</span></span>
-<span><span class="co">## 32 0.6247039 0.9120875 0.07271710 0.9999610</span></span>
-<span><span class="co">## 33 0.6240271 0.9122522 0.07252743 0.9999632</span></span></code></pre>
+<span><span class="co">## 1  0.6599160 0.8954913 0.07287183 0.9998620</span></span>
+<span><span class="co">## 2  0.6594221 0.8954763 0.07289180 0.9998606</span></span>
+<span><span class="co">## 3  0.6595955 0.8954564 0.07301159 0.9998560</span></span>
+<span><span class="co">## 4  0.6716922 0.9156164 0.04979687 1.0000000</span></span>
+<span><span class="co">## 5  0.6715139 0.9155316 0.05005143 1.0000000</span></span>
+<span><span class="co">## 6  0.6708236 0.9156963 0.04993163 1.0000000</span></span>
+<span><span class="co">## 7  0.6722507 0.9317035 0.03024579 1.0000000</span></span>
+<span><span class="co">## 8  0.6727961 0.9318882 0.03026575 1.0000000</span></span>
+<span><span class="co">## 9  0.6726142 0.9318832 0.03024080 1.0000000</span></span>
+<span><span class="co">## 10 0.6732339 0.9430837 0.03375470 1.0000000</span></span>
+<span><span class="co">## 11 0.6732339 0.9430738 0.03377966 1.0000000</span></span>
+<span><span class="co">## 12 0.6726761 0.9430239 0.03377467 1.0000000</span></span>
+<span><span class="co">## 13 0.6742623 0.9496424 0.03744330 1.0000000</span></span>
+<span><span class="co">## 14 0.6742623 0.9495176 0.03746327 1.0000000</span></span>
+<span><span class="co">## 15 0.6740654 0.9496374 0.03747325 1.0000000</span></span>
+<span><span class="co">## 16 0.6716867 0.9482148 0.04354771 1.0000000</span></span>
+<span><span class="co">## 17 0.6730885 0.9480152 0.04362258 1.0000000</span></span>
+<span><span class="co">## 18 0.6726889 0.9480002 0.04355769 1.0000000</span></span>
+<span><span class="co">## 19 0.6625387 0.9407328 0.04946245 1.0000000</span></span>
+<span><span class="co">## 20 0.6629492 0.9407778 0.04953233 1.0000000</span></span>
+<span><span class="co">## 21 0.6631546 0.9408277 0.04953732 1.0000000</span></span>
+<span><span class="co">## 22 0.6511776 0.9330212 0.05652020 1.0000000</span></span>
+<span><span class="co">## 23 0.6513849 0.9329663 0.05652519 1.0000000</span></span>
+<span><span class="co">## 24 0.6520356 0.9330911 0.05647528 1.0000000</span></span>
+<span><span class="co">## 25 0.6413008 0.9257688 0.06240998 0.9999993</span></span>
+<span><span class="co">## 26 0.6413008 0.9258187 0.06238004 0.9999993</span></span>
+<span><span class="co">## 27 0.6413008 0.9257438 0.06236506 0.9999993</span></span>
+<span><span class="co">## 28 0.6350679 0.9188208 0.06729151 0.9999941</span></span>
+<span><span class="co">## 29 0.6350679 0.9187510 0.06728652 0.9999941</span></span>
+<span><span class="co">## 30 0.6355202 0.9187859 0.06728652 0.9999941</span></span>
+<span><span class="co">## 31 0.6237724 0.9120376 0.07276202 0.9999604</span></span>
+<span><span class="co">## 32 0.6237724 0.9120825 0.07271211 0.9999609</span></span>
+<span><span class="co">## 33 0.6244926 0.9120027 0.07278199 0.9999600</span></span></code></pre>
 <p>All the necessary information is stored in the object calib, most of
 the goodness-of-fit measures agree on a parameter value of 0.075 in that
 case with an associated average Common Part of Commuter equal to
