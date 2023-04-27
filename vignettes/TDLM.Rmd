@@ -253,6 +253,8 @@ Finally, [county](https://epivec.github.io/TDLM/reference/county.html) is a
 spatial object containing the geometry of the 105 US Kansas counties in 2000. 
 
 ```{r}
+#library(sf)
+
 data(county)
 
 county[1:10,]
