@@ -3,10 +3,11 @@ title: 'TDLM: An R package for a systematic comparison of trip distribution laws
 tags:
 - R
 - Spatial Interaction Models
+- Spatial networks
 - Commuting networks
 - Gravity model
 - Radiation model
-date: "16 March 2023"
+date: "17 March 2023"
 output: pdf_document
 authors:
 - name: "Maxime Lenormand"
@@ -20,36 +21,37 @@ affiliations:
 
 # Summary
 
-Trip distribution models are widely used to 
+Spatial interaction models are widely used to estimate and explain spatial
+interactions between locations. These models are usually based on the
+characteristics of the locations and the way they are spatially distributed. 
+Interactions between locations can take several forms, population movements, 
+widely studied in geography, transportation research and urban planning is one 
+of them. The flows of individuals between locations is usually represented by a
+trip table better known as Origin-Destination (OD) matrix 
+[@Lenormand2016;@Barbosa2018]. The estimation of OD matrices is part of the 
+four-step travel model in transportation research. It corresponds to the second
+step, called trip distribution, the aim of which is to match the trip origins 
+with the trip destinations using a spatial interaction model commonly referred 
+to as trip distribution model in the four-step travel framework. 
 
-Based on this two-step approach, the **TDLM** package provides 
+In order to facilitate the use and comparison of trip distribution models, and 
+more generally spatial distribution models, we present **TDML** an R package 
+proposing a set of easy-to-use functions to rigorously and fairly compare 
+trip distribution laws and models as described in @Lenormand2016.
 
 # Statement of need
 
-`TDLM` is ...
+Trip distribution model are generally composed of two mechanisms, one mechanism
+based on a 'law' to estimate the probability that an individual move from one 
+location to another and a second mechanism based on a 'model' used to estimate 
+the number of individuals moving from one location to another. These two 
+mechanisms are rarely dissociated which could lead to methodological flaws when 
+comparing different laws and/or models [@Lenormand2012;@Simini2012;@Masucci2013;
+@Yang2014].
 
-`TDLM` was designed to ...
-
-# Overview
-
-# Example
-
-# concluding remarks
-
-
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
+To overcome these limitations, the **TDML** R package is based on a two-step 
+approach to generate mobility flows by separating the trip distribution law, 
+gravity or intervening opportunities, from the modeling approach used to 
+generate the flows from this law.
 
 # References
