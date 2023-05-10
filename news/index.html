@@ -24,8 +24,14 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="active nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://github.com/EpiVec/TDLM/releases/tag/v0.1.0">Version 0.1.0</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../news/index.html">Changelog</a>
+  </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -48,10 +54,17 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0" id="tdlm-010">TDLM 0.1.0<a class="anchor" aria-label="anchor" href="#tdlm-010"></a></h2><p class="text-muted">CRAN release: 2023-03-17</p>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="tdlm-010-developmentgithub-version">TDLM 0.1.0 (development/github version)<a class="anchor" aria-label="anchor" href="#tdlm-010-developmentgithub-version"></a></h2>
+<p>This is a list of changes made in the development/github version of the package between TDLM 0.1.0 (CRAN release 2023-03-18) and the next CRAN release.</p>
+<ul><li><p>Fixed bug in <code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> (<a href="https://github.com/Pachka" class="external-link">@Pachka</a>, <a href="https://github.com/EpiVec/TDLM/issues/1" class="external-link">#1</a>).</p></li>
+<li><p><code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> is now optimized and way more efficient regarding the computation of distances (idea proposed by <a href="https://github.com/Pachka" class="external-link">@Pachka</a>).</p></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="tdlm-010">TDLM 0.1.0<a class="anchor" aria-label="anchor" href="#tdlm-010"></a></h2>
 <p>First release on CRAN</p>
 </div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
