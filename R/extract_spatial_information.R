@@ -153,6 +153,7 @@ extract_spatial_information <- function(geometry,
   if (show_progress) {
     pb <- utils::txtProgressBar(min = 0, max = dim(lonlat)[1], style = 3)
     distance <- lapply(1:dim(lonlat)[1], function(k){
+      utils::setTxtProgressBar(pb, k)
       lonk <- lonlat[k, 1]
       latk <- lonlat[k, 2]
       haversine(lonk, latk, lon, lat)
