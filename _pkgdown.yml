@@ -29,3 +29,10 @@ reference:
   - distance
   - od
   - county
+  
+news:
+  releases:
+  - text: "Version 0.1.0"
+    href: https://github.com/EpiVec/TDLM/releases/tag/v0.1.0
+  cran_dates: false  
+    
