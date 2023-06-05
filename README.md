@@ -3,6 +3,7 @@
 # Systematic comparison of trip distribution laws and models 
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/TDLM)](https://cran.r-project.org/package=TDLM)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/TDLM)](http://r-pkg.org/pkg/TDLM)
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3) 
@@ -12,9 +13,9 @@
 
 The main purpose of the `TDLM`'s package is to propose a rigorous framework to 
 fairly compare trip distribution laws and models as described in 
-[Lenormand et al. (2016)](doi:10.1016/j.jtrangeo.2015.12.008). This general
-framework is based on a two-step approach to generate mobility flows by 
-separating the trip distribution law, gravity or intervening opportunities, from 
+[Lenormand et al. (2016)](https://www.sciencedirect.com/science/article/abs/pii/S0966692315002422). 
+This general framework is based on a two-step approach to generate mobility flows
+by separating the trip distribution law, gravity or intervening opportunities, from 
 the modeling approach used to generate the flows from this law.
 
 ## 2 Install
