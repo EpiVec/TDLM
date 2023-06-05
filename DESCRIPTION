@@ -19,7 +19,7 @@ Imports:
     Ecume,
     mathjaxr,
     Rdpack,
-    readr,
+    readr (>= 2.0.0),
     rmarkdown,
     sf
 RdMacros: 
