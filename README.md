@@ -4,9 +4,9 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions)
+[![Codecov test coverage](https://codecov.io/gh/EpiVec/TDLM/branch/master/graph/badge.svg)](https://app.codecov.io/gh/EpiVec/TDLM?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/TDLM)](https://cran.r-project.org/package=TDLM)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/TDLM)](http://r-pkg.org/pkg/TDLM)
-[![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3) 
 <!-- badges: end -->
 
 ## 1 Short description
