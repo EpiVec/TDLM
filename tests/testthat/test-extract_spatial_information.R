@@ -1,19 +1,36 @@
-test_that("multiplication works", {
-  # Load data 
-  data(mass)
-  data(distance)
-  
-  # Prepare inputs
-  mi=as.numeric(mass[,1])
+# Preamble code ----------------------------------------------------------------
+data(county)
 
-  names(mi)=rownames(distance)
+# Tests for valid outputs ------------------------------------------------------
+test_that("class list and dimensions", {
   
-  mi=mi+0.0011
+  res <- extract_spatial_information(county, id = "ID", show_progress = FALSE)
   
-  dist=distance
+  expect_identical(class(res), "list")
+  expect_identical(as.numeric(dim(res$distance)), c(105,105))
+  expect_identical(as.numeric(length(res$surface)), 105)
+  expect_identical(trunc(mean(res$surface)), 2028)
+  
+  res <- extract_spatial_information(county, id = NULL, show_progress = FALSE)
+  
+  expect_identical(class(res), "list")
+  expect_identical(as.numeric(dim(res$distance)), c(105,105))
+  expect_identical(as.numeric(length(res$surface)), 105)
+  expect_identical(trunc(mean(res$surface)), 2028)
+  
+  res <- extract_spatial_information(county, id = NULL, show_progress = TRUE)
+  
+  expect_identical(class(res), "list")
+  expect_identical(as.numeric(dim(res$distance)), c(105,105))
+  expect_identical(as.numeric(length(res$surface)), 105)
+  expect_identical(trunc(mean(res$surface)), 2028)
+  
+})
 
-  sij=extract_opportunities(opportunity=mi, distance=dist, check_names=TRUE)
+# Check errors -----------------------------------------------------------------
+test_that("check errors", {
   
-  expect_identical(class(sij)[1], "matrix")
+  expect_error(extract_spatial_information(NULL, id = NULL, show_progress = TRUE), 
+               "It seems that the geometry used is not an sf object.")
   
 })

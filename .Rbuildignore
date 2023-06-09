@@ -7,4 +7,6 @@
 ^\.github$
 ^CITATION\.cff$
 
+^tests
+
 LICENSE

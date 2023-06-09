@@ -151,7 +151,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
   controls(args = measures, type = "character_vector")
   if (sum(metrics %in% lsm) < length(metrics)) {
     stop("One or several goodness-of-fit measure(s) chosen is not available.
-     Please chose among the followings:
+     Please choose among the followings:
          CPC, CPL, NRMSE, KL, CPC_d or KS")
   }
   controls(args = check_names, type = "boolean")
