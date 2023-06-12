@@ -2,17 +2,16 @@ controls <- function(args = NULL,
                      vectors = NULL,
                      matrices = NULL,
                      type = "vectors_positive") {
-  
   # vectors_positive ###########################################################
   if (type == "vectors_positive") {
     nbv <- length(vectors)
     for (k in 1:nbv) {
       vector <- vectors[[k]]
       namevec <- names(vectors)[k]
-      
+
       if (sum(is.na(vector)) > 0) {
         stop(paste0("NA(s) detected in ", namevec, "."),
-             call. = FALSE
+          call. = FALSE
         )
       }
 
@@ -46,10 +45,10 @@ controls <- function(args = NULL,
     for (k in 1:nbv) {
       vector <- vectors[[k]]
       namevec <- names(vectors)[k]
-      
+
       if (sum(is.na(vector)) > 0) {
         stop(paste0("NA(s) detected in ", namevec, "."),
-             call. = FALSE
+          call. = FALSE
         )
       }
 
@@ -83,7 +82,7 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
-      
+
       if (sum(vector < 0) > 0) {
         stop(paste0(namevec, " must contain only positive values."),
           call. = FALSE
@@ -98,10 +97,10 @@ controls <- function(args = NULL,
     for (k in 1:nbm) {
       matrix <- matrices[[k]]
       namemat <- names(matrices)[k]
-      
+
       if (sum(is.na(matrix)) > 0) {
         stop(paste0("NA(s) detected in ", namemat, "."),
-             call. = FALSE
+          call. = FALSE
         )
       }
 
@@ -133,11 +132,11 @@ controls <- function(args = NULL,
           call. = FALSE
         )
       }
-      #if (sum(diag(matrix)) > 0) {
+      # if (sum(diag(matrix)) > 0) {
       #  stop(paste0("The diagonal of ", namemat, " must be null."),
       #    call. = FALSE
       #  )
-      #}
+      # }
     }
   }
 
@@ -306,7 +305,8 @@ controls <- function(args = NULL,
     # names matrices
     test <- NULL
     for (k in 1:nbm) {
-      test <- c(test, sum(rownames(matrices[[k]]) == colnames(matrices[[k]])) == n)
+      test <- c(test, 
+                sum(rownames(matrices[[k]]) == colnames(matrices[[k]])) == n)
     }
     if (sum(test) < nbm) {
       mess <- "Different rownames and colnames in:\n"
@@ -326,7 +326,8 @@ controls <- function(args = NULL,
       test <- NULL
       for (k1 in 1:(nbm - 1)) {
         for (k2 in (k1 + 1):nbm) {
-          testk1k2 <- (sum(rownames(matrices[[k1]]) == rownames(matrices[[k2]])) == n)
+          testk1k2 <- 
+            (sum(rownames(matrices[[k1]]) == rownames(matrices[[k2]])) == n)
           test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
         }
       }
@@ -395,7 +396,8 @@ controls <- function(args = NULL,
     # names matrices
     test <- NULL
     for (k in 1:nbm) {
-      test <- c(test, sum(rownames(matrices[[k]]) == colnames(matrices[[k]])) == n)
+      test <- c(test, 
+                sum(rownames(matrices[[k]]) == colnames(matrices[[k]])) == n)
     }
     if (sum(test) < nbm) {
       mess <- "Different rownames and colnames in:\n"
@@ -415,7 +417,8 @@ controls <- function(args = NULL,
       test <- NULL
       for (k1 in 1:(nbm - 1)) {
         for (k2 in (k1 + 1):nbm) {
-          testk1k2 <- (sum(rownames(matrices[[k1]]) == rownames(matrices[[k2]])) == n)
+          testk1k2 <- 
+            (sum(rownames(matrices[[k1]]) == rownames(matrices[[k2]])) == n)
           test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
         }
       }
@@ -663,10 +666,10 @@ gofi <- function(sim, obs, distance,
   # Initialization
   if ("KS" %in% measures) {
     res <- matrix(0, length(sim), (length(measures) + 1))
-    colnames(res) <- 1:(length(measures) + 1)
+    colnames(res) <- seq_len(length(measures) + 1)
   } else {
     res <- matrix(0, length(sim), length(measures))
-    colnames(res) <- 1:length(measures)
+    colnames(res) <- seq_len(length(measures))
   }
   No <- sum(obs)
 
@@ -681,9 +684,9 @@ gofi <- function(sim, obs, distance,
   }
 
   # Loop over sim
-  for (k in 1:length(sim)) {
+  for (k in seq_len(length(sim))) {
     m <- 1
-    
+
     simk <- sim[[k]]
     Nk <- sum(simk)
 
@@ -753,18 +756,18 @@ gofi <- function(sim, obs, distance,
 }
 
 # haversine ####################################################################
-haversine=function(lon1,lat1,lon2,lat2) {
-  R=6367 # Earth mean radius [km]
-  lon1=lon1*pi/180
-  lat1=lat1*pi/180
-  lon2=lon2*pi/180
-  lat2=lat2*pi/180
-  
-  dlon = lon2 - lon1
-  dlat = lat2 - lat1
-  
-  a = sin(dlat/2)^2 + cos(lat1) * cos(lat2) * sin(dlon/2)^2
-  c = 2 * asin(pmin(1,sqrt(a)))
-  d = R * c
+haversine <- function(lon1, lat1, lon2, lat2) {
+  R <- 6367 # Earth mean radius [km]
+  lon1 <- lon1 * pi / 180
+  lat1 <- lat1 * pi / 180
+  lon2 <- lon2 * pi / 180
+  lat2 <- lat2 * pi / 180
+
+  dlon <- lon2 - lon1
+  dlat <- lat2 - lat1
+
+  a <- sin(dlat / 2)^2 + cos(lat1) * cos(lat2) * sin(dlon / 2)^2
+  c <- 2 * asin(pmin(1, sqrt(a)))
+  d <- R * c
   return(d)
 }

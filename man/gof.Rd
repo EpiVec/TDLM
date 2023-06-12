@@ -52,8 +52,8 @@ Origin-Destination matrix.
 }
 \details{
 \loadmathjax
-With \mjeqn{n}{n} the number of locations, \mjeqn{T_{ij}}{T_{ij}} the observed
-flow between location \mjeqn{i}{i} and location \mjeqn{j}{j}
+With \mjeqn{n}{n} the number of locations, \mjeqn{T_{ij}}{T_{ij}} the
+observed flow between location \mjeqn{i}{i} and location \mjeqn{j}{j}
 (argument \code{obs}), \mjeqn{\tilde{T}_{ij}}{\tilde{T}_{ij}} a simulated flow
 between location \mjeqn{i}{i} and location \mjeqn{j}{j} (a matrix from
 argument \code{sim}), \mjeqn{N=\sum_{i,j=1}^n T_{ij}}{N=\sum_{i,j=1}^n T_{ij}} the

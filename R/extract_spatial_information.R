@@ -54,8 +54,8 @@ extract_spatial_information <- function(geometry,
   }
   crs <- sf::st_crs(geometry)
   if (is.na(crs)) {
-    stop("Not possible to identify the coordinate reference system of geometry.",
-      call. = FALSE
+    stop("Not possible to identify the coordinate reference system of geometry."
+         , call. = FALSE
     )
   }
 

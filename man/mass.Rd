@@ -20,7 +20,7 @@ A \code{data.frame} with 105 rows and 3 columns:
 mass
 }
 \description{
-A dataset containing the number of inhabitants, in-commuters and out-commuters
-for 105 US Kansas counties in 2000.
+A dataset containing the number of inhabitants, in-commuters and
+out-commuters for 105 US Kansas counties in 2000.
 }
 \keyword{datasets}

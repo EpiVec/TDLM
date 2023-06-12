@@ -17,12 +17,12 @@
 #' @details The `TDLM`'s inputs should be based on the same number of
 #' locations sorted in the same order. `check = "format"` will run basic checks
 #' to ensure that the structure of the inputs (dimensions, class, type...) is
-#' correct. 
-#' 
+#' correct.
+#'
 #' It is recommended to use the location ID as vector names, matrix rownames and
-#' matrix colnames. Set `check  = "format_and_names"` to check the inputs' 
-#' names. The checks are run successively, so run the function as many times as 
-#' needed to get the message indicating that the inputs passed the check 
+#' matrix colnames. Set `check  = "format_and_names"` to check the inputs'
+#' names. The checks are run successively, so run the function as many times as
+#' needed to get the message indicating that the inputs passed the check
 #' successfully.
 #'
 #' @return
@@ -38,7 +38,7 @@
 #' mi <- as.numeric(mass[, 1])
 #' names(mi) <- rownames(mass)
 #' mj <- mi
-#' 
+#'
 #' check_format_names(
 #'   vectors = list(mi = mi, mj = mj),
 #'   matrices = list(distance = distance),
@@ -58,7 +58,7 @@ check_format_names <- function(vectors,
   if (!is.null(vectors)) {
     controls(args = vectors, type = "list")
     if (is.null(names(vectors))) {
-      names(vectors) <- paste0("Vector ", 1:length(vectors))
+      names(vectors) <- paste0("Vector ", seq_len(length(vectors)))
       message(paste0(
         "No names identified in the vectors list.\n",
         "Names have been automatically assigned.\n"
@@ -68,7 +68,7 @@ check_format_names <- function(vectors,
   if (!is.null(matrices)) {
     controls(args = matrices, type = "list")
     if (is.null(names(matrices))) {
-      names(matrices) <- paste0("matrix_", 1:length(matrices))
+      names(matrices) <- paste0("matrix_", seq_len(length(matrices)))
       message(paste0(
         "No names identified in the matrices list.\n",
         "Names have been automatically assigned.\n"
