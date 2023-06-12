@@ -18,10 +18,10 @@ LazyDataCompression: xz
 Imports:
     Ecume,
     mathjaxr,
-    Rdpack,
+    Rdpack(>= 1.0.0),
     readr (>= 2.0.0),
-    rmarkdown,
-    sf
+    rmarkdown (>= 2.0.0),
+    sf (>= 1.0.0)
 RdMacros: 
     mathjaxr,
     Rdpack
