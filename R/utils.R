@@ -9,6 +9,12 @@ controls <- function(args = NULL,
     for (k in 1:nbv) {
       vector <- vectors[[k]]
       namevec <- names(vectors)[k]
+      
+      if (sum(is.na(vector)) > 0) {
+        stop(paste0("NA(s) detected in ", namevec, "."),
+             call. = FALSE
+        )
+      }
 
       if (!is.numeric(vector)) {
         stop(paste0(namevec, " must be a numeric vector."),
@@ -17,11 +23,6 @@ controls <- function(args = NULL,
       }
       if (length(vector) < 2) {
         stop(paste0(namevec, " must contain at least two locations."),
-          call. = FALSE
-        )
-      }
-      if (sum(is.na(vector)) > 0) {
-        stop(paste0("NA(s) detected in ", namevec, "."),
           call. = FALSE
         )
       }
@@ -45,13 +46,19 @@ controls <- function(args = NULL,
     for (k in 1:nbv) {
       vector <- vectors[[k]]
       namevec <- names(vectors)[k]
+      
+      if (sum(is.na(vector)) > 0) {
+        stop(paste0("NA(s) detected in ", namevec, "."),
+             call. = FALSE
+        )
+      }
 
       if (!is.numeric(vector)) {
         stop(paste0(namevec, " must be a numeric vector."),
           call. = FALSE
         )
       } else {
-        if (sum(vector %% 1 != 0) > 1) {
+        if (sum(vector %% 1 != 0) > 0) {
           stop(paste0(namevec, " must be a vector of integers."),
             call. = FALSE
           )
@@ -65,21 +72,18 @@ controls <- function(args = NULL,
       }
 
       if (length(vector) < 2) {
-        stop(paste0(namevec, " should must at least two locations."),
+        stop(paste0(namevec, " must contain at least two locations."),
           call. = FALSE
         )
       }
+
       if (sum(vector != 0) == 0) {
         stop(paste0(namevec, " must contain at least one strictly positive 
         value."),
           call. = FALSE
         )
       }
-      if (sum(is.na(vector)) > 0) {
-        stop(paste0("NA(s) detected in ", namevec, "."),
-          call. = FALSE
-        )
-      }
+      
       if (sum(vector < 0) > 0) {
         stop(paste0(namevec, " must contain only positive values."),
           call. = FALSE
@@ -94,6 +98,12 @@ controls <- function(args = NULL,
     for (k in 1:nbm) {
       matrix <- matrices[[k]]
       namemat <- names(matrices)[k]
+      
+      if (sum(is.na(matrix)) > 0) {
+        stop(paste0("NA(s) detected in ", namemat, "."),
+             call. = FALSE
+        )
+      }
 
       if (!is.matrix(matrix)) {
         stop(paste0(namemat, " must be a matrix."),
@@ -109,11 +119,6 @@ controls <- function(args = NULL,
       }
       if (n < 2) {
         stop(paste0(namemat, " must contain at least two locations."),
-          call. = FALSE
-        )
-      }
-      if (sum(is.na(matrix)) > 0) {
-        stop(paste0("NA(s) detected in ", namemat, "."),
           call. = FALSE
         )
       }
@@ -244,10 +249,7 @@ controls <- function(args = NULL,
       test <- NULL
       for (k1 in 1:(nbv - 1)) {
         for (k2 in (k1 + 1):nbv) {
-          testk1k2 <- (length(intersect(
-            names(vectors[[k1]]),
-            names(vectors[[k2]])
-          )) == n)
+          testk1k2 <- (sum(names(vectors[[k1]]) == names(vectors[[k2]])) == n)
           test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
         }
       }
@@ -304,10 +306,7 @@ controls <- function(args = NULL,
     # names matrices
     test <- NULL
     for (k in 1:nbm) {
-      test <- c(test, length(intersect(
-        rownames(matrices[[k]]),
-        colnames(matrices[[k]])
-      )) == n)
+      test <- c(test, sum(rownames(matrices[[k]]) == colnames(matrices[[k]])) == n)
     }
     if (sum(test) < nbm) {
       mess <- "Different rownames and colnames in:\n"
@@ -327,10 +326,7 @@ controls <- function(args = NULL,
       test <- NULL
       for (k1 in 1:(nbm - 1)) {
         for (k2 in (k1 + 1):nbm) {
-          testk1k2 <- (length(intersect(
-            rownames(matrices[[k1]]),
-            rownames(matrices[[k2]])
-          )) == n)
+          testk1k2 <- (sum(rownames(matrices[[k1]]) == rownames(matrices[[k2]])) == n)
           test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
         }
       }
@@ -399,10 +395,7 @@ controls <- function(args = NULL,
     # names matrices
     test <- NULL
     for (k in 1:nbm) {
-      test <- c(test, length(intersect(
-        rownames(matrices[[k]]),
-        colnames(matrices[[k]])
-      )) == n)
+      test <- c(test, sum(rownames(matrices[[k]]) == colnames(matrices[[k]])) == n)
     }
     if (sum(test) < nbm) {
       mess <- "Different rownames and colnames in:\n"
@@ -422,10 +415,7 @@ controls <- function(args = NULL,
       test <- NULL
       for (k1 in 1:(nbm - 1)) {
         for (k2 in (k1 + 1):nbm) {
-          testk1k2 <- (length(intersect(
-            rownames(matrices[[k1]]),
-            rownames(matrices[[k2]])
-          )) == n)
+          testk1k2 <- (sum(rownames(matrices[[k1]]) == rownames(matrices[[k2]])) == n)
           test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
         }
       }
@@ -452,10 +442,7 @@ controls <- function(args = NULL,
       test <- NULL
       for (k1 in 1:(nbv - 1)) {
         for (k2 in (k1 + 1):nbv) {
-          testk1k2 <- (length(intersect(
-            names(vectors[[k1]]),
-            names(vectors[[k2]])
-          )) == n)
+          testk1k2 <- (sum(names(vectors[[k1]]) == names(vectors[[k2]])) == n)
           test <- rbind(test, data.frame(from = k1, to = k2, test = testk1k2))
         }
       }
@@ -481,10 +468,7 @@ controls <- function(args = NULL,
     test <- NULL
     for (k1 in 1:nbv) {
       for (k2 in 1:nbm) {
-        testk1k2 <- (length(intersect(
-          names(vectors[[k1]]),
-          rownames(matrices[[k2]])
-        )) == n)
+        testk1k2 <- (sum(names(vectors[[k1]]) == rownames(matrices[[k2]])) == n)
         test <- rbind(test, data.frame(vec = k1, mat = k2, test = testk1k2))
       }
     }
