@@ -55,7 +55,7 @@ trip distribution.
 We identified several R packages providing an implementation of spatial 
 interaction models that can be used to estimate trip distributions. 
 The **gravity** package [@Wolwer2018], the **spflow** 
-package [@Dargel2021], the **mobility** [@Giles2021] and the **simodels** 
+package [@Dargel2021], the **mobility** package [@Giles2021] and the **simodels** 
 package [@Lovelace2023]. The **gravity**, **spflow** and **mobility** packages 
 are based on statistical models and have not been designed to compare gravity 
 and intervening opportunities laws and constrained models independently. 
@@ -64,10 +64,9 @@ different from that of **TDLM**, it offers the possibility to compare trip
 distribution laws and models independently. **simodels** proposes 
 an interesting approach by not defining (nor encouraging the use of) any 
 particular trip distribution laws, but this also makes the systematic comparison 
-of gravity and intervening opportunities laws more complicated for 
-non-expert users. Furthermore, **simodels** does not offer the possibility at 
-this stage to use the doubly constrained model or any functionality to 
-systematically compare observed and simulated OD matrices.
+of trip distribution laws more complicated for non-expert users. Furthermore, 
+**simodels** does not offer any functionality to systematically compare 
+observed and simulated OD matrices.
  
 To overcome these limitations, the **TDML** R package is based on a two-step 
 approach to generate mobility flows by separating the trip distribution law, 
