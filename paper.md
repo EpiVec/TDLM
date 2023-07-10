@@ -64,7 +64,7 @@ different from that of **TDLM**, it offers the possibility to compare trip
 distribution laws and models independently. **simodels** proposes 
 an interesting approach by not defining (nor encouraging the use of) any 
 particular trip distribution laws, but this also makes the systematic comparison 
-between gravity and intervening opportunities laws more complicated for 
+of gravity and intervening opportunities laws more complicated for 
 non-expert users. Furthermore, **simodels** does not offer the possibility at 
 this stage to use the doubly constrained model or any functionality to 
 systematically compare observed and simulated OD matrices.
