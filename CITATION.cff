@@ -1,142 +1,28 @@
-# -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.2.2
-# See also: https://docs.ropensci.org/cffr/
-# -----------------------------------------------------------
- 
-cff-version: 1.2.0
-message: 'To cite package "TDLM" in publications use:'
-type: software
-license: GPL-3.0-only
-title: 'TDLM: Systematic comparison of trip distribution laws and models'
-version: 0.1.0
-abstract: An R package to compare trip distribution laws and models.
+cff-version: "1.2.0"
 authors:
 - family-names: Lenormand
   given-names: Maxime
-  email: maxime.lenormand@inrae.fr
-  orcid: https://orcid.org/0000-0001-6362-3473
+  orcid: "https://orcid.org/0000-0001-6362-3473"
+doi: 10.5281/zenodo.8183755
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
 preferred-citation:
-  type: manual
-  title: 'TDLM: Systematic comparison of trip distribution laws and models'
   authors:
   - family-names: Lenormand
     given-names: Maxime
-    email: maxime.lenormand@inrae.fr
-    orcid: https://orcid.org/0000-0001-6362-3473
-  version: 0.1.0
-  abstract: An R package to compare trip distribution laws and models.
-  repository-code: https://github.com/EpiVec/TDML
-  url: https://github.com/EpiVec/TDML
-  contact:
-  - family-names: Lenormand
-    given-names: Maxime
-    email: maxime.lenormand@inrae.fr
-    orcid: https://orcid.org/0000-0001-6362-3473
-  license: GPL-3.0-only
-  year: '2023'
-repository-code: https://github.com/EpiVec/TDML
-url: https://github.com/EpiVec/TDML
-contact:
-- family-names: Lenormand
-  given-names: Maxime
-  email: maxime.lenormand@inrae.fr
-  orcid: https://orcid.org/0000-0001-6362-3473
-references:
-- type: software
-  title: 'R: A Language and Environment for Statistical Computing'
-  notes: Depends
-  authors:
-  - name: R Core Team
-  location:
-    name: Vienna, Austria
-  year: '2023'
-  url: https://www.R-project.org/
-  institution:
-    name: R Foundation for Statistical Computing
-  version: '>= 4.0.0'
-- type: software
-  title: mathjaxr
-  abstract: 'mathjaxr: Using ''Mathjax'' in Rd Files'
-  notes: Imports
-  authors:
-  - family-names: Viechtbauer
-    given-names: Wolfgang
-    email: wvb@wvbauer.com
-    orcid: https://orcid.org/0000-0003-3463-4063
-  year: '2023'
-  url: https://CRAN.R-project.org/package=mathjaxr
-- type: software
-  title: Rdpack
-  abstract: 'Rdpack: Update and Manipulate Rd Documentation Objects'
-  notes: Imports
-  authors:
-  - family-names: Boshnakov
-    given-names: Georgi N.
-    email: georgi.boshnakov@manchester.ac.uk
-  year: '2023'
-  url: https://CRAN.R-project.org/package=Rdpack
-- type: software
-  title: rmarkdown
-  abstract: 'rmarkdown: Dynamic Documents for R'
-  notes: Imports
-  authors:
-  - family-names: Allaire
-    given-names: JJ
-    email: jj@rstudio.com
-  - family-names: Xie
-    given-names: Yihui
-    email: xie@yihui.name
-    orcid: https://orcid.org/0000-0003-0645-5666
-  - family-names: McPherson
-    given-names: Jonathan
-    email: jonathan@rstudio.com
-  - family-names: Luraschi
-    given-names: Javier
-    email: javier@rstudio.com
-  - family-names: Ushey
-    given-names: Kevin
-    email: kevin@rstudio.com
-  - family-names: Atkins
-    given-names: Aron
-    email: aron@rstudio.com
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
-  - family-names: Cheng
-    given-names: Joe
-    email: joe@rstudio.com
-  - family-names: Chang
-    given-names: Winston
-    email: winston@rstudio.com
-  - family-names: Iannone
-    given-names: Richard
-    email: rich@rstudio.com
-    orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2023'
-  url: https://CRAN.R-project.org/package=rmarkdown
-- type: software
-  title: tidyr
-  abstract: 'tidyr: Tidy Messy Data'
-  notes: Imports
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  - family-names: Vaughan
-    given-names: Davis
-    email: davis@posit.co
-  - family-names: Girlich
-    given-names: Maximilian
-  year: '2023'
-  url: https://CRAN.R-project.org/package=tidyr
-- type: software
-  title: knitr
-  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
-  notes: Suggests
-  authors:
-  - family-names: Xie
-    given-names: Yihui
-    email: xie@yihui.name
-    orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2023'
-  url: https://CRAN.R-project.org/package=knitr
+    orcid: "https://orcid.org/0000-0001-6362-3473"
+  date-published: 2023-08-11
+  doi: 10.21105/joss.05434
+  issn: 2475-9066
+  issue: 88
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 5434
+  title: "TDLM: An R package for a systematic comparison of trip
+    distribution laws and models"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.05434"
+  volume: 8
+title: "TDLM: An R package for a systematic comparison of trip
+  distribution laws and models"
