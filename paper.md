@@ -37,17 +37,17 @@ commonly referred to as trip distribution model in the four-step travel
 framework. 
 
 In order to facilitate the use and comparison of trip distribution models, and 
-more generally spatial distribution models, we present **TDML** an R package 
+more generally spatial distribution models, we present **TDML**, an R package 
 providing a set of easy-to-use functions to rigorously and fairly compare 
 trip distribution laws and models as described in @Lenormand2016.
 
 # Statement of need
 
-Trip distribution models are generally composed of two mechanisms, one mechanism
+Trip distribution models are generally composed of two mechanisms, one
 based on a 'law' to estimate the probability that an individual moves from one 
-location to another and a second mechanism based on a 'model' used to estimate 
+location to another and a second based on a 'model' used to estimate 
 the number of individuals moving from one location to another. These two 
-mechanisms are rarely disentangled which could lead to methodological flaws when 
+mechanisms are rarely disentangled, which could lead to methodological flaws when 
 comparing different laws and/or models [@Lenormand2012;@Simini2012;@Masucci2013;
 @Yang2014]. This is particularly important when we compare the two historical
 approaches - gravity and intervening opportunities - for the estimation of 
@@ -56,12 +56,12 @@ trip distribution.
 We identified several R packages providing an implementation of spatial 
 interaction models that can be used to estimate trip distributions. 
 The **gravity** package [@Wolwer2018], the **spflow** 
-package [@Dargel2021], the **mobility** package [@Giles2021] and the **simodels** 
-package [@Lovelace2023]. The **gravity**, **spflow** and **mobility** packages 
+package [@Dargel2021], the **mobility** package [@Giles2021], and the **simodels** 
+package [@Lovelace2023]. The **gravity**, **spflow**, and **mobility** packages 
 are based on statistical models and have not been designed to compare gravity 
 and intervening opportunities laws and constrained models independently. 
 Although the package structure and functionality of **simodels** are very 
-different from that of **TDLM**, it offers the possibility to compare trip 
+different from those of **TDLM**, it offers the possibility to compare trip 
 distribution laws and models independently. **simodels** proposes 
 an interesting approach by not defining (nor encouraging the use of) any 
 particular trip distribution laws, but this also makes the systematic comparison 
@@ -86,8 +86,8 @@ the simulated matrices against observed data.
 
 * **run_law_model** is the main function of the package. This function estimates
 mobility flows using different distribution laws (four gravity laws, three 
-intervening opportunity laws and a uniform law) and models (unconstrained, 
-production constrained, attraction constrained and doubly constrained). The 
+intervening opportunity laws, and a uniform law) and models (unconstrained, 
+production constrained, attraction constrained, and doubly constrained). The 
 function has two sets of arguments, one for the law and another one for the 
 model. 
 
