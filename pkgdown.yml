@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   TDLM: TDLM.html
-last_built: 2023-07-25T14:36Z
+last_built: 2023-08-11T14:24Z
 urls:
   reference: https://epivec.github.io/TDLM/reference
   article: https://epivec.github.io/TDLM/articles
