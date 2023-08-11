@@ -1,0 +1,12 @@
+bibentry(
+  bibtype = "Article",
+  textVersion = "Lenormand M (2023). TDLM: Systematic Comparison of Trip Distribution Laws and Models. Journal of Open Source Software 8, 5434.",
+  author = "Lenormand, M.",
+  title = "TDLM: Systematic Comparison of Trip Distribution Laws and Models",
+  journal = "Journal of Open Source Software",
+  year = "2023",
+  number  = "88",
+  pages   = "5434",
+  volume  = "8",
+  doi = "10.21105/joss.05434"
+)
