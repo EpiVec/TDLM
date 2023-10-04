@@ -224,11 +224,20 @@ run_law_model <- function(law = "Unif",
   options(scipen = 999)
 
   # Set path to jar
-  libpath <- .libPaths()[1]
-  wdjar <- paste0(libpath, "/TDLM/java/")
-  if (!dir.exists(wdjar)) {
-    stop(paste0("Impossible to access ", wdjar, ". Please check that 
-    the folder ", wdjar, " is accessible."), call. = FALSE)
+  allibpath <- .libPaths()
+  nlib <- length(allibpath)
+  testlib <- FALSE
+  for(k in 1:nlib){
+    libpath <- allibpath[k]
+    wdjar <- paste0(libpath, "/TDLM/java/")
+    if (dir.exists(wdjar)) {
+      testlib <- TRUE
+      break
+    }  
+  }
+  if (!testlib) {
+    stop("Impossible to access TDLM/java in any paths of .libPaths().", 
+         call. = FALSE)
   }
   if (!file.exists(paste0(wdjar, "TDLM.jar"))) {
     stop(paste0("It seems that an error occurred during the package 
