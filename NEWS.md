@@ -12,7 +12,7 @@ regarding the computation of distances (idea proposed by @Pachka).
 
 * Changed method to identify the package folder path in 
 `extract_opportunities()`, `run_law_model()`, `run_law()` and 
- `run_model()` (identify by @Pachka).
+ `run_model()` (problem identified by @Pachka).
 
 # TDLM 0.1.0 
 
