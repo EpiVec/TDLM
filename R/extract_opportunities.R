@@ -84,12 +84,12 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
     }  
   }
   if (!testlib) {
-    stop("Impossible to access TDLM/java in any paths of .libPaths().", 
+    stop("Impossible to access TDLM/java in any path(s) stored in .libPaths().", 
          call. = FALSE)
   }
-  if (!file.exists(paste0(wdjar, "TDLM.jar"))) {
+  if (!file.exists(paste0(wdjar, "Sij.jar"))) {
     stop(paste0("It seems that an error occurred during the package 
-    installation.\n", "The folder ", wdjar, "should contain three .jar files."),
+    installation.\n", "The folder ", wdjar, "should contain the file Sij.jar."),
          call. = FALSE
     )
   }
