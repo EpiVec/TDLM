@@ -6,7 +6,7 @@
 [![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions)
 [![Codecov test coverage](https://codecov.io/gh/EpiVec/TDLM/branch/master/graph/badge.svg)](https://app.codecov.io/gh/EpiVec/TDLM?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/TDLM)](https://cran.r-project.org/package=TDLM)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/TDLM)](https://r-pkg.org:443/pkg/TDLM)  
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/TDLM)](https://r-pkg.org:443/pkg/TDLM)  
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.05434/status.svg)](https://doi.org/10.21105/joss.05434)
 <!-- badges: end -->
 
