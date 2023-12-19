@@ -1,7 +1,14 @@
-# TDLM 0.1.0 (development/github version)
+# TDLM 1.0.0 (development/github version)
 
 This is a list of changes made in the development/github version of the package
-between TDLM 0.1.0 (CRAN release 2023-03-18) and the next CRAN release.
+between TDLM 1.0.0 (CRAN release 2023-02-19) and the next CRAN release.
+
+* 
+ 
+# TDLM 1.0.0
+
+This is a list of changes made between TDLM 0.1.0 (CRAN release 2023-03-18) and 
+TDLM 1.0.0 (CRAN release 2023-12-19).
 
 * Added automated test (testthat + covr)
 
