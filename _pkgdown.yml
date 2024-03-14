@@ -1,6 +1,8 @@
 url: https://epivec.github.io/TDLM/
+
 template:
   bootstrap: 5
+  package: tidytemplate
 
 toc:
   depth: 1
