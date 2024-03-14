@@ -1,4 +1,4 @@
-# __TDLM__ <img src="man/figures/logo.png" align="right" alt="" width="150" />
+# __TDLM__ <img src="man/figures/logo.png" align="right" alt="" width="138" />
 
 # Systematic comparison of trip distribution laws and models 
 
