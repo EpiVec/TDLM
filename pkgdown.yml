@@ -1,9 +1,9 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   TDLM: TDLM.html
-last_built: 2023-12-19T11:43Z
+last_built: 2024-03-14T12:05Z
 urls:
   reference: https://epivec.github.io/TDLM/reference
   article: https://epivec.github.io/TDLM/articles
