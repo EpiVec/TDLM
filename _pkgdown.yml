@@ -2,6 +2,7 @@ url: https://epivec.github.io/TDLM/
 
 template:
   bootstrap: 5
+  package: pkgtemplate
 
 toc:
   depth: 1
