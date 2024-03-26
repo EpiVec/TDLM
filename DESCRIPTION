@@ -34,5 +34,4 @@ BugReports: https://github.com/EpiVec/TDLM/issues
 Roxygen: list(markdown = TRUE)
 URL: https://epivec.github.io/TDLM/
 Config/testthat/edition: 3
-Config/Needs/website: EpiVec/pkgtemplate
 
