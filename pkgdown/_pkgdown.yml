@@ -11,6 +11,7 @@ reference:
   desc: >
   contents:
   - check_format_names
+  - extract_distances
   - extract_opportunities 
   - extract_spatial_information 
   - calib_param
@@ -30,6 +31,8 @@ reference:
   - distance
   - od
   - county
+  - coords
+  - coords_xy
   
 news:
   releases:

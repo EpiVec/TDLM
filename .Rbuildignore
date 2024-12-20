@@ -1,12 +1,15 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
 ^_pkgdown\.yml$
-^docs$
-^pkgdown$
 ^pkgdown/
+^docs/
+^tests/
+^inst/bin/
 ^\.github$
 ^CITATION\.cff$
-
-^tests
+^codecov\.yml$
+^temp$
 
 LICENSE
+

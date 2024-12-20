@@ -6,8 +6,8 @@
 \title{Great-circle distances between US Kansas counties}
 \format{
 A \code{matrix} with 105 rows and 105 columns. Each element of the
-matrix represents the distance between two counties. County ID as rownames
-and colnames.
+matrix represents the distance between two counties. County IDs are used as
+row names and column names.
 }
 \source{
 \url{https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html}
@@ -16,7 +16,7 @@ and colnames.
 distance
 }
 \description{
-A dataset containing the great-circle distance (in kilometer) between 105
+A dataset containing the great-circle distance (in kilometers) between 105
 US Kansas counties.
 }
 \keyword{datasets}

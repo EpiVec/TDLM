@@ -1,4 +1,4 @@
-# Preamble code ----------------------------------------------------------------
+# Inputs -----------------------------------------------------------------------
 data(mass)
 data(distance)
 data(od)
@@ -23,8 +23,9 @@ vectors <- list(mi = mi, mj = mj, Oi = Oi, Dj = Dj)
 matrices <- list(Dij = dist, OD = odobs)
 
 
-# Check messages and errors ----------------------------------------------------
-test_that("check messages and errors", {
+# Tests for valid outputs ------------------------------------------------------
+test_that("valid output", {
+  
   expect_message(
     check_format_names(vectors = vectors, matrices = matrices, 
                        check = "format_and_names"),
@@ -44,7 +45,8 @@ test_that("check messages and errors", {
 
   expect_error(
     check_format_names(vectors = vectors, matrices = NULL, check = "test"),
-    "Please choose check among the followings values:
-format or format_and_names"
+    "Please choose check from the following:
+format or format_and_names."
   )
+  
 })

@@ -1,37 +1,43 @@
 #' Extract distances and surface areas from a spatial object
 #'
-#' This function returns a matrix of distances between locations (in kilometer)
-#'  along with a vector surface areas of the locations (in square kilometer).
+#' This function returns a `matrix` of distances between locations (in 
+#' kilometers) along with a vector of surface areas for the locations (in square 
+#' kilometers).
 #'
-#' @param geometry a spatial object that can be handled by the `sf` package.
+#' @param geometry A spatial object that can be handled by the `sf` package.
 #'
-#' @param id name or number of the column to use as rownames and colnames for
-#' the output distance matrix (optional, NULL by default). A vector with length
-#' equal to the number of locations can also be used.
+#' @param id The name or number of the column to use as `rownames` and 
+#' `colnames` for the output distance `matrix` (optional, `NULL` by default). A 
+#' `vector` with a length equal to the number of locations can also be used.
 #'
-#' @param show_progress a boolean indicating if a progress bar should be
+#' @param show_progress A `boolean` indicating whether a progress bar should be
 #' displayed.
+#' 
+#' @return
+#' A `list` composed of two elements. The first element is a square `matrix`
+#' representing the great-circle distances (in kilometers) between locations. 
+#' The second element is a vector containing the surface area of each location
+#' (in square kilometers).
 #'
-#' @details The `geometry` must be projected in a valid coordinate reference
+#' @details 
+#' The `geometry` must be projected in a valid coordinate reference
 #' system. It will be reprojected in degrees longitude/latitude to compute the
-#' great-circle distances between centroids' locations with an internal function
-#' and to compute the surface area with the function [st_area][sf::st_area] from
+#' great-circle distances between centroids of locations using an internal function
+#' and to compute the surface area using the function [st_area][sf::st_area] from
 #' the [sf](https://cran.r-project.org/package=sf) package.
-#
-#' @note The outputs are based on the locations contained in `geometry` and
+#'
+#' @note 
+#' The outputs are based on the locations contained in `geometry` and
 #' sorted in the same order. An optional `id` can also be provided to be used as
 #' names for the outputs.
+
 #'
-#' @return
-#' A list composed of two elements. The first element is a squared matrix
-#' representing the great-circle distance (in kilometer) between locations. The
-#' second element is a vector containing the surface area of each location
-#' (in square kilometer).
-#'
+#' @seealso 
+#''Associated functions:
+#' [extract_distances()] [extract_opportunities()]
+#' 
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
-#'
-#' @seealso [calib_param()] [extract_opportunities()] [check_format_names()]
 #'
 #' @examples
 #' data(county)
@@ -46,17 +52,16 @@
 extract_spatial_information <- function(geometry,
                                         id = NULL,
                                         show_progress = FALSE) {
+  
   # Controls geometry
   if (class(geometry)[1] != "sf") {
     stop("It seems that the geometry used is not an sf object.",
-      call. = FALSE
-    )
+      call. = FALSE)
   }
   crs <- sf::st_crs(geometry)
   if (is.na(crs)) {
     stop("Not possible to identify the coordinate reference system of geometry."
-         , call. = FALSE
-    )
+         , call. = FALSE)
   }
 
   # Controls id
@@ -65,27 +70,23 @@ extract_spatial_information <- function(geometry,
       if (is.character(id)) {
         if (!(id %in% colnames(geometry))) {
           stop("If id is a character, it should be a column name of geometry.",
-            call. = FALSE
-          )
+            call. = FALSE)
         }
         index <- which(colnames(geometry) == id)
         if (length(index) > 1) {
           stop("Two or more columns with name id.",
-            call. = FALSE
-          )
+            call. = FALSE)
         }
       } else if (is.factor(id)) {
         id <- as.character(id)
         if (!(id %in% colnames(geometry))) {
           stop("If id is a character, it should be a column name of geometry.",
-            call. = FALSE
-          )
+            call. = FALSE)
         }
         index <- which(colnames(geometry) == id)
         if (length(index) > 1) {
           stop("Two or more columns with name id.",
-            call. = FALSE
-          )
+            call. = FALSE)
         }
       } else if (is.numeric(id)) {
         if (id %% 1 != 0) {

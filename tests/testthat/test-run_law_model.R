@@ -1,4 +1,4 @@
-# Preamble code ----------------------------------------------------------------
+# Inputs -----------------------------------------------------------------------
 data(mass)
 data(distance)
 data(od)
@@ -21,7 +21,8 @@ names(Dj) <- rownames(distance)
 dist <- distance
 
 # Tests for valid outputs ------------------------------------------------------
-test_that("class TDLM", {
+test_that("valid output", {
+  
   res <- run_law_model(
     law = "NGravExp", mass_origin = mi, mass_destination = mj, distance = dist, 
     opportunity = sij, param = 0.01,
@@ -54,4 +55,5 @@ test_that("class TDLM", {
   )
 
   expect_identical(class(res)[1], "TDLM")
+  
 })

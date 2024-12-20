@@ -7,29 +7,28 @@
 calib_param(av_surf, law = "NGravExp")
 }
 \arguments{
-\item{av_surf}{a positive numeric value indicating the average surface
-area of the locations (in square kilometer).}
+\item{av_surf}{A positive \code{numeric} value indicating the average surface
+area of the locations (in square kilometers).}
 
-\item{law}{a character indicating which law to use (see Details).}
+\item{law}{A \code{character} string indicating which law to use (see Details).}
 }
 \value{
-An estimation of the optimal parameter value based on
+An estimate of the optimal parameter value based on
 the average surface area of the locations.
 }
 \description{
-This function returns an estimation of the optimal parameter value based on
-the average surface area of the locations (in square kilometer) according to
-the law. This estimation has only been tested on commuting data
-(in kilometer).
+This function returns an estimate of the optimal parameter value based on
+the average surface area of the locations (in square kilometers) according
+to the law. This estimation has only been tested on commuting data
+(in kilometers).
 }
 \details{
-The estimation is based on the Figure 8 in
-\insertCite{Lenormand2016;textual}{TDLM} for four types of laws. The
-normalized gravity law with an exponential distance decay function
-(\code{law = "NGravExp"}), the normalized gravity law with a power distance
-decay function (\code{law = "NGravPow"}), the Schneider's intervening
-opportunities law (\code{law = "Schneider"}) and the extended radiation law
-(\code{law = "RadExt"}).
+The estimation is based on Figure 8 in Lenormand \emph{et al.}
+(2016) for four types of laws: the normalized gravity law with an exponential
+distance decay function (\code{law = "NGravExp"}), the normalized gravity law with
+a power distance decay function (\code{law = "NGravPow"}), Schneider's
+intervening opportunities law (\code{law = "Schneider"}), and the extended
+radiation law (\code{law = "RadExt"}).
 }
 \examples{
 data(county)
@@ -44,9 +43,12 @@ calib_param(av_surf = av_surf, law = "RadExt")
 
 }
 \references{
-\insertRef{Lenormand2016}{TDLM}
+Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip
+distribution laws and models. \emph{Journal of Transport Geography} 51,
+158-169.
 }
 \seealso{
+Associated functions:
 \code{\link[=extract_opportunities]{extract_opportunities()}} \code{\link[=extract_spatial_information]{extract_spatial_information()}}
 \code{\link[=check_format_names]{check_format_names()}}
 }

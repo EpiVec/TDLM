@@ -24,99 +24,92 @@ run_law_model(
 )
 }
 \arguments{
-\item{law}{a character indicating which law to use (see Details).}
+\item{law}{A \code{character} indicating which law to use (see Details).}
 
-\item{mass_origin}{a numeric vector representing the mass at origin (i.e.
+\item{mass_origin}{A \code{numeric} vector representing the mass at the origin (i.e.
 demand).}
 
-\item{mass_destination}{a numeric vector representing the mass at
-destination (i.e. attractiveness).}
+\item{mass_destination}{A \code{numeric} vector representing the mass at
+the destination (i.e. attractiveness).}
 
-\item{distance}{a squared matrix representing the distance between locations
+\item{distance}{A squared \code{matrix} representing the distance between locations
 (see Details).}
 
-\item{opportunity}{a squared matrix representing the number of opportunities
+\item{opportunity}{A squared \code{matrix} representing the number of opportunities
 between locations (see Details). Can be easily computed with
 \code{\link[=extract_opportunities]{extract_opportunities()}}.}
 
-\item{param}{a vector of numeric value(s) used to adjust the importance of
-\code{distance} or \code{opportunity} associated with the chosen law. A single value or
-a vector of several parameter values can be used (see Return). Not necessary
-for the original radiation law or the uniform law (see Details).}
+\item{param}{A \code{numeric} vector or a single \code{numeric} value used to adjust
+the importance of \code{distance} or \code{opportunity} associated with the chosen law.
+Not necessary for the original radiation law or the uniform law (see
+Details).}
 
-\item{model}{a character indicating which model to use.}
+\item{model}{A \code{character} indicating which model to use.}
 
-\item{nb_trips}{a numeric value indicating the total number of trips. Must
-be an integer if \code{average = FALSE} (see Details).}
+\item{nb_trips}{A \code{numeric} value indicating the total number of trips. Must
+be an \code{integer} if \code{average = FALSE} (see Details).}
 
-\item{out_trips}{a numeric vector representing the number of outgoing
-trips per location. Must be a vector of integers
-if \code{average = FALSE} (see Details).}
-
-\item{in_trips}{a numeric vector representing the number of incoming
-trips per location. Must be a vector of integers
-if \code{average = FALSE} (see Details).}
-
-\item{average}{a boolean indicating if the average mobility flow matrix
-should be generated instead of the \code{nbrep} matrices based on
-random draws (see Details).}
-
-\item{nbrep}{an integer indicating the number of replications
-associated to the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
+\item{out_trips}{A \code{numeric} vector representing the number of outgoing
+trips per location. Must be a vector of integers if \code{average = FALSE}
 (see Details).}
 
-\item{maxiter}{an integer indicating the maximal number of iterations for
+\item{in_trips}{A \code{numeric} vector representing the number of incoming
+trips per location. Must be a vector of integers if \code{average = FALSE}
+(see Details).}
+
+\item{average}{A \code{boolean} indicating if the average mobility flow matrix
+should be generated instead of the \code{nbrep} matrices based on random draws
+(see Details).}
+
+\item{nbrep}{An \code{integer} indicating the number of replications
+associated with the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
+(see Details).}
+
+\item{maxiter}{An \code{integer} indicating the maximal number of iterations for
 adjusting the Doubly Constrained Model (see Details).}
 
-\item{mindiff}{a numeric strictly positive value indicating the
+\item{mindiff}{A \code{numeric} strictly positive value indicating the
 stopping criterion for adjusting the Doubly Constrained Model (see Details).}
 
-\item{write_proba}{a boolean indicating if the estimation of the
+\item{write_proba}{A \code{boolean} indicating if the estimation of the
 probability to move from one location to another obtained with the
-distribution law should be returned along with the flows estimations.}
+distribution law should be returned along with the flow estimations.}
 
-\item{check_names}{a boolean indicating if the ID location are used as
-vector names, matrix rownames and colnames and if they should be checked
+\item{check_names}{A \code{boolean} indicating whether the location IDs used as
+matrix rownames and colnames should be checked for consistency
 (see Note).}
 }
 \value{
-An object of class \code{TDLM}. A list of list of matrices containing for each
+An object of class \code{TDLM}. A \code{list} of \code{list} of matrices containing for each
 parameter value the \code{nbrep} simulated matrices and the matrix of
-probabilities (called \code{proba}) if \code{write_proba = TRUE}.
-If \code{length(param) = 1} or \code{law = "Rad"} or \verb{law = "Unif} only a list of
+probabilities (called \code{proba}) if \code{write_proba = TRUE}. If
+\code{length(param) = 1} or \code{law = "Rad"} or \code{law = "Unif"} only a list of
 matrices will be returned.
 }
 \description{
 This function estimates mobility flows using different distribution laws and
-models. As described in \insertCite{Lenormand2016;textual}{TDLM}, the
+models. As described in Lenormand \emph{et al.} (2016), the
 function uses a two-step approach to generate mobility flows by separating
-the trip distribution law, gravity or intervening opportunities, from the
-modeling approach used to generate the flows from this law.
+the trip distribution law (gravity or intervening opportunities) from the
+modeling approach used to generate the flows based on this law.
 }
 \details{
-\loadmathjax
-
-First, we compute the matrix \code{proba} estimating the probability
-\mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to
-another location \mjeqn{j}{j}
-(\mjeqn{\sum_{i}\sum_{j} p_{ij}=1}{\sum_{i}\sum_{j} p_{ij}=1}). This
-probability is based on the demand \mjeqn{m_{i}}{m_{i}}
-(argument \code{mass_origin}) and the attractiveness
-\mjeqn{m_{j}}{m_{j}} (argument \code{mass_destination}). Note that the population
-is typically used as a surrogate for both quantities (this is why
-\code{mass_destination = mass_origin} by default). It also depends on the
-distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument \code{distance}) OR
-the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
+First, we compute the matrix \code{proba} estimating the probability to observe a
+trip from one location to another. This probability is based on the demand
+(argument \code{mass_origin}) and the attractiveness (argument
+\code{mass_destination}). Note that the population is typically used as a
+surrogate for both quantities (this is why \code{mass_destination = mass_origin}
+by default). It also depends on the distance between locations
+(argument \code{distance}) OR the number of opportunities between locations
 (argument \code{opportunity}) depending on the chosen law. Both the effect of the
 distance and the number of opportunities can be adjusted with a parameter
 (argument \code{param}) except for the original radiation law and the uniform law.
 
-In this package we consider eight probabilistic laws
-described in details in \insertCite{Lenormand2016;textual}{TDLM}. Four
-gravity laws
-\insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
-intervening opportunity laws
-\insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
+In this package we consider eight probabilistic laws described in details in
+Lenormand \emph{et al.} (2016). Four
+gravity laws (Barthelemy, 2011), three
+intervening opportunity laws (Schneider, 1959; Simini \emph{et al.}, 2012;
+Yang \emph{et al.}, 2014) and a uniform law.
 \enumerate{
 \item Gravity law with an exponential distance decay function
 (\code{law = "GravExp"}). The arguments \code{mass_origin}, \code{mass_destination}
@@ -142,13 +135,12 @@ extract the number of locations.
 }
 
 Second, we propose four constrained models to generate the flows from these
-distribution of probability. These models respect different level of
-constraints. These constraints can preserve the total number of trips
-(argument \code{nb_trips}) OR the number of out-going trips
-\mjeqn{O_{i}}{O_{i}} (argument \code{out_trips}) AND/OR the number of in-coming
-\mjeqn{D_{j}}{D_{j}} (argument \code{in_trips}) according to the model. The sum of
-out-going trips \mjeqn{\sum_{i} O_{i}}{\sum_{i} O_{i}} should be equal to the
-sum of in-coming trips \mjeqn{\sum_{j} D_{j}}{\sum_{j} D_{j}}.
+distribution of probability as described in Lenromand \emph{et al.} (2016).
+These models respect different level of constraints. These constraints can
+preserve the total number of trips (argument \code{nb_trips}) OR the number of
+out-going trips (argument \code{out_trips}) AND/OR the number of in-coming
+(argument \code{in_trips}) according to the model. The sum of out-going trips
+should be equal to the sum of in-coming trips.
 \enumerate{
 \item Unconstrained model (\code{model = "UM"}). Only \code{nb_trips} will be preserved
 (arguments \code{out_trips} and \code{in_trips} will not be used).
@@ -159,12 +151,11 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
 \code{in_trips} will be preserved (arguments \code{nb_trips}will not be used). The
 doubly constrained model is based on an Iterative Proportional Fitting
-process \insertCite{Deming1940}{TDLM}. The arguments \code{maxiter} (50 by
+process (Deming & Stephan, 1940). The arguments \code{maxiter} (50 by
 default) and \code{mindiff} (0.01 by default) can be used to tune the model.
 \code{mindiff} is the minimal tolerated relative error between the
-simulated and observed marginals. \code{maxiter}
-ensures that the algorithm stops even if it has not converged toward the
-\code{mindiff} wanted value.
+simulated and observed marginals. \code{maxiter} ensures that the algorithm stops
+even if it has not converged toward the \code{mindiff} wanted value.
 }
 
 By default, when \code{average = FALSE}, \code{nbrep} matrices are generated from
@@ -177,12 +168,12 @@ integer or real numbers and the output (\code{nbrep = 1} in this case) will be a
 matrix of positive real numbers.
 }
 \note{
-All the inputs should be based on the same number of
-locations sorted in the same order. It is recommended to use the location ID
-as vector names, matrix rownames and matrix colnames and to set
-\code{check_names = TRUE} to verify that everything is in order before running
+All inputs should be based on the same number of
+locations, sorted in the same order. It is recommended to use the location ID
+as \code{matrix} \code{rownames} and \code{matrix} \code{colnames} and to set
+\code{check_names = TRUE} to verify that everything is consistent before running
 this function (\code{check_names = FALSE} by default). Note that the function
-\code{\link[=check_format_names]{check_format_names()}} can be used to control the validity of all the inputs
+\code{\link[=check_format_names]{check_format_names()}} can be used to validate all inputs
 before running the main package's functions.
 }
 \examples{
@@ -194,38 +185,54 @@ mj <- mi
 Oi <- as.numeric(mass[, 2])
 Dj <- as.numeric(mass[, 3])
 
-res <- run_law_model(
-  law = "GravExp", mass_origin = mi, mass_destination = mj,
-  distance = distance, opportunity = NULL, param = 0.01,
-  model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-  average = FALSE, nbrep = 3, maxiter = 50, mindiff = 0.01,
-  write_proba = FALSE,
-  check_names = FALSE
-)
+res <- run_law_model(law = "GravExp",
+                     mass_origin = mi, 
+                     mass_destination = mj,
+                     distance = distance, 
+                     opportunity = NULL, 
+                     param = 0.01,
+                     model = "DCM", 
+                     nb_trips = NULL,
+                     out_trips = Oi, 
+                     in_trips = Dj,
+                     average = FALSE, 
+                     nbrep = 3, 
+                     maxiter = 50, 
+                     mindiff = 0.01,
+                     write_proba = FALSE,
+                     check_names = FALSE)
 
 print(res)
 
 }
 \references{
-\insertRef{Lenormand2016}{TDLM}
+Barthelemy M (2011). Spatial Networks. \emph{Physics Reports} 499, 1-101.
 
-\insertRef{Carey1858}{TDLM}
+Deming WE & Stephan FF (1940) On a Least Squares Adjustment of a Sample
+Frequency Table When the Expected Marginal Totals Are Known. \emph{Annals of
+Mathematical Statistics} 11, 427-444.
 
-\insertRef{Zipf1946}{TDLM}
+Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip
+distribution laws and models. \emph{Journal of Transport Geography} 51,
+158-169.
 
-\insertRef{Barthelemy2011}{TDLM}
+Schneider M (1959) Gravity models and trip distribution theory. \emph{Papers
+of the regional science association} 5, 51-58.
 
-\insertRef{Schneider1959}{TDLM}
+Simini F, González MC, Maritan A & Barabási A (2012) A universal model for
+mobility and migration patterns. \emph{Nature} 484, 96-100.
 
-\insertRef{Simini2012}{TDLM}
-
-\insertRef{Yang2014}{TDLM}
-
-\insertRef{Deming1940}{TDLM}
+Yang Y, Herrera C, Eagle N & González MC (2014) Limits of Predictability in
+Commuting Flows in the Absence of Data for Calibration. \emph{Scientific
+Reports} 4, 5662.
 }
 \seealso{
-\code{\link[=gof]{gof()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=extract_opportunities]{extract_opportunities()}}
-\code{\link[=check_format_names]{check_format_names()}}
+For more details illustrated with a practical example,
+see the vignette:
+\url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+
+Associated functions:
+\code{\link[=run_law]{run_law()}}, \code{\link[=run_model]{run_model()}}, \code{\link[=gof]{gof()}}.
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

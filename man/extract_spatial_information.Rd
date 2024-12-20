@@ -7,30 +7,31 @@
 extract_spatial_information(geometry, id = NULL, show_progress = FALSE)
 }
 \arguments{
-\item{geometry}{a spatial object that can be handled by the \code{sf} package.}
+\item{geometry}{A spatial object that can be handled by the \code{sf} package.}
 
-\item{id}{name or number of the column to use as rownames and colnames for
-the output distance matrix (optional, NULL by default). A vector with length
-equal to the number of locations can also be used.}
+\item{id}{The name or number of the column to use as \code{rownames} and
+\code{colnames} for the output distance \code{matrix} (optional, \code{NULL} by default). A
+\code{vector} with a length equal to the number of locations can also be used.}
 
-\item{show_progress}{a boolean indicating if a progress bar should be
+\item{show_progress}{A \code{boolean} indicating whether a progress bar should be
 displayed.}
 }
 \value{
-A list composed of two elements. The first element is a squared matrix
-representing the great-circle distance (in kilometer) between locations. The
-second element is a vector containing the surface area of each location
-(in square kilometer).
+A \code{list} composed of two elements. The first element is a square \code{matrix}
+representing the great-circle distances (in kilometers) between locations.
+The second element is a vector containing the surface area of each location
+(in square kilometers).
 }
 \description{
-This function returns a matrix of distances between locations (in kilometer)
-along with a vector surface areas of the locations (in square kilometer).
+This function returns a \code{matrix} of distances between locations (in
+kilometers) along with a vector of surface areas for the locations (in square
+kilometers).
 }
 \details{
 The \code{geometry} must be projected in a valid coordinate reference
 system. It will be reprojected in degrees longitude/latitude to compute the
-great-circle distances between centroids' locations with an internal function
-and to compute the surface area with the function \link[sf:geos_measures]{st_area} from
+great-circle distances between centroids of locations using an internal function
+and to compute the surface area using the function \link[sf:geos_measures]{st_area} from
 the \href{https://cran.r-project.org/package=sf}{sf} package.
 }
 \note{
@@ -49,7 +50,8 @@ length(res$surface)
 
 }
 \seealso{
-\code{\link[=calib_param]{calib_param()}} \code{\link[=extract_opportunities]{extract_opportunities()}} \code{\link[=check_format_names]{check_format_names()}}
+'Associated functions:
+\code{\link[=extract_distances]{extract_distances()}} \code{\link[=extract_opportunities]{extract_opportunities()}}
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

@@ -1,61 +1,60 @@
 #' Estimate mobility flows based on different trip distribution laws
 #'
-#' This function estimates mobility flows using different distribution laws.
-#' As described in \insertCite{Lenormand2016;textual}{TDLM}, we
-#' propose a two-step approach to generate mobility flows by separating the trip
-#' distribution law, gravity or intervening opportunities, from the modeling
-#' approach used to generate the flows from this law. This function only uses
-#' the first step to generate a probability distribution based on the different
-#' laws.
+#' This function estimates mobility flows using different distribution laws 
+#' and models. As described in Lenormand \emph{et al.} (2016), the
+#' function uses a two-step approach to generate mobility flows by separating
+#' the trip distribution law (gravity or intervening opportunities) from the
+#' modeling approach used to generate the flows based on this law. This function 
+#' only uses the first step to generate a probability distribution based on the 
+#' different laws.
 #'
-#' @param law a character indicating which law to use (see Details).
+#' @param law A `character` indicating which law to use (see Details).
 #'
-#' @param mass_origin a numeric vector representing the mass at origin (i.e.
+#' @param mass_origin A `numeric` vector representing the mass at the origin (i.e.
 #' demand).
 #'
-#' @param mass_destination a numeric vector representing the mass at
-#' destination (i.e. attractiveness).
+#' @param mass_destination A `numeric` vector representing the mass at
+#' the destination (i.e. attractiveness).
 #'
-#' @param distance a squared matrix representing the distance between locations
+#' @param distance A squared `matrix` representing the distance between locations
 #' (see Details).
 #'
-#' @param opportunity a squared matrix representing the number of opportunities
+#' @param opportunity A squared `matrix` representing the number of opportunities
 #' between locations (see Details). Can be easily computed with 
 #' [extract_opportunities()].
 #'
-#' @param param a vector of numeric value(s) used to adjust the importance of
-#' `distance` or `opportunity` associated with the chosen law. A single value or
-#' a vector of several parameter values can be used (see Return). Not necessary
-#' for the original radiation law or the uniform law (see Details).
+#' @param param A `numeric` vector or a single `numeric` value used to adjust 
+#' the importance of `distance` or `opportunity` associated with the chosen law.
+#' Not necessary for the original radiation law or the uniform law (see 
+#' Details).
 #'
-#' @param check_names a boolean indicating if the ID location are used as
-#' vector names, matrix rownames and colnames and if they should be checked
+#' @param check_names A `boolean` indicating whether the location IDs used as 
+#' matrix rownames and colnames should be checked for consistency 
 #' (see Note).
+#' 
+#' @return
+#' An object of class `TDLM`. An object of class `TDLM`. A `list` of `list` of 
+#' matrice containing for each parameter value the matrix of probabilities 
+#' (called `proba`). If `length(param) = 1` or `law = "Rad"` or `law = "Unif"` 
+#' only a list of matrices will be returned.
 #'
 #' @details
-#' \loadmathjax
-#'
-#' We compute the matrix `proba` estimating the probability
-#' \mjeqn{p_{ij}}{p_{ij}} to observe a trip from location \mjeqn{i}{i} to
-#' another location \mjeqn{j}{j}
-#' (\mjeqn{\sum_{i}\sum_{j} p_{ij}=1}{\sum_{i}\sum_{j} p_{ij}=1}). This
-#' probability is based on the demand \mjeqn{m_{i}}{m_{i}}
-#' (argument `mass_origin`) and the attractiveness
-#' \mjeqn{m_{j}}{m_{j}} (argument `mass_destination`). Note that the population
-#' is typically used as a surrogate for both quantities (this is why
-#' `mass_destination = mass_origin` by default). It also depends on the
-#' distance \mjeqn{d_{ij}}{d_{ij}} between locations (argument `distance`) OR
-#' the number of opportunities \mjeqn{s_{ij}}{s_{ij}} between locations
+#' We compute the matrix `proba` estimating the probability to observe a
+#' trip from one location to another. This probability is based on the demand 
+#' (argument `mass_origin`) and the attractiveness (argument 
+#' `mass_destination`). Note that the population is typically used as a 
+#' surrogate for both quantities (this is why `mass_destination = mass_origin` 
+#' by default). It also depends on the distance between locations 
+#' (argument `distance`) OR the number of opportunities between locations
 #' (argument `opportunity`) depending on the chosen law. Both the effect of the
 #' distance and the number of opportunities can be adjusted with a parameter
-#' (argument `param`) except for the original radiation law or the uniform law.
+#' (argument `param`) except for the original radiation law and the uniform law.
 #'
-#' In this package we consider eight probabilistic laws
-#' described in details in \insertCite{Lenormand2016;textual}{TDLM}. Four
-#' gravity laws
-#' \insertCite{Carey1858,Zipf1946,Barthelemy2011,Lenormand2016}{TDLM}, three
-#' intervening opportunity laws
-#' \insertCite{Schneider1959,Simini2012,Yang2014}{TDLM} and a uniform law.
+#' In this package we consider eight probabilistic laws described in details in 
+#' Lenormand \emph{et al.} (2016). Four
+#' gravity laws (Barthelemy, 2011), three
+#' intervening opportunity laws (Schneider, 1959; Simini \emph{et al.}, 2012; 
+#' Yang \emph{et al.}, 2014) and a uniform law.
 #'
 #' 1) Gravity law with an exponential distance decay function
 #' (`law = "GravExp"`). The arguments `mass_origin`, `mass_destination`
@@ -79,25 +78,42 @@
 #' 8) Uniform law (`law = "Unif"`). The argument `mass_origin` will be used to
 #' extract the number of locations.
 #'
-#' @note All the inputs should be based on the same number of
-#' locations sorted in the same order. It is recommended to use the location ID
-#' as vector names, matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to verify that everything is in order before running
+#' @note 
+#' All inputs should be based on the same number of
+#' locations, sorted in the same order. It is recommended to use the location ID
+#' as `matrix` `rownames` and `matrix` `colnames` and to set
+#' `check_names = TRUE` to verify that everything is consistent before running
 #' this function (`check_names = FALSE` by default). Note that the function
-#' [check_format_names()] can be used to control the validity of all the inputs
+#' [check_format_names()] can be used to validate all inputs
 #' before running the main package's functions.
+#' 
+#' @references
+#' Barthelemy M (2011). Spatial Networks. \emph{Physics Reports} 499, 1-101.
+#' 
+#' Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip 
+#' distribution laws and models. \emph{Journal of Transport Geography} 51, 
+#' 158-169.
+#' 
+#' Schneider M (1959) Gravity models and trip distribution theory. \emph{Papers 
+#' of the regional science association} 5, 51-58.
+#'  
+#' Simini F, González MC, Maritan A & Barabási A (2012) A universal model for 
+#' mobility and migration patterns. \emph{Nature} 484, 96-100. 
+#' 
+#' Yang Y, Herrera C, Eagle N & González MC (2014) Limits of Predictability in 
+#' Commuting Flows in the Absence of Data for Calibration. \emph{Scientific 
+#' Reports} 4, 5662.
 #'
-#' @return
-#' An object of class `TDLM`. A list of list of matrices containing for each
-#' parameter value the matrix of probabilities (called `proba`). If
-#' `length(param) = 1` or `law = "Rad"` or `law = "Unif` only a list of
-#' matrices will be returned.
-#'
+#' @seealso 
+#' For more details illustrated with a practical example, 
+#' see the vignette: 
+#' \url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+#' 
+#' Associated functions: 
+#' [run_law_model()], [run_model()], [gof()]. 
+#' 
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
-#'
-#' @seealso [gof()] [run_law_model()] [run_model()] [extract_opportunities()] 
-#' [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -113,22 +129,7 @@
 #' )
 #'
 #' # print(res)
-#'
-#' @references
-#' \insertRef{Lenormand2016}{TDLM}
-#'
-#' \insertRef{Carey1858}{TDLM}
-#'
-#' \insertRef{Zipf1946}{TDLM}
-#'
-#' \insertRef{Barthelemy2011}{TDLM}
-#'
-#' \insertRef{Schneider1959}{TDLM}
-#'
-#' \insertRef{Simini2012}{TDLM}
-#'
-#' \insertRef{Yang2014}{TDLM}
-#'
+#' 
 #' @export
 run_law <- function(law = "Unif",
                     mass_origin,

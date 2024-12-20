@@ -16,6 +16,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 bibliography: '`r system.file("REFERENCES.bib", package="TDLM")`'
+csl: format_citation.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -36,38 +37,40 @@ options(tinytex.verbose = TRUE)
 
 # Introduction
 
-This tutorial aims at describing the different features of the R package `TDLM`. 
-The main purpose of the `TDLM`'s package is to propose a rigorous framework to 
-fairly compare trip distribution laws and models [@Lenormand2016]. This general
-framework is based on a two-step approach to generate mobility flows by 
-separating the trip distribution law, gravity or intervening opportunities, from 
-the modeling approach used to generate the flows from this law.
+This tutorial aims to describe the different features of the R package `TDLM`.
+The main purpose of the `TDLM` package is to provide a rigorous framework for 
+fairly comparing trip distribution laws and models [@Lenormand2016]. This 
+general framework is based on a two-step approach for generating mobility flows 
+by separating the trip distribution law, such as gravity or intervening 
+opportunities, from the modeling approach used to generate flows from this law.
+
 
 # A short note on terminology
 
-This framework is part of the four-step travel model. It corresponds to the 
-second step, called trip distribution, the aim of which is to match the trip 
-origins with the trip destinations. The model used to generate the trips or 
-flows, and more generally the degree of interaction between different locations,
-are often called spatial interaction models. According to the research area, a 
-matrix or a network formalism can be used to describe these spatial 
-interactions. Origin-Destination matrix (or trip table) are often used in 
-geography or transportation while in statistical physics or in the study of 
-complex systems the term mobility networks is usually preferred. 
+This framework is part of the four-step travel model. It corresponds to the
+second step, called trip distribution, which aims to match trip origins with
+trip destinations. The model used to generate trips or flows, and more
+generally the degree of interaction between locations, is often referred to as
+a spatial interaction model. Depending on the research area, a matrix or a
+network formalism may be used to describe these spatial interactions.
+Origin-Destination matrices (or trip tables) are common in geography or
+transportation, while in statistical physics or complex systems studies, the
+term mobility networks is usually preferred.
 
 # Origin–Destination matrix
 
-The description of movements in a certain area is represented by an
-Origin-Destination matrix (OD matrix). The area of interest is divided into 
-$n$ locations and $T_{ij}$ represents the volume of flows between location $i$ 
-and location $j$. This volume usually represents a number of trips 
-or a commuting flow (i.e. number of individuals living in $i$ and working in 
-$j$). The OD matrix is squared, contains only positive values and can be a
-zero-diagonal matrix (Figure 1). 
+The description of movements within a given area is represented by an
+Origin-Destination (OD) matrix. The area of interest is divided into $n$
+locations, and $T_{ij}$ represents the volume of flows between location $i$ and
+location $j$. This volume typically corresponds to the number of trips or a
+commuting flow (i.e., the number of individuals living in $i$ and working in
+$j$). The OD matrix is square, contains only positive values, and may have a
+zero diagonal (Figure 1).
 
 <br>
 <center>
-  <img align="bottom" width="60%" height="60%" src="../man/figures/OD.png">
+  <img align="bottom" width="60%" height="60%" src="../man/figures/OD.png"
+  alt="OD matrix">
 </center> 
 <br>
 <center>
@@ -77,26 +80,27 @@ zero-diagonal matrix (Figure 1).
 
 # Aggregated inputs information
 
-Three categories of inputs are usually considered to simulate an OD matrix 
-(Figure 2). The masses and distances are the main ingredients used to generate a 
-matrix of probabilities based on a given distribution law. Hence, the 
-probability $p_{ij}$ to observe a trip from location $i$ to another location $j$
-is based on the masses, the demand at origin ($m_i$) and the offer at 
-destination  ($m_j$). Typically, the population is used as surrogate for the 
-demand and offer. The probability of movements also depends on the costs based 
-on the distance $d_{ij}$ between locations or the number of opportunities 
-$s_{ij}$ between locations depending on the chosen law (more details in the next 
-"Trip distribution laws" section). In general both the effect of the cost can be
-adjusted with a parameter.
+Three categories of inputs are typically considered to simulate an OD matrix
+(Figure 2). The masses and distances are the primary ingredients used to
+generate a matrix of probabilities based on a given distribution law. Thus, the
+probability $p_{ij}$ of observing a trip from location $i$ to location $j$
+depends on the masses, the demand at the origin ($m_i$), and the offer at
+the destination ($m_j$). Typically, population is used as a surrogate for
+demand and offer. The probability of movement also depends on the costs,
+which are based on the distance $d_{ij}$ between locations or the number of
+opportunities $s_{ij}$ between locations, depending on the chosen law (more
+details are provided in the next "Trip distribution laws" section). In general,
+the effect of the cost can be adjusted with a parameter.
 
-The margins are used to generate an OD matrix based on the matrix of 
-probabilities by preserving the total number of trips ($N$), 
-the number of out-going trips ($O_i$) and/or the number of in-coming trips 
-($D_j$) (more details in the "Contrained distribution models" section).
+The margins are used to generate an OD matrix from the matrix of probabilities
+while preserving the total number of trips ($N$), the number of outgoing trips
+($O_i$), and/or the number of incoming trips ($D_j$) (more details are provided
+in the "Constrained distribution models" section).
 
 <br>
 <center>
-  <img align="bottom" width="75%" height="75%" src="../man/figures/Inputs.png">
+  <img align="bottom" width="75%" height="75%" src="../man/figures/Inputs.png"
+  alt="Inputs information">
 </center> 
 <br>
 <center>
@@ -107,17 +111,18 @@ the number of out-going trips ($O_i$) and/or the number of in-coming trips
 
 # Trip distribution laws
 
-The purpose of a trip distribution law is to estimate the probability $p_{ij}$ 
-that out of all the possible travels in the system we have one between the 
-location $i$ and the location $j$. This probability is asymmetric in $i$ and $j$
-as the flows themselves. It takes the form of squared matrix of probabilities.
-This probability is normalized to all possible couples of origins and 
-destinations, $\sum_{i,j=1}^n p_{ij} =1$. Hence, a matrix of probabilities can 
-be obtained by normalizing any OD matrix (Figure 3).
+The purpose of a trip distribution law is to estimate the probability $p_{ij}$
+that, out of all the possible travels in the system, there is one between
+location $i$ and location $j$. This probability is asymmetric in $i$ and $j$,
+as are the flows themselves. It takes the form of a square matrix of probabilities.
+This probability is normalized across all possible pairs of origins and
+destinations, such that $\sum_{i,j=1}^n p_{ij} = 1$. Therefore, a matrix of
+probabilities can be obtained by normalizing any OD matrix (Figure 3).
 
 <br>
 <center>
-  <img align="bottom" width="60%" height="60%" src="../man/figures/Proba.png">
+  <img align="bottom" width="60%" height="60%" src="../man/figures/Proba.png"
+  alt="Probability matrix">
 </center> 
 <br>
 <center>
@@ -126,22 +131,22 @@ be obtained by normalizing any OD matrix (Figure 3).
 </center> 
 <br>
 
-As mentioned in the previous section, most of the trip distribution law depends
-on the demand at origin ($m_i$), the offer at destination  ($m_j$) and a cost to 
-move from $i$ to $j$. There are two major approaches for the estimation of the
-matrix of probability. The traditional gravity approach, in analogy with the 
+As mentioned in the previous section, most trip distribution laws depend
+on the demand at the origin ($m_i$), the offer at the destination ($m_j$), and
+a cost to move from $i$ to $j$. There are two major approaches for estimating
+the probability matrix. The traditional gravity approach, in analogy with
 Newton's law of gravitation, is based on the assumption that the amount of trips
-between two locations is related to their populations and decays with a function
-of the distance $d_{ij}$ between locations. In contrast to the gravity law, the 
-laws of intervening opportunities hinges on the assumption that the number of 
-opportunities $s_{ij}$ between locations plays a more important role than the 
-distance [@Lenormand2016]. This fundamental difference between the two schools
-of thought is illustrated in Figure 4.
+between two locations is related to their populations and decays according to a
+function of the distance $d_{ij}$ between locations. In contrast to the gravity
+law, the laws of intervening opportunities hinge on the assumption that the
+number of opportunities $s_{ij}$ between locations plays a more important role
+than the distance [@Lenormand2016]. This fundamental difference between the two
+schools of thought is illustrated in Figure 4.
 
 <br>
 <center>
   <img align="bottom" width="50%" height="50%" 
-  src="../man/figures/GravVsOpp.png">
+  src="../man/figures/GravVsOpp.png" alt="Gravity vs IO">
 </center> 
 <br>
 <center>
@@ -151,10 +156,10 @@ of thought is illustrated in Figure 4.
 </center> 
 <br>
 
-It is important to note that the effect of the cost between locations (distance 
-or number of opportunities) can usually be adjusted with a parameter that can be
-calibrated automatically or by comparing the simulated matrix with observed
-data (more details in the example based on real commuting data in Kansas below).  
+It is important to note that the effect of the cost between locations (distance
+or number of opportunities) can usually be adjusted with a parameter, which can
+be calibrated automatically or by comparing the simulated matrix with observed
+data.
 
 # Constrained distribution models
 
@@ -169,7 +174,8 @@ and in-coming trips by locations (i.e. the margins).
 
 <br>
 <center>
-  <img align="bottom" width="80%" height="80%" src="../man/figures/Models.png">
+  <img align="bottom" width="80%" height="80%" src="../man/figures/Models.png"
+  alt="Constrained models">
 </center> 
 <br>
 <center>
@@ -187,12 +193,47 @@ trials.
 
 # Goodness-of-fit measures
 
-Finally, the trip distribution laws can be calibrated and both the trip 
-distribution laws and models can be evaluated by comparing a simulated matrix
-$\tilde{T}$ with the observed one $T$. These comparison are based on different
-goodness-of-fit measures that can take into accounts the distance between 
-location or not (more details in the example based on real commuting data in 
-Kansas below).
+Finally, the trip distribution laws can be calibrated, and both the trip 
+distribution laws and models can be evaluated by comparing a simulated matrix 
+$\tilde{T}$ with the observed matrix $T$. These comparisons rely on various 
+goodness-of-fit measures, which may or may not account for the distance 
+between locations. These measures are described above.
+
+## Common Part of Commuters (CPC)
+
+$$\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}$$
+
+[@Gargiulo2012;@Lenormand2012;@Lenormand2016]
+
+## Normalized Root Mean Square Error (NRMSE)
+
+$$\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}$$
+
+## Kullback–Leibler divergence (KS)
+
+$$\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)$$
+[@Kullback1951]
+
+## Common Part of Links (CPL) 
+
+$$\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}$$
+[@Lenormand2016]
+
+## Common Part of Commuters based on the disance (CPC_d)
+
+Let us consider $N_k$ (and 
+$\tilde{N}_k$) the sum of observed (and simulated) flows at a distance comprised
+in the bin $[\mbox{bin_size} \cdot k-\mbox{bin_size}, \mbox{bin_size} \cdot k[$.
+
+$$\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}$$
+
+[@Lenormand2016]
+
+## Kolmogorv-Smirnov statistic and p-value (KS). 
+
+These measures, described in @Massey1951, are based on the observed and 
+simulated flow distance distributions and are computed using the [ks_test](https://hectorrdb.github.io/Ecume/reference/ks_test.html)
+function from the [Ecume](https://cran.r-project.org/package=Ecume) package.
 
 ---
 
@@ -200,18 +241,18 @@ Kansas below).
 
 ## Data
 
-In this example, we will use commuting data from US Kansas in 2000 to illustrate
-the main package's functions. The dataset is composed of three tables and a 
-spatial object providing information of commuting flows between the 105 US 
-Kansas counties in 200. The observed OD matrix 
-[od](https://epivec.github.io/TDLM/reference/od.html) is a zero-diagonal squared
+In this example, we will use commuting data from US Kansas in 2000 to illustrate  
+the main functions of the package. The dataset comprises three tables providing 
+information on commuting flows between the 105 US 
+Kansas counties in 2000. The observed OD matrix 
+[od](https://epivec.github.io/TDLM/reference/od.html) is a zero-diagonal square 
 matrix of integers. Each element of the matrix represents the number of 
 commuters between a pair of US Kansas counties.
 
 ```{r}
 data(od)
 
-od[1:10, 1:10]
+od[1:5, 1:5]
 
 dim(od)
 ```
@@ -222,7 +263,7 @@ The aggregated data are composed of the
 ```{r}
 data(distance)
 
-distance[1:10, 1:10]
+distance[1:5, 1:5]
 
 dim(distance)
 ```
@@ -249,8 +290,21 @@ Dj <- as.numeric(mass[,3])
 names(Dj) <- rownames(mass)
 ```
 
-Finally, [county](https://epivec.github.io/TDLM/reference/county.html) is a 
-spatial object containing the geometry of the 105 US Kansas counties in 2000. 
+The data must always be based on the same number of locations sorted in the same  
+order. The function 
+[check_format_names](https://epivec.github.io/TDLM/reference/check_format_names.html) 
+can be used to verify the validity of all inputs before running the main 
+functions of the package.
+
+```{r}
+check_format_names(vectors = list(mi = mi, mj = mj, Oi = Oi, Dj = Dj),
+                   matrices = list(od = od, distance = distance),
+                   check = "format_and_names")
+```
+
+Optional spatial information are also provided here. 
+[county](https://epivec.github.io/TDLM/reference/county.html) is a spatial 
+object containing the geometry of the 105 US Kansas counties in 2000. 
 
 ```{r}
 library(sf)
@@ -262,61 +316,96 @@ county[1:10,]
 plot(county)
 ```
 
-The data must always be based on the same number of locations sorted in the same 
-order. The function 
-[check_format_names](https://epivec.github.io/TDLM/reference/check_format_names.html)
-can be used to control the validity of all the inputs before running the main 
-package's functions.
+[coords](https://epivec.github.io/TDLM/reference/coords.html) and 
+[coords_xy](https://epivec.github.io/TDLM/reference/coords_xy.html) are two 
+dataframes providing longitude/latitude and X/Y coordinates for each location,
+respectively.
 
 ```{r}
-check_format_names(vectors = list(mi = mi, mj = mj, Oi = Oi, Dj = Dj),
-                   matrices = list(od = od, distance = distance),
-                   check = "format_and_names")
+coords[1:10,]
+
+coords_xy[1:10,]
 ```
 
-## Extract additional spatial information
+## Extract Additional Spatial Information
 
-The functions [extract_spatial_information](https://epivec.github.io/TDLM/reference/extract_spatial_information.html)
-and [extract_opportunities](https://epivec.github.io/TDLM/reference/check_format_names.html) 
-can be used to extract the matrices of distances and number of intervening
-opportunities, respectively.
+The functions 
+[extract_distances](https://epivec.github.io/TDLM/reference/extract_distances.html),
+[extract_opportunities](https://epivec.github.io/TDLM/reference/check_format_names.html), 
+and 
+[extract_spatial_information](https://epivec.github.io/TDLM/reference/extract_spatial_information.html)  
+can be used to extract matrices of distances and the number of intervening 
+opportunities.
 
-The first function takes as input a spatial object containing the geometry of 
-the locations that can be handled by the 
-[sf](https://cran.r-project.org/package=sf) 
-package. It returns a matrix of great-circle distances between locations 
-(express in km). An optional `id` can also be provided to be used as names for
-the outputs. 
+The first function computes distances in kilometers between pairs of locations 
+based on geographical coordinates. It can calculate either great-circle 
+distances, using longitude/latitude coordinates and the Haversine formula
 
 ```{r}
-spi <- extract_spatial_information(county, id = "ID")
+haversine_d <- extract_distances(coords = coords,
+                                 method = "Haversine")
+haversine_d[1:5, 1:5]
 
-distance2 <- spi$distance
-
-distance2[1:10, 1:10]
+distance[1:5, 1:5]
 ```
 
-This function allows also to extract the number of the surface area of each 
-location (in squared kilometer) that can be useful to calibrate the trip 
-distribution laws parameter value (see below).
+or Euclidean distances based on X/Y coordinates
 
 ```{r}
-mean(spi$surface)
+xy_d <- extract_distances(coords = coords_xy,
+                          method = "Euclidean")
+
+oldmar <- par()$mar
+par(mar = c(4.5, 6, 1, 1))
+plot(haversine_d, xy_d, xlim=c(0,900), ylim=c(0,900),
+     type="p", pch=16, cex=2, lty=1, lwd=3, 
+     col="steelblue3", axes=FALSE, xlab="", ylab="")
+axis(1, cex.axis=1.2)
+axis(2, cex.axis=1.2, las=1)
+mtext("Haversine (km)", 1, line = 3.25, cex = 1.75)
+mtext("Euclidean (km)", 2, line = 4, cex = 1.75)
+box(lwd=1.5)
+par(mar = oldmar)
 ```
 
 The second function computes the number of opportunities between pairs of 
-locations. For a given pair of location the number of opportunities between the
-location of origin and the location of destination is based on the number of 
-opportunities in a circle of radius equal to the distance between origin and 
-destination centered in the origin. The number of opportunities at origin and 
+locations. For a given pair of locations, the number of opportunities between 
+the origin and the destination is based on the number of opportunities within 
+a circle of radius equal to the distance between the origin and the destination,
+centered at the origin. The number of opportunities at the origin and the 
 destination are not included. In our case, the number of inhabitants ($m_i$) is 
-used as proxy for the number of opportunity.
+used as a proxy for the number of opportunities.
 
 ```{r}
 sij <- extract_opportunities(opportunity = mi,
                              distance = distance,
                              check_names = TRUE)
-sij[1:10, 1:10]
+sij[1:5, 1:5]
+```
+
+The last function takes as input a spatial object containing the geometry of 
+the locations that can be handled by the 
+[sf](https://cran.r-project.org/package=sf) package. It returns a matrix of 
+great-circle distances between locations (expressed in km). An optional `id`  
+can also be provided to be used as names for the outputs.
+
+
+```{r}
+spi <- extract_spatial_information(county, id = "ID")
+
+sp_d <- spi$distance
+
+sp_d[1:5, 1:5]
+
+distance[1:5, 1:5]
+```
+
+This function also allows extracting the surface area of each location 
+(in square kilometers), which can be useful to calibrate the trip distribution  
+laws' parameter value (see below).
+
+```{r}
+mean(spi$surface)
 ```
 
 ## Run functions

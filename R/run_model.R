@@ -1,59 +1,60 @@
 #' Estimate mobility flows based on different trip distribution models
 #'
-#' This function estimates mobility flows using different distribution models.
-#' As described in \insertCite{Lenormand2016;textual}{TDLM}, we
-#' propose a two-step approach to generate mobility flows by separating the trip
-#' distribution law, gravity or intervening opportunities, from the modeling
-#' approach used to generate the flows from this law. This function only uses
-#' the second step to generate mobility flow based on a matrix of probabilities
-#' using different models.
+#' This function estimates mobility flows using different distribution laws 
+#' and models. As described in Lenormand \emph{et al.} (2016), the
+#' function uses a two-step approach to generate mobility flows by separating
+#' the trip distribution law (gravity or intervening opportunities) from the
+#' modeling approach used to generate the flows based on this law. This function
+#' only uses the second step to generate mobility flow based on a matrix of 
+#' probabilities using different models.
 #'
-#' @param proba a squared matrix of probability. The sum of the matrix element
+#' @param proba A squared `matrix` of probability. The sum of the matrix element
 #' must be equal to 1. It will be normalized automatically if it is not the
 #' case.
 #'
-#' @param model a character indicating which model to use.
+#' @param model A `character` indicating which model to use.
 #'
-#' @param nb_trips a numeric value indicating the total number of trips. Must
-#' be an integer if `average = FALSE` (see Details).
+#' @param nb_trips A `numeric` value indicating the total number of trips. Must
+#' be an `integer` if `average = FALSE` (see Details).
 #'
-#' @param out_trips a numeric vector representing the number of outgoing
-#' trips per location. Must be a vector of integers
-#' if `average = FALSE` (see Details).
-#'
-#' @param in_trips a numeric vector representing the number of incoming
-#' trips per location. Must be a vector of integers
-#' if `average = FALSE` (see Details).
-#'
-#' @param average a boolean indicating if the average mobility flow matrix
-#'  should be generated instead of the `nbrep` matrices based on
-#'  random draws (see Details).
-#'
-#' @param nbrep an integer indicating the number of replications
-#' associated to the model run. Note that `nbrep = 1` if `average = TRUE`
+#' @param out_trips A `numeric` vector representing the number of outgoing
+#' trips per location. Must be a vector of integers if `average = FALSE` 
 #' (see Details).
 #'
-#' @param maxiter an integer indicating the maximal number of iterations for
+#' @param in_trips A `numeric` vector representing the number of incoming
+#' trips per location. Must be a vector of integers if `average = FALSE` 
+#' (see Details).
+#'
+#' @param average A `boolean` indicating if the average mobility flow matrix 
+#' should be generated instead of the `nbrep` matrices based on random draws 
+#' (see Details).
+#'
+#' @param nbrep An `integer` indicating the number of replications
+#' associated with the model run. Note that `nbrep = 1` if `average = TRUE`
+#' (see Details).
+#'
+#' @param maxiter An `integer` indicating the maximal number of iterations for
 #' adjusting the Doubly Constrained Model (see Details).
 #'
-#' @param mindiff a numeric strictly positive value indicating the
+#' @param mindiff A `numeric` strictly positive value indicating the
 #' stopping criterion for adjusting the Doubly Constrained Model (see Details).
 #'
-#' @param check_names a boolean indicating if the ID location are used as
-#' vector names, matrix rownames and colnames and if they should be checked
+#' @param check_names A `boolean` indicating whether the location IDs used as 
+#' matrix rownames and colnames should be checked for consistency 
 #' (see Note).
+#' 
+#' @return
+#' An object of class `TDLM`. A `list` of matrices containing the `nbrep` 
+#' simulated matrices.
 #'
 #' @details
-#' \loadmathjax
-#'
-#' We propose four constrained models to generate the flow from the matrix
-#' of probabilities. These models respect different level of
-#' constraints. These constraints can preserve the total number of trips
-#' (argument `nb_trips`) OR the number of out-going trips
-#' \mjeqn{O_{i}}{O_{i}} (argument `out_trips`) AND/OR the number of in-coming
-#' \mjeqn{D_{j}}{D_{j}} (argument `in_trips`) according to the model. The sum of
-#' out-going trips \mjeqn{\sum_{i} O_{i}}{\sum_{i} O_{i}} should be equal to the
-#' sum of in-coming trips \mjeqn{\sum_{j} D_{j}}{\sum_{j} D_{j}}.
+#' We propose four constrained models to generate the flows from these
+#' distribution of probability as described in Lenromand \emph{et al.} (2016). 
+#' These models respect different level of constraints. These constraints can 
+#' preserve the total number of trips (argument `nb_trips`) OR the number of 
+#' out-going trips (argument `out_trips`) AND/OR the number of in-coming 
+#' (argument `in_trips`) according to the model. The sum of out-going trips 
+#' should be equal to the sum of in-coming trips.
 #'
 #' 1) Unconstrained model (`model = "UM"`). Only `nb_trips` will be preserved
 #' (arguments `out_trips` and `in_trips` will not be used).
@@ -64,12 +65,11 @@
 #' 4) Doubly constrained model (`model = "DCM"`). Both `out_trips` and
 #' `in_trips` will be preserved (arguments `nb_trips`will not be used). The
 #' doubly constrained model is based on an Iterative Proportional Fitting
-#' process \insertCite{Deming1940}{TDLM}. The arguments `maxiter` (50 by
+#' process (Deming & Stephan, 1940). The arguments `maxiter` (50 by
 #' default) and `mindiff` (0.01 by default) can be used to tune the model.
 #' `mindiff` is the minimal tolerated relative error between the
-#' simulated and observed marginals. `maxiter`
-#' ensures that the algorithm stops even if it has not converged toward the
-#' `mindiff` wanted value.
+#' simulated and observed marginals. `maxiter` ensures that the algorithm stops
+#'  even if it has not converged toward the `mindiff` wanted value.
 #'
 #' By default, when `average = FALSE`, `nbrep` matrices are generated from
 #' `proba` with multinomial random draws that will take different forms
@@ -80,22 +80,34 @@
 #' integer or real numbers and the output (`nbrep = 1` in this case) will be a
 #' matrix of positive real numbers.
 #'
-#' @note All the inputs should be based on the same number of
-#' locations sorted in the same order. It is recommended to use the location ID
-#' as vector names, matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to verify that everything is in order before running
+#' @note 
+#' All inputs should be based on the same number of
+#' locations, sorted in the same order. It is recommended to use the location ID
+#' as `matrix` `rownames` and `matrix` `colnames` and to set
+#' `check_names = TRUE` to verify that everything is consistent before running
 #' this function (`check_names = FALSE` by default). Note that the function
-#' [check_format_names()] can be used to control the validity of all the inputs
+#' [check_format_names()] can be used to validate all inputs
 #' before running the main package's functions.
 #'
-#' @return
-#' An object of class `TDLM`. A list of matrices containing the
-#' `nbrep` simulated matrices.
+#' @references
+#' Deming WE & Stephan FF (1940) On a Least Squares Adjustment of a Sample 
+#' Frequency Table When the Expected Marginal Totals Are Known. \emph{Annals of 
+#' Mathematical Statistics} 11, 427-444.
+#' 
+#' Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip 
+#' distribution laws and models. \emph{Journal of Transport Geography} 51, 
+#' 158-169.
 #'
+#' @seealso 
+#' For more details illustrated with a practical example, 
+#' see the vignette: 
+#' \url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+#' 
+#' Associated functions: 
+#' [run_law_model()], [run_law()], [gof()]. 
+#' 
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
-#'
-#' @seealso [gof()] [run_law_model()] [run_law()] [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -114,11 +126,6 @@
 #' )
 #'
 #' # print(res)
-#'
-#' @references
-#' \insertRef{Lenormand2016}{TDLM}
-#'
-#' \insertRef{Deming1940}{TDLM}
 #'
 #' @export
 run_model <- function(proba,

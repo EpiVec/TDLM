@@ -1,101 +1,87 @@
 #' Compute goodness-of-fit measures between observed and simulated OD matrices
 #'
-#' This function returns a data.frame where each row provides one or
+#' This function returns a `data.frame` where each row provides one or
 #' several goodness-of-fit measures between a simulated and an observed
-#' Origin-Destination matrix.
+#' Origin-Destination (OD) matrix.
 #'
-#' @param sim an object of class `TDLM` (output of [run_law_model()],
-#' [run_law()] or [run_model()]).
-#' A matrix or a list of matrices can also be used (see Note).
+#' @param sim An object of class `TDLM` (output of [run_law_model()],
+#' [run_law()], or [run_model()]). A matrix or a list of matrices can also be 
+#' used (see Note).
 #'
-#' @param obs a squared matrix representing the observed mobility flows.
+#' @param obs A square `matrix` representing the observed mobility flows.
 #'
-#' @param measures a vector of string(s) indicating which goodness-of-fit
-#' measure(s) to chose (see Details). If `"all"` is specified, then all measures
-#'  will be calculated.
+#' @param measures A `character` vector or a single `character` string 
+#' indicating which goodness-of-fit measure(s) to compute (see Details). 
+#' Available options are `"CPC"`, `"NRMSE"`, `"KL"`, `"CPL"`, `"CPC_d"` and 
+#' `"KS"`. If `"all"` is specified, all measures will be calculated.
 #'
-#' @param distance a squared matrix representing the distance between locations.
-#' Only necessary for the distance-based measures.
+#' @param distance A square `matrix` representing the distances between 
+#' locations. This is only necessary for distance-based measures.
 #'
-#' @param use_proba a boolean indicating if the `proba` matrix should be used
-#' instead of the simulated OD matrix to compute the measure(s). Only valid for
-#'  the output from [run_law_model()] with argument `write_proba = TRUE` (see
-#'  Note).
+#' @param use_proba A `boolean` indicating whether the `proba` matrix should be 
+#' used instead of the simulated OD matrix to compute the measure(s). This is 
+#' only valid for output from [run_law_model()] with the argument 
+#' `write_proba = TRUE` (see Note).
 #'
-#' @param check_names a boolean indicating if the ID location are used as matrix
-#'  rownames and colnames and if they should be checked (see Note).
+#' @param check_names A `boolean` indicating whether the location IDs used as 
+#' matrix rownames and colnames should be checked for consistency 
+#' (see Note).
 #'
-#' @param bin_size a numeric value indicating the size of bin used to discretize
-#' the distance distribution to compute CPC_d (2 "km" by default).
-#'
-#' @details
-#' \loadmathjax
-#' With \mjeqn{n}{n} the number of locations, \mjeqn{T_{ij}}{T_{ij}} the 
-#' observed flow between location \mjeqn{i}{i} and location \mjeqn{j}{j}
-#' (argument `obs`), \mjeqn{\tilde{T}_{ij}}{\tilde{T}_{ij}} a simulated flow
-#' between location \mjeqn{i}{i} and location \mjeqn{j}{j} (a matrix from
-#' argument `sim`), \mjeqn{N=\sum_{i,j=1}^n T_{ij}}{N=\sum_{i,j=1}^n T_{ij}} the
-#' sum of observed flows and
-#' \mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}
-#' the sum of simulated flows.
-#'
-#' Several goodness-of-fit measures have been considered
-#' `measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS")`. The Common Part
-#' of Commuters \insertCite{Gargiulo2012,Lenormand2012,Lenormand2016}{TDLM},
-#'
-#' \mjeqn{\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}{\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}
-#'
-#' the Normalized Root Mean Square Error (NRMSE),
-#'
-#' \mjeqn{\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}}{\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}}
-#'
-#' the Kullback–Leibler divergence \insertCite{Kullback1951}{TDLM},
-#'
-#' \mjeqn{\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)}{\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)}
-#'
-#' the Common Part of Links (CPL) \insertCite{Lenormand2016}{TDLM},
-#'
-#' \mjeqn{\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}}{\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}}
-#'
-#' the Common Part of Commuters based on the disance
-#' \insertCite{Lenormand2016}{TDLM}, noted CPC_d. Let us consider
-#' \mjeqn{N_k}{N_k} (and \mjeqn{\tilde{N}_k}{\tilde{N}_k}) the
-#' sum of observed (and simulated) flows at a distance comprised in the bin
-#' [`bin_size`*k-`bin_size`, `bin_size`*k[.
-#'
-#' \mjeqn{\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}}{\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}}
-#'
-#' and the Kolmogorv-Smirnov statistic and p-value \insertCite{Massey1951}{TDLM}
-#' , noted KS. It is based on the observed and simulated flow distance
-#' distribution and computed with the [ks_test][Ecume::ks_test] function from
-#' the [Ecume](https://cran.r-project.org/package=Ecume) package.
-#'
-#' @note By default, if `sim` is an output of [run_law_model()]
-#' the measure(s) are computed only for the simulated OD matrices and
-#' not the `proba` matrix (included in the output when
-#' `write_proba = TRUE`). The argument `use_proba` can be used to compute the
-#' measure(s) based on the `proba` matrix instead of the simulated
-#' OD matrix. In this case the argument `obs` should also be a proba matrix.
-#'
-#' All the inputs should be based on the same number of
-#' locations sorted in the same order. It is recommended to use the location ID
-#' as matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to verify that everything is in order before running
-#' this function (`check_names = FALSE` by default). Note that the function
-#' [check_format_names()] can be used to control the validity of all the inputs
-#' before running the main package's functions.
-#'
+#' @param bin_size A `numeric` value indicating the size of bins used to 
+#' discretize the distance distribution when computing CPC_d (default is 2 
+#' kilometers).
+#' 
 #' @return
-#' A data.frame providing one or several goodness-of-fit measure(s) between
+#' A `data.frame` providing one or several goodness-of-fit measures between
 #' simulated OD(s) and an observed OD. Each row corresponds to a matrix sorted
-#' according to the list (or list of list) elements (names are used if
+#' according to the list (or list of lists) elements (names are used if
 #' provided).
 #'
+#' @details
+#' Several goodness-of-fit measures are considered, such as the Common Part
+#' of Commuters (CPC), the Common Part of Links (CPL), and the Common Part of 
+#' Commuters based on the distance (CPC_d), as described in [Lenormand 
+#' \emph{et al.} (2016)](http://arxiv.org/abs/1506.04889). It also includes 
+#' classical metrics such as the 
+#' [Normalized Root Mean Square Error](https://epivec.github.io/TDLM/articles/TDLM.html#normalized-root-mean-square-error-nrmse) 
+#' (NRMSE), the 
+#' [Kullback–Leibler divergence](https://epivec.github.io/TDLM/articles/TDLM.html#kullbackleibler-divergence-ks) 
+#' (KL), and the Kolmogorov-Smirnov statistic and 
+#' p-value (KS). These measures are based on the observed and simulated flow 
+#' distance distributions and are computed using the [ks_test][Ecume::ks_test] 
+#' function from the [Ecume](https://cran.r-project.org/package=Ecume) package.
+#'
+#' @note
+#' By default, if `sim` is an output of [run_law_model()],
+#' the measure(s) are computed only for the simulated OD matrices and
+#' not for the `proba` matrix (included in the output when
+#' `write_proba = TRUE`). The argument `use_proba` can be used to compute the
+#' measure(s) based on the `proba` matrix instead of the simulated
+#' OD matrix. In this case, the argument `obs` should also be a `proba` matrix.
+#'
+#' All inputs should be based on the same number of
+#' locations, sorted in the same order. It is recommended to use the location ID
+#' as `matrix` `rownames` and `matrix` `colnames` and to set
+#' `check_names = TRUE` to verify that everything is consistent before running
+#' this function (`check_names = FALSE` by default). Note that the function
+#' [check_format_names()] can be used to validate all inputs
+#' before running the main package's functions.
+#' 
+#' @references
+#' Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip 
+#' distribution laws and models. \emph{Journal of Transport Geography} 51, 
+#' 158-169.
+#'
+#' @seealso
+#' For more details illustrated with a practical example, 
+#' see the vignette: 
+#' \url{https://epivec.github.io/TDLM/articles/TDLM.html#goodness-of-fit-measures}.
+#' 
+#' Associated functions: 
+#' [run_law()], [run_model()], [run_law_model()].
+#' 
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
-#'
-#' @seealso [run_law_model()] [run_law()] [run_model()] [run_law_model()]
-#' [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -107,36 +93,40 @@
 #' Oi <- as.numeric(mass[, 2])
 #' Dj <- as.numeric(mass[, 3])
 #'
-#' res <- run_law_model(
-#'   law = "GravExp", mass_origin = mi, mass_destination = mj,
-#'   distance = distance, opportunity = NULL, param = 0.01,
-#'   model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-#'   average = FALSE, nbrep = 1, maxiter = 50, mindiff = 0.01,
-#'   write_proba = FALSE,
-#'   check_names = FALSE
-#' )
+#' res <- run_law_model(law = "GravExp", 
+#'                      mass_origin = mi, 
+#'                      mass_destination = mj,
+#'                      distance = distance, 
+#'                      opportunity = NULL, 
+#'                      param = 0.01,
+#'                      model = "DCM", 
+#'                      nb_trips = NULL, 
+#'                      out_trips = Oi, 
+#'                      in_trips = Dj,
+#'                      average = FALSE, 
+#'                      nbrep = 1, 
+#'                      maxiter = 50, 
+#'                      mindiff = 0.01,
+#'                      write_proba = FALSE,
+#'                      check_names = FALSE)
 #'
-#' gof(
-#'   sim = res, obs = od, measures = "CPC", distance = NULL, bin_size = 2,
-#'   use_proba = FALSE,
-#'   check_names = FALSE
-#' )
-#'
-#'
-#' @references
-#' \insertRef{Lenormand2016}{TDLM}
-#'
-#' \insertRef{Gargiulo2012}{TDLM}
-#'
-#' \insertRef{Lenormand2012}{TDLM}
-#'
-#' \insertRef{Kullback1951}{TDLM}
-#'
-#' \insertRef{Massey1951}{TDLM}
+#' gof(sim = res, 
+#'     obs = od, 
+#'     measures = "CPC", 
+#'     distance = NULL, 
+#'     bin_size = 2,
+#'     use_proba = FALSE,
+#'     check_names = FALSE)
 #'
 #' @export
-gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
-                use_proba = FALSE, check_names = FALSE) {
+gof <- function(sim, 
+                obs, 
+                measures = "all", 
+                distance = NULL, 
+                bin_size = 2,
+                use_proba = FALSE, 
+                check_names = FALSE) {
+  
   # List measures
   lsmnodist <- c("CPC", "NRMSE", "KL", "CPL")
   lsmdist <- c("CPC_d", "KS")
@@ -150,9 +140,11 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
   # Controls args
   controls(args = measures, type = "character_vector")
   if (sum(metrics %in% lsm) < length(metrics)) {
-    stop("One or several goodness-of-fit measure(s) chosen is not available.
-     Please choose among the followings:
-         CPC, CPL, NRMSE, KL, CPC_d or KS")
+    stop(paste0("One or several goodness-of-fit measure(s) chosen are not", 
+                " available.\n",
+                "Please choose from the following:\n",
+                "CPC, CPL, NRMSE, KL, CPC_d, or KS."),
+         call. = FALSE)
   }
   controls(args = check_names, type = "boolean")
   if ("CPC_d" %in% metrics) {
@@ -172,8 +164,7 @@ gof <- function(sim, obs, measures = "all", distance = NULL, bin_size = 2,
       controls(args = use_proba, type = "boolean")
       if (use_proba & !isproba) {
         stop("use_proba cannot be set to TRUE if there is no proba in sim.",
-          call. = FALSE
-        )
+             call. = FALSE)
       }
     }
 

@@ -1,4 +1,4 @@
-# Preamble code ----------------------------------------------------------------
+# Inputs -----------------------------------------------------------------------
 data(mass)
 data(distance)
 data(od)
@@ -26,7 +26,8 @@ odobs <- od
 m <- c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS")
 
 # Tests for valid outputs ------------------------------------------------------
-test_that("class data.frame and values", {
+test_that("valid output", {
+  
   res <- run_law_model(
     law = "GravExp", mass_origin = mi, mass_destination = mj, 
     distance = distance, opportunity = NULL, param = 0.01,
@@ -65,10 +66,12 @@ test_that("class data.frame and values", {
 
   expect_identical(class(val), "data.frame")
   expect_identical(as.numeric(dim(val)[2]), 3)
+  
 })
 
-# Check errors -----------------------------------------------------
-test_that("check errors", {
+# Tests for invalid inputs -----------------------------------------------------
+test_that("invalid inputs", {
+  
   res <- run_law_model(
     law = "GravExp", mass_origin = mi, mass_destination = mj, 
     distance = distance, opportunity = NULL, param = 0.01,
@@ -80,11 +83,26 @@ test_that("check errors", {
 
   m <- c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS")
   expect_error(
-    gof(
-      sim = res, obs = odobs, measures = m, distance = dist, bin_size = 2,
-      use_proba = TRUE,
-      check_names = TRUE
-    ),
-    "use_proba cannot be set to TRUE if there is no proba in sim."
-  )
+    gof(sim = res, 
+        obs = odobs, 
+        measures = m, 
+        distance = dist, bin_size = 2,
+        use_proba = TRUE,
+        check_names = TRUE),
+    "use_proba cannot be set to TRUE if there is no proba in sim.",
+    fixed = TRUE)
+  
+  expect_error(
+    gof(sim = res, 
+        obs = odobs, 
+        measures = "test1212", 
+        distance = dist, 
+        bin_size = 2,
+        use_proba = TRUE,
+        check_names = TRUE),
+    "One or several goodness-of-fit measure(s) chosen are not available.
+Please choose from the following:
+CPC, CPL, NRMSE, KL, CPC_d, or KS.",
+    fixed = TRUE)
+  
 })

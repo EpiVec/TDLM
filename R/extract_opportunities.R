@@ -1,39 +1,47 @@
 #' Compute the number of opportunities between pairs of locations
 #'
 #' This function computes the number of opportunities between pairs of locations
-#' as defined in \insertCite{Lenormand2016;textual}{TDLM}.
-#' For a given pair of location the number of opportunities between the location
-#' of origin and the location of destination is based on the number of
-#' opportunities in a circle of radius equal to the distance between origin and
-#' destination centered in the origin. The number of opportunities at origin
-#' and destination are not included.
+#' as defined in Lenormand \emph{et al.} (2016). For a given pair of locations, 
+#' the number of opportunities between the origin location and the destination 
+#' location is based on the number of opportunities within a circle of radius 
+#' equal to the distance between the origin and the destination, with the 
+#' origin location as the center. The number of opportunities at the origin 
+#' and destination locations are not included.
 #'
-#' @param opportunity a numeric vector representing the number of opportunities
+#' @param opportunity A `numeric` vector representing the number of opportunities
 #' per location. The value should be positive.
 #'
-#' @param distance a squared matrix representing the distance between locations.
+#' @param distance A squared `matrix` representing the distances between 
+#' locations.
 #'
-#' @param check_names a boolean indicating if the ID location are used as
-#' vector names, matrix rownames and colnames and if they should be checked
-#' (see Note).
-#'
-#' @note `opportunity` and `distance` should be based on the same number of
-#' locations sorted in the same order. It is recommended to use the location ID
-#' as vector names, matrix rownames and matrix colnames and to set
-#' `check_names = TRUE` to verify that everything is in order before running
-#' this function (`check_names = FALSE` by default). Note that the function
-#' [check_format_names()] can be used to control the validity of all the inputs
-#' before running the main package's functions.
-#'
+#' @param check_names A `boolean` indicating whether the location IDs are used 
+#' as `vector` names, `matrix` row names, and `matrix` column names, and 
+#' whether they should be checked (see Note).
+#' 
 #' @return
-#' A squared matrix in which each element represents the number of opportunities
-#' between a pair of locations.
+#' A squared `matrix` in which each element represents the number of 
+#' opportunities between a pair of locations.
 #'
+#' @note 
+#' `opportunity` and `distance` should be based on the same number of
+#' locations sorted in the same order. It is recommended to use the location ID
+#' as `matrix` `rownames` and `matrix` `colnames` and to set
+#' `check_names = TRUE` to verify that everything is consistent before running
+#' this function (`check_names = FALSE` by default). Note that the function
+#' [check_format_names()] can be used to validate all inputs
+#' before running the main package's functions.
+#' 
+#' @references
+#' Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip 
+#' distribution laws and models. \emph{Journal of Transport Geography} 51, 
+#' 158-169.
+#' 
+#' @seealso 
+#' Associated functions:
+#' [extract_distances()], [extract_spatial_information()]. 
+#' 
 #' @author
 #' Maxime Lenormand (\email{maxime.lenormand@inrae.fr})
-#'
-#' @seealso [calib_param()] [extract_spatial_information()] 
-#' [check_format_names()]
 #'
 #' @examples
 #' data(mass)
@@ -41,17 +49,14 @@
 #'
 #' opportunity <- mass[, 1]
 #'
-#' sij <- extract_opportunities(
-#'   opportunity = opportunity,
-#'   distance = distance,
-#'   check_names = FALSE
-#' )
-#'
-#' @references
-#' \insertRef{Lenormand2016}{TDLM}
+#' sij <- extract_opportunities(opportunity = opportunity,
+#'                              distance = distance,
+#'                              check_names = FALSE)
 #'
 #' @export
-extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
+extract_opportunities <- function(opportunity, 
+                                  distance, 
+                                  check_names = FALSE) {
   
   # Option (disabling scientific notation)
   oldop <- options()
@@ -71,6 +76,7 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
   #    call. = FALSE
   #  )
   #}
+  
   # Set path to jar
   allibpath <- .libPaths()
   nlib <- length(allibpath)
@@ -88,10 +94,10 @@ extract_opportunities <- function(opportunity, distance, check_names = FALSE) {
          call. = FALSE)
   }
   if (!file.exists(paste0(wdjar, "Sij.jar"))) {
-    stop(paste0("It seems that an error occurred during the package 
-    installation.\n", "The folder ", wdjar, "should contain the file Sij.jar."),
-         call. = FALSE
-    )
+    stop(paste0("It seems that an error occurred during the package ", 
+                "installation.\n", 
+                "The folder ", wdjar, "should contain the file Sij.jar."),
+         call. = FALSE)
   }
 
   # Controls

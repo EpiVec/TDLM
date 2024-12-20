@@ -15,97 +15,71 @@ gof(
 )
 }
 \arguments{
-\item{sim}{an object of class \code{TDLM} (output of \code{\link[=run_law_model]{run_law_model()}},
-\code{\link[=run_law]{run_law()}} or \code{\link[=run_model]{run_model()}}).
-A matrix or a list of matrices can also be used (see Note).}
+\item{sim}{An object of class \code{TDLM} (output of \code{\link[=run_law_model]{run_law_model()}},
+\code{\link[=run_law]{run_law()}}, or \code{\link[=run_model]{run_model()}}). A matrix or a list of matrices can also be
+used (see Note).}
 
-\item{obs}{a squared matrix representing the observed mobility flows.}
+\item{obs}{A square \code{matrix} representing the observed mobility flows.}
 
-\item{measures}{a vector of string(s) indicating which goodness-of-fit
-measure(s) to chose (see Details). If \code{"all"} is specified, then all measures
-will be calculated.}
+\item{measures}{A \code{character} vector or a single \code{character} string
+indicating which goodness-of-fit measure(s) to compute (see Details).
+Available options are \code{"CPC"}, \code{"NRMSE"}, \code{"KL"}, \code{"CPL"}, \code{"CPC_d"} and
+\code{"KS"}. If \code{"all"} is specified, all measures will be calculated.}
 
-\item{distance}{a squared matrix representing the distance between locations.
-Only necessary for the distance-based measures.}
+\item{distance}{A square \code{matrix} representing the distances between
+locations. This is only necessary for distance-based measures.}
 
-\item{bin_size}{a numeric value indicating the size of bin used to discretize
-the distance distribution to compute CPC_d (2 "km" by default).}
+\item{bin_size}{A \code{numeric} value indicating the size of bins used to
+discretize the distance distribution when computing CPC_d (default is 2
+kilometers).}
 
-\item{use_proba}{a boolean indicating if the \code{proba} matrix should be used
-instead of the simulated OD matrix to compute the measure(s). Only valid for
-the output from \code{\link[=run_law_model]{run_law_model()}} with argument \code{write_proba = TRUE} (see
-Note).}
+\item{use_proba}{A \code{boolean} indicating whether the \code{proba} matrix should be
+used instead of the simulated OD matrix to compute the measure(s). This is
+only valid for output from \code{\link[=run_law_model]{run_law_model()}} with the argument
+\code{write_proba = TRUE} (see Note).}
 
-\item{check_names}{a boolean indicating if the ID location are used as matrix
-rownames and colnames and if they should be checked (see Note).}
+\item{check_names}{A \code{boolean} indicating whether the location IDs used as
+matrix rownames and colnames should be checked for consistency
+(see Note).}
 }
 \value{
-A data.frame providing one or several goodness-of-fit measure(s) between
+A \code{data.frame} providing one or several goodness-of-fit measures between
 simulated OD(s) and an observed OD. Each row corresponds to a matrix sorted
-according to the list (or list of list) elements (names are used if
+according to the list (or list of lists) elements (names are used if
 provided).
 }
 \description{
-This function returns a data.frame where each row provides one or
+This function returns a \code{data.frame} where each row provides one or
 several goodness-of-fit measures between a simulated and an observed
-Origin-Destination matrix.
+Origin-Destination (OD) matrix.
 }
 \details{
-\loadmathjax
-With \mjeqn{n}{n} the number of locations, \mjeqn{T_{ij}}{T_{ij}} the
-observed flow between location \mjeqn{i}{i} and location \mjeqn{j}{j}
-(argument \code{obs}), \mjeqn{\tilde{T}_{ij}}{\tilde{T}_{ij}} a simulated flow
-between location \mjeqn{i}{i} and location \mjeqn{j}{j} (a matrix from
-argument \code{sim}), \mjeqn{N=\sum_{i,j=1}^n T_{ij}}{N=\sum_{i,j=1}^n T_{ij}} the
-sum of observed flows and
-\mjeqn{\tilde{N}=\sum_{i,j=1}^n \tilde{T}_{ij}}{\tilde{T}=\sum_{i,j=1}^n \tilde{T}_{ij}}
-the sum of simulated flows.
-
-Several goodness-of-fit measures have been considered
-\code{measures = c("CPC", "NRMSE", "KL", "CPL", "CPC_d", "KS")}. The Common Part
-of Commuters \insertCite{Gargiulo2012,Lenormand2012,Lenormand2016}{TDLM},
-
-\mjeqn{\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}{\displaystyle CPC(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n min(T_{ij},\tilde{T}_{ij})}{N + \tilde{N}}}
-
-the Normalized Root Mean Square Error (NRMSE),
-
-\mjeqn{\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}}{\displaystyle NRMSE(T,\tilde{T}) = \sqrt{\frac{\sum_{i,j=1}^n (T_{ij}-\tilde{T}_{ij})^2}{N}}}
-
-the Kullback–Leibler divergence \insertCite{Kullback1951}{TDLM},
-
-\mjeqn{\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)}{\displaystyle KL(T,\tilde{T}) = \sum_{i,j=1}^n \frac{T_{ij}}{N}\log\left(\frac{T_{ij}}{N}\frac{\tilde{N}}{\tilde{T}_{ij}}\right)}
-
-the Common Part of Links (CPL) \insertCite{Lenormand2016}{TDLM},
-
-\mjeqn{\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}}{\displaystyle CPL(T,\tilde{T}) = \frac{2\cdot\sum_{i,j=1}^n 1_{T_{ij}>0} \cdot 1_{\tilde{T}_{ij}>0}}{\sum_{i,j=1}^n 1_{T_{ij}>0} + \sum_{i,j=1}^n 1_{\tilde{T}_{ij}>0}}}
-
-the Common Part of Commuters based on the disance
-\insertCite{Lenormand2016}{TDLM}, noted CPC_d. Let us consider
-\mjeqn{N_k}{N_k} (and \mjeqn{\tilde{N}_k}{\tilde{N}_k}) the
-sum of observed (and simulated) flows at a distance comprised in the bin
-[\code{bin_size}*k-\code{bin_size}, \code{bin_size}*k[.
-
-\mjeqn{\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}}{\displaystyle CPC_d(T,\tilde{T}) = \frac{2\cdot\sum_{k=1}^{\infty} min(N_{k},\tilde{N}_{k})}{N+\tilde{N}}}
-
-and the Kolmogorv-Smirnov statistic and p-value \insertCite{Massey1951}{TDLM}
-, noted KS. It is based on the observed and simulated flow distance
-distribution and computed with the \link[Ecume:ks_test]{ks_test} function from
-the \href{https://cran.r-project.org/package=Ecume}{Ecume} package.
+Several goodness-of-fit measures are considered, such as the Common Part
+of Commuters (CPC), the Common Part of Links (CPL), and the Common Part of
+Commuters based on the distance (CPC_d), as described in \href{http://arxiv.org/abs/1506.04889}{Lenormand \emph{et al.} (2016)}. It also includes
+classical metrics such as the
+\href{https://epivec.github.io/TDLM/articles/TDLM.html#normalized-root-mean-square-error-nrmse}{Normalized Root Mean Square Error}
+(NRMSE), the
+\href{https://epivec.github.io/TDLM/articles/TDLM.html#kullbackleibler-divergence-ks}{Kullback–Leibler divergence}
+(KL), and the Kolmogorov-Smirnov statistic and
+p-value (KS). These measures are based on the observed and simulated flow
+distance distributions and are computed using the \link[Ecume:ks_test]{ks_test}
+function from the \href{https://cran.r-project.org/package=Ecume}{Ecume} package.
 }
 \note{
-By default, if \code{sim} is an output of \code{\link[=run_law_model]{run_law_model()}}
+By default, if \code{sim} is an output of \code{\link[=run_law_model]{run_law_model()}},
 the measure(s) are computed only for the simulated OD matrices and
-not the \code{proba} matrix (included in the output when
+not for the \code{proba} matrix (included in the output when
 \code{write_proba = TRUE}). The argument \code{use_proba} can be used to compute the
 measure(s) based on the \code{proba} matrix instead of the simulated
-OD matrix. In this case the argument \code{obs} should also be a proba matrix.
+OD matrix. In this case, the argument \code{obs} should also be a \code{proba} matrix.
 
-All the inputs should be based on the same number of
-locations sorted in the same order. It is recommended to use the location ID
-as matrix rownames and matrix colnames and to set
-\code{check_names = TRUE} to verify that everything is in order before running
+All inputs should be based on the same number of
+locations, sorted in the same order. It is recommended to use the location ID
+as \code{matrix} \code{rownames} and \code{matrix} \code{colnames} and to set
+\code{check_names = TRUE} to verify that everything is consistent before running
 this function (\code{check_names = FALSE} by default). Note that the function
-\code{\link[=check_format_names]{check_format_names()}} can be used to control the validity of all the inputs
+\code{\link[=check_format_names]{check_format_names()}} can be used to validate all inputs
 before running the main package's functions.
 }
 \examples{
@@ -118,37 +92,44 @@ mj <- mi
 Oi <- as.numeric(mass[, 2])
 Dj <- as.numeric(mass[, 3])
 
-res <- run_law_model(
-  law = "GravExp", mass_origin = mi, mass_destination = mj,
-  distance = distance, opportunity = NULL, param = 0.01,
-  model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj,
-  average = FALSE, nbrep = 1, maxiter = 50, mindiff = 0.01,
-  write_proba = FALSE,
-  check_names = FALSE
-)
+res <- run_law_model(law = "GravExp", 
+                     mass_origin = mi, 
+                     mass_destination = mj,
+                     distance = distance, 
+                     opportunity = NULL, 
+                     param = 0.01,
+                     model = "DCM", 
+                     nb_trips = NULL, 
+                     out_trips = Oi, 
+                     in_trips = Dj,
+                     average = FALSE, 
+                     nbrep = 1, 
+                     maxiter = 50, 
+                     mindiff = 0.01,
+                     write_proba = FALSE,
+                     check_names = FALSE)
 
-gof(
-  sim = res, obs = od, measures = "CPC", distance = NULL, bin_size = 2,
-  use_proba = FALSE,
-  check_names = FALSE
-)
-
+gof(sim = res, 
+    obs = od, 
+    measures = "CPC", 
+    distance = NULL, 
+    bin_size = 2,
+    use_proba = FALSE,
+    check_names = FALSE)
 
 }
 \references{
-\insertRef{Lenormand2016}{TDLM}
-
-\insertRef{Gargiulo2012}{TDLM}
-
-\insertRef{Lenormand2012}{TDLM}
-
-\insertRef{Kullback1951}{TDLM}
-
-\insertRef{Massey1951}{TDLM}
+Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip
+distribution laws and models. \emph{Journal of Transport Geography} 51,
+158-169.
 }
 \seealso{
-\code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_law]{run_law()}} \code{\link[=run_model]{run_model()}} \code{\link[=run_law_model]{run_law_model()}}
-\code{\link[=check_format_names]{check_format_names()}}
+For more details illustrated with a practical example,
+see the vignette:
+\url{https://epivec.github.io/TDLM/articles/TDLM.html#goodness-of-fit-measures}.
+
+Associated functions:
+\code{\link[=run_law]{run_law()}}, \code{\link[=run_model]{run_model()}}, \code{\link[=run_law_model]{run_law_model()}}.
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

@@ -18,65 +18,62 @@ run_model(
 )
 }
 \arguments{
-\item{proba}{a squared matrix of probability. The sum of the matrix element
+\item{proba}{A squared \code{matrix} of probability. The sum of the matrix element
 must be equal to 1. It will be normalized automatically if it is not the
 case.}
 
-\item{model}{a character indicating which model to use.}
+\item{model}{A \code{character} indicating which model to use.}
 
-\item{nb_trips}{a numeric value indicating the total number of trips. Must
-be an integer if \code{average = FALSE} (see Details).}
+\item{nb_trips}{A \code{numeric} value indicating the total number of trips. Must
+be an \code{integer} if \code{average = FALSE} (see Details).}
 
-\item{out_trips}{a numeric vector representing the number of outgoing
-trips per location. Must be a vector of integers
-if \code{average = FALSE} (see Details).}
-
-\item{in_trips}{a numeric vector representing the number of incoming
-trips per location. Must be a vector of integers
-if \code{average = FALSE} (see Details).}
-
-\item{average}{a boolean indicating if the average mobility flow matrix
-should be generated instead of the \code{nbrep} matrices based on
-random draws (see Details).}
-
-\item{nbrep}{an integer indicating the number of replications
-associated to the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
+\item{out_trips}{A \code{numeric} vector representing the number of outgoing
+trips per location. Must be a vector of integers if \code{average = FALSE}
 (see Details).}
 
-\item{maxiter}{an integer indicating the maximal number of iterations for
+\item{in_trips}{A \code{numeric} vector representing the number of incoming
+trips per location. Must be a vector of integers if \code{average = FALSE}
+(see Details).}
+
+\item{average}{A \code{boolean} indicating if the average mobility flow matrix
+should be generated instead of the \code{nbrep} matrices based on random draws
+(see Details).}
+
+\item{nbrep}{An \code{integer} indicating the number of replications
+associated with the model run. Note that \code{nbrep = 1} if \code{average = TRUE}
+(see Details).}
+
+\item{maxiter}{An \code{integer} indicating the maximal number of iterations for
 adjusting the Doubly Constrained Model (see Details).}
 
-\item{mindiff}{a numeric strictly positive value indicating the
+\item{mindiff}{A \code{numeric} strictly positive value indicating the
 stopping criterion for adjusting the Doubly Constrained Model (see Details).}
 
-\item{check_names}{a boolean indicating if the ID location are used as
-vector names, matrix rownames and colnames and if they should be checked
+\item{check_names}{A \code{boolean} indicating whether the location IDs used as
+matrix rownames and colnames should be checked for consistency
 (see Note).}
 }
 \value{
-An object of class \code{TDLM}. A list of matrices containing the
-\code{nbrep} simulated matrices.
+An object of class \code{TDLM}. A \code{list} of matrices containing the \code{nbrep}
+simulated matrices.
 }
 \description{
-This function estimates mobility flows using different distribution models.
-As described in \insertCite{Lenormand2016;textual}{TDLM}, we
-propose a two-step approach to generate mobility flows by separating the trip
-distribution law, gravity or intervening opportunities, from the modeling
-approach used to generate the flows from this law. This function only uses
-the second step to generate mobility flow based on a matrix of probabilities
-using different models.
+This function estimates mobility flows using different distribution laws
+and models. As described in Lenormand \emph{et al.} (2016), the
+function uses a two-step approach to generate mobility flows by separating
+the trip distribution law (gravity or intervening opportunities) from the
+modeling approach used to generate the flows based on this law. This function
+only uses the second step to generate mobility flow based on a matrix of
+probabilities using different models.
 }
 \details{
-\loadmathjax
-
-We propose four constrained models to generate the flow from the matrix
-of probabilities. These models respect different level of
-constraints. These constraints can preserve the total number of trips
-(argument \code{nb_trips}) OR the number of out-going trips
-\mjeqn{O_{i}}{O_{i}} (argument \code{out_trips}) AND/OR the number of in-coming
-\mjeqn{D_{j}}{D_{j}} (argument \code{in_trips}) according to the model. The sum of
-out-going trips \mjeqn{\sum_{i} O_{i}}{\sum_{i} O_{i}} should be equal to the
-sum of in-coming trips \mjeqn{\sum_{j} D_{j}}{\sum_{j} D_{j}}.
+We propose four constrained models to generate the flows from these
+distribution of probability as described in Lenromand \emph{et al.} (2016).
+These models respect different level of constraints. These constraints can
+preserve the total number of trips (argument \code{nb_trips}) OR the number of
+out-going trips (argument \code{out_trips}) AND/OR the number of in-coming
+(argument \code{in_trips}) according to the model. The sum of out-going trips
+should be equal to the sum of in-coming trips.
 \enumerate{
 \item Unconstrained model (\code{model = "UM"}). Only \code{nb_trips} will be preserved
 (arguments \code{out_trips} and \code{in_trips} will not be used).
@@ -87,12 +84,11 @@ preserved (arguments \code{nb_trips} and \code{out_trips} will not be used).
 \item Doubly constrained model (\code{model = "DCM"}). Both \code{out_trips} and
 \code{in_trips} will be preserved (arguments \code{nb_trips}will not be used). The
 doubly constrained model is based on an Iterative Proportional Fitting
-process \insertCite{Deming1940}{TDLM}. The arguments \code{maxiter} (50 by
+process (Deming & Stephan, 1940). The arguments \code{maxiter} (50 by
 default) and \code{mindiff} (0.01 by default) can be used to tune the model.
 \code{mindiff} is the minimal tolerated relative error between the
-simulated and observed marginals. \code{maxiter}
-ensures that the algorithm stops even if it has not converged toward the
-\code{mindiff} wanted value.
+simulated and observed marginals. \code{maxiter} ensures that the algorithm stops
+even if it has not converged toward the \code{mindiff} wanted value.
 }
 
 By default, when \code{average = FALSE}, \code{nbrep} matrices are generated from
@@ -105,12 +101,12 @@ integer or real numbers and the output (\code{nbrep = 1} in this case) will be a
 matrix of positive real numbers.
 }
 \note{
-All the inputs should be based on the same number of
-locations sorted in the same order. It is recommended to use the location ID
-as vector names, matrix rownames and matrix colnames and to set
-\code{check_names = TRUE} to verify that everything is in order before running
+All inputs should be based on the same number of
+locations, sorted in the same order. It is recommended to use the location ID
+as \code{matrix} \code{rownames} and \code{matrix} \code{colnames} and to set
+\code{check_names = TRUE} to verify that everything is consistent before running
 this function (\code{check_names = FALSE} by default). Note that the function
-\code{\link[=check_format_names]{check_format_names()}} can be used to control the validity of all the inputs
+\code{\link[=check_format_names]{check_format_names()}} can be used to validate all inputs
 before running the main package's functions.
 }
 \examples{
@@ -133,12 +129,21 @@ res <- run_model(
 
 }
 \references{
-\insertRef{Lenormand2016}{TDLM}
+Deming WE & Stephan FF (1940) On a Least Squares Adjustment of a Sample
+Frequency Table When the Expected Marginal Totals Are Known. \emph{Annals of
+Mathematical Statistics} 11, 427-444.
 
-\insertRef{Deming1940}{TDLM}
+Lenormand M, Bassolas A, Ramasco JJ (2016) Systematic comparison of trip
+distribution laws and models. \emph{Journal of Transport Geography} 51,
+158-169.
 }
 \seealso{
-\code{\link[=gof]{gof()}} \code{\link[=run_law_model]{run_law_model()}} \code{\link[=run_law]{run_law()}} \code{\link[=check_format_names]{check_format_names()}}
+For more details illustrated with a practical example,
+see the vignette:
+\url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+
+Associated functions:
+\code{\link[=run_law_model]{run_law_model()}}, \code{\link[=run_law]{run_law()}}, \code{\link[=gof]{gof()}}.
 }
 \author{
 Maxime Lenormand (\email{maxime.lenormand@inrae.fr})

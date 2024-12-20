@@ -22,8 +22,7 @@ test_that("check controls vectors_positive", {
   expect_error(
     controls(args = NULL, vectors = vec, matrices = NULL, 
              type = "vectors_positive"),
-    "vec must contain at least one strictly positive 
-        value."
+    "vec must contain at least one strictly positive value."
   )
 
   vec$vec <- c(1.2, -1)
@@ -72,8 +71,7 @@ test_that("check controls vectors_positive", {
   expect_error(
     controls(args = NULL, vectors = vec, matrices = NULL, 
              type = "vectors_positive_integer"),
-    "vec must contain at least one strictly positive 
-        value."
+    "vec must contain at least one strictly positive value."
   )
 })
 
@@ -107,8 +105,7 @@ test_that("check controls matrices_positive", {
   expect_error(
     controls(args = NULL, vectors = NULL, matrices = mat, 
              type = "matrices_positive"),
-    "mat must contain at least one strictly positive 
-        value."
+    "mat must contain at least one strictly positive value."
   )
 
   mat$mat <- matrix(-1, 5, 5)

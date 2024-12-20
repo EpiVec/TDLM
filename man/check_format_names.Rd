@@ -7,23 +7,22 @@
 check_format_names(vectors, matrices = NULL, check = "format_and_names")
 }
 \arguments{
-\item{vectors}{a list of vectors. The list can contain one vector. It is
-recommended to name each element of the list. If \code{vectors = NULL} only the
+\item{vectors}{A \code{list} of vectors. The list can contain one vector. It is
+recommended to name each element of the list. If \code{vectors = NULL}, only the
 matrices will be considered.}
 
-\item{matrices}{a list of matrices. The list can contain one matrix. It is
-recommended to name each element of the list. If \code{matrices = NULL} only the
+\item{matrices}{A \code{list} of matrices. The list can contain one matrix. It is
+recommended to name each element of the list. If \code{matrices = NULL}, only the
 vectors will be considered (by default).}
 
-\item{check}{a character indicating what types of check
-("format" or "format_and_names") should be used (see Details).}
+\item{check}{A \code{character} indicating which types of check
+(\code{"format"} or \code{"format_and_names"}) should be used (see Details).}
 }
 \value{
 A message indicating if the check has passed or failed.
 }
 \description{
-This function checks that the TDLM's inputs have the required format (an
-names).
+This function checks that the TDLM's inputs have the required format (and names).
 }
 \details{
 The \code{TDLM}'s inputs should be based on the same number of
@@ -31,11 +30,11 @@ locations sorted in the same order. \code{check = "format"} will run basic check
 to ensure that the structure of the inputs (dimensions, class, type...) is
 correct.
 
-It is recommended to use the location ID as vector names, matrix rownames and
-matrix colnames. Set \code{check  = "format_and_names"} to check the inputs'
-names. The checks are run successively, so run the function as many times as
-needed to get the message indicating that the inputs passed the check
-successfully.
+It is recommended to use the location ID as \code{vector} \code{names}, \code{matrix}
+\code{rownames}, and \code{matrix} \code{colnames}. Set \code{check  = "format_and_names"} to
+check the inputs' names. The checks are run successively, so run the function
+as many times as needed to get the message indicating that the inputs passed
+the check successfully.
 }
 \examples{
 data(mass)

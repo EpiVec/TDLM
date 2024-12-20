@@ -1,4 +1,4 @@
-# Preamble code ----------------------------------------------------------------
+# Inputs -----------------------------------------------------------------------
 data(mass)
 data(distance)
 data(od)
@@ -15,7 +15,8 @@ names(mj) <- rownames(distance)
 dist <- distance
 
 # Tests for valid outputs ------------------------------------------------------
-test_that("class TDLM", {
+test_that("valid output", {
+  
   res <- run_law(
     law = "Unif", mass_origin = mi, mass_destination = NULL, distance = NULL, 
     opportunity = NULL, param = 0.1,
@@ -23,10 +24,12 @@ test_that("class TDLM", {
   )
 
   expect_identical(class(res)[1], "TDLM")
+
 })
 
-# Check errors -----------------------------------------------------------------
-test_that("check errors", {
+# Tests for invalid inputs -----------------------------------------------------
+test_that("invalid inputs", {
+  
   expect_error(
     run_law(
       law = "Uni", mass_origin = mi, mass_destination = NULL, distance = NULL, 
@@ -36,4 +39,5 @@ test_that("check errors", {
     "Please choose law among the followings values:
 GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif"
   )
+  
 })

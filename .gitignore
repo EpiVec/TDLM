@@ -2,6 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+*.Rproj
+*.bak
+
+inst/REFERENCES.bib.bak
 
 docs/
 

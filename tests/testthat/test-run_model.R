@@ -1,4 +1,4 @@
-# Preamble code ----------------------------------------------------------------
+# Inputs -----------------------------------------------------------------------
 data(mass)
 data(od)
 
@@ -14,7 +14,8 @@ Dj <- as.numeric(mass[, 3]) #+0.11
 names(Dj) <- rownames(od)
 
 # Tests for valid outputs ------------------------------------------------------
-test_that("class TDLM", {
+test_that("valid output", {
+  
   res <- run_model(
     proba = proba,
     model = "DCM", nb_trips = NULL, out_trips = Oi, in_trips = Dj, 
@@ -23,4 +24,5 @@ test_that("class TDLM", {
   )
 
   expect_identical(class(res)[1], "TDLM")
+  
 })

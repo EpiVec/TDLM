@@ -1,8 +1,9 @@
-# Preamble code ----------------------------------------------------------------
+# Inputs -----------------------------------------------------------------------
 data(county)
 
 # Tests for valid outputs ------------------------------------------------------
-test_that("expected alpha value", {
+test_that("valid output", {
+  
   res <- extract_spatial_information(county, id = "ID", show_progress = FALSE)
 
   alpha <- calib_param(av_surf = mean(res$surface), law = "NGravExp")
@@ -16,15 +17,21 @@ test_that("expected alpha value", {
   alpha <- calib_param(av_surf = mean(res$surface), law = "RadExt")
 
   expect_gt(alpha, 1.29)
+  
 })
 
-# Check errors -----------------------------------------------------------------
-test_that("check errors", {
-  res <- extract_spatial_information(county, id = "ID", show_progress = FALSE)
+# Tests for invalid inputs -----------------------------------------------------
+test_that("invalid inputs", {
+  
+  res <- extract_spatial_information(county, 
+                                     id = "ID", 
+                                     show_progress = FALSE)
 
   expect_error(
     calib_param(av_surf = mean(res$surface), law = "test"),
-    "Please choose law among the followings values:
-NGravExp, NGravPow, Schneider or RadExt"
+    "One or several laws chosen are not available.
+Please choose from the following:
+NGravExp, NGravPow, Schneider, or RadExt."
   )
+  
 })
