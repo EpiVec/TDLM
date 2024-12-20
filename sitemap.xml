@@ -1,63 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://epivec.github.io/TDLM/404.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/articles/TDLM.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/calib_param.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/check_format_names.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/county.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/distance.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/extract_opportunities.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/extract_spatial_information.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/gof.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/mass.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/od.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/run_law.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/run_law_model.html</loc>
-  </url>
-  <url>
-    <loc>https://epivec.github.io/TDLM/reference/run_model.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://epivec.github.io/TDLM/404.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/LICENSE-text.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/articles/TDLM.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/articles/index.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/authors.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/index.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/news/index.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/calib_param.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/check_format_names.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/coords.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/coords_xy.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/county.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/distance.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/extract_distances.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/extract_opportunities.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/extract_spatial_information.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/gof.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/index.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/mass.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/od.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/run_law.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/run_law_model.html</loc></url>
+<url><loc>https://epivec.github.io/TDLM/reference/run_model.html</loc></url>
 </urlset>
+
