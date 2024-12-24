@@ -187,10 +187,9 @@ run_model <- function(proba,
   models <- c("UM", "PCM", "ACM", "DCM")
   controls(args = model, type = "character")
   if (!(model %in% models)) {
-    stop("Please choose model among the followings values:
-UM, PCM, ACM or DCM",
-      call. = FALSE
-    )
+    stop(paste0("Please choose model from the following:\n",
+                "UM, PCM, ACM or DCM."),
+         call. = FALSE)
   }
 
   if (model == "DCM") {

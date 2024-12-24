@@ -183,10 +183,10 @@ run_law <- function(law = "Unif",
   rand_laws <- c("Rand")
   controls(args = law, type = "character")
   if (!(law %in% laws)) {
-    stop("Please choose law among the followings values:
-GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, ExtRad or Unif",
-      call. = FALSE
-    )
+    stop(paste0("Please choose law from the following:\n",
+                "GravExp, NGravExp, GravPow, NGravPow, Schneider, ",
+                "Rad, RadExt or Unif."),
+         call. = FALSE)
   }
 
   if ((law != "Rad") & (law != "Rand")) { # Param

@@ -277,10 +277,10 @@ run_law_model <- function(law = "Unif",
   rand_laws <- c("Rand")
   controls(args = law, type = "character")
   if (!(law %in% laws)) {
-    stop("Please choose law among the followings values:
-GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, RadExt or Unif",
-      call. = FALSE
-    )
+    stop(paste0("Please choose law from the following:\n",
+                "GravExp, NGravExp, GravPow, NGravPow, Schneider, ",
+                "Rad, RadExt or Unif."),
+      call. = FALSE)
   }
 
   if ((law != "Rad") & (law != "Rand")) { # Param
@@ -345,10 +345,9 @@ GravExp, NGravExp, GravPow, NGravPow, Schneider, Rad, RadExt or Unif",
   models <- c("UM", "PCM", "ACM", "DCM")
   controls(args = model, type = "character")
   if (!(model %in% models)) {
-    stop("Please choose model among the followings values:
-UM, PCM, ACM or DCM",
-      call. = FALSE
-    )
+    stop(paste0("Please choose model from the following:\n",
+                "UM, PCM, ACM or DCM."),
+         call. = FALSE)
   }
 
   if (model == "DCM") {

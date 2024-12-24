@@ -22,9 +22,10 @@
 #' @details 
 #' The `geometry` must be projected in a valid coordinate reference
 #' system. It will be reprojected in degrees longitude/latitude to compute the
-#' great-circle distances between centroids of locations using an internal function
-#' and to compute the surface area using the function [st_area][sf::st_area] from
-#' the [sf](https://cran.r-project.org/package=sf) package.
+#' great-circle distances between centroids of locations using an internal 
+#' function and to compute the surface area using the function 
+#' [st_area][sf::st_area] from the 
+#' [sf](https://cran.r-project.org/package=sf) package.
 #'
 #' @note 
 #' The outputs are based on the locations contained in `geometry` and
@@ -93,7 +94,7 @@ extract_spatial_information <- function(geometry,
           stop("If id is numeric, it should be an integer.", call. = FALSE)
         } else {
           if ((id < 1)) {
-            stop("id should be stricltly positive.", call. = FALSE)
+            stop("id should be strictly positive.", call. = FALSE)
           }
           if ((id > dim(geometry)[2])) {
             stop("id should be lower or equal to ", dim(geometry)[2], ".",

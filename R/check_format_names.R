@@ -62,7 +62,7 @@ check_format_names <- function(vectors,
       names(vectors) <- paste0("Vector ", seq_len(length(vectors)))
       message(paste0(
         "No names identified in the vectors list.\n",
-        "Names have been automatically assigned.\n"
+        "Names have been automatically assigned."
       ))
     }
   }

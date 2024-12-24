@@ -52,7 +52,8 @@ calib_param <- function(av_surf, law = "NGravExp") {
   
   # Controls
   controls(args = av_surf, type = "strict_positive_numeric")
-
+  controls(args = law, type = "character")
+  
   laws <- c("NGravExp", "NGravPow", "Schneider", "RadExt")
   if (!(law %in% laws)) {
     stop(paste0("One or several laws chosen are not available.\n",

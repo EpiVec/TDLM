@@ -318,7 +318,7 @@ gof <- function(sim,
         names(sim) <- paste0("sim_", seq_len(length(sim)))
         message(paste0(
           "No names identified in the list of matrices.\n",
-          "Names have been automatically assigned.\n"
+          "Names have been automatically assigned."
         ))
       }
     }

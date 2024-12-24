@@ -30,9 +30,10 @@ kilometers).
 \details{
 The \code{geometry} must be projected in a valid coordinate reference
 system. It will be reprojected in degrees longitude/latitude to compute the
-great-circle distances between centroids of locations using an internal function
-and to compute the surface area using the function \link[sf:geos_measures]{st_area} from
-the \href{https://cran.r-project.org/package=sf}{sf} package.
+great-circle distances between centroids of locations using an internal
+function and to compute the surface area using the function
+\link[sf:geos_measures]{st_area} from the
+\href{https://cran.r-project.org/package=sf}{sf} package.
 }
 \note{
 The outputs are based on the locations contained in \code{geometry} and

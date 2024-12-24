@@ -12,16 +12,17 @@
 
 ## 1 Short description
 
-The main purpose of the `TDLM`'s package is to propose a rigorous framework to 
-fairly compare trip distribution laws and models as described in 
-[Lenormand et al. (2016)](https://www.sciencedirect.com/science/article/abs/pii/S0966692315002422). 
-This general framework is based on a two-step approach to generate mobility flows
-by separating the trip distribution law, gravity or intervening opportunities, from 
-the modeling approach used to generate the flows from this law.
+The main purpose of the `TDLM` package is to provide a rigorous framework for 
+fairly comparing trip distribution laws and models, as described in 
+[Lenormand *et al.* (2016)](https://www.sciencedirect.com/science/article/abs/pii/S0966692315002422). 
+This general framework relies on a two-step approach to generate mobility flows,
+separating the trip distribution law, gravity or intervening opportunities, from
+the modeling approach used to derive flows from this law.
+
 
 ## 2 Install
 
-The package `TDLM` can be installed with the following command line in R session:
+The `TDLM` package can be installed with the following command in an R session:
 
 From the CRAN
 

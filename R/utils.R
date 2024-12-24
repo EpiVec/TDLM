@@ -28,6 +28,7 @@ controls <- function(args = NULL,
   
   # vectors_positive ###########################################################
   if (type == "vectors_positive") {
+    
     nbv <- length(vectors)
     for (k in 1:nbv) {
       vector <- vectors[[k]]
@@ -66,6 +67,7 @@ controls <- function(args = NULL,
 
   # vectors_positive_integer ###################################################
   if (type == "vectors_positive_integer") {
+    
     nbv <- length(vectors)
     for (k in 1:nbv) {
       vector <- vectors[[k]]
@@ -105,12 +107,6 @@ controls <- function(args = NULL,
         stop(paste0(namevec, 
                     " must contain at least one strictly", 
                     " positive value."),
-          call. = FALSE
-        )
-      }
-
-      if (sum(vector < 0) > 0) {
-        stop(paste0(namevec, " must contain only positive values."),
           call. = FALSE
         )
       }
