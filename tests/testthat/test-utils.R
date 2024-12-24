@@ -1,5 +1,5 @@
 # Check controls ---------------------------------------------------------------
-test_that("check type", {
+test_that("type", {
   
   expect_error(
     controls(args = NULL, 
@@ -8,9 +8,10 @@ test_that("check type", {
              type = "test"),
     "Control type not defined!"
   )
+  
 })
 
-test_that("check controls vectors_positive", {
+test_that("vectors_positive", {
   
   vec <- list()
   vec[[1]] <- c(1, 1)
@@ -62,7 +63,7 @@ test_that("check controls vectors_positive", {
   
 })
 
-test_that("check controls vectors_positive_integer", {
+test_that("vectors_positive_integer", {
 
   vec <- list()
   vec[[1]] <- c(1, 1)
@@ -121,7 +122,7 @@ test_that("check controls vectors_positive_integer", {
   
 })
 
-test_that("check controls matrices_positive", {
+test_that("matrices_positive", {
 
   mat <- list()
   mat[[1]] <- matrix(1, 5, 5)
@@ -182,7 +183,7 @@ test_that("check controls matrices_positive", {
   )
 })
 
-test_that("check controls vectors_vectors", {
+test_that("vectors_vectors", {
 
   vec <- list()
   vec[[1]] <- c(1, 1)
@@ -197,7 +198,7 @@ test_that("check controls vectors_vectors", {
   )
 })
 
-test_that("check controls matrices_matrices", {
+test_that("matrices_matrices", {
 
   mat <- list()
   mat[[1]] <- matrix(0, 5, 5)
@@ -212,7 +213,7 @@ test_that("check controls matrices_matrices", {
   )
 })
 
-test_that("check controls vectors_matrices", {
+test_that("vectors_matrices", {
   
   vec <- list()
   vec[[1]] <- c(1, 1, 1)
@@ -231,7 +232,7 @@ test_that("check controls vectors_matrices", {
   )
 })
 
-test_that("check controls vectors_checknames", {
+test_that("vectors_checknames", {
   
   vec <- list()
   vec[[1]] <- c(1, 1, 1)
@@ -268,7 +269,7 @@ test_that("check controls vectors_checknames", {
   )
 })
 
-test_that("check controls matrices_checknames", {
+test_that("matrices_checknames", {
   
   mat <- list()
   mat[[1]] <- matrix(1, 3, 3)
@@ -322,7 +323,7 @@ test_that("check controls matrices_checknames", {
   )
 })
 
-test_that("check controls vectors_matrices_checknames", {
+test_that("vectors_matrices_checknames", {
   
   vec <- list()
   vec[[1]] <- c(1, 1, 1)
@@ -433,3 +434,199 @@ test_that("check controls vectors_matrices_checknames", {
     "Different names in vectors and matrices:\n"
   )
 })
+
+test_that("boolean", {
+  
+  test <- c(1,1)
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "boolean"),
+    "test must be of length 1."
+  )
+  
+  test <- 1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "boolean"),
+    "test must be a boolean."
+  )
+  
+})
+
+test_that("character", {
+  
+  test <- c(1,1)
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "character"),
+    "test must be of length 1."
+  )
+  
+  test <- 1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "character"),
+    "test must be a character."
+  )
+  
+  test <- c(1,1)
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "character_vector"),
+    "test must be a character"
+  )
+  
+})
+
+test_that("numeric", {
+  
+  test <- c("a","a")
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "numeric_vector"),
+    "test must be numeric."
+  )
+  
+  test <- c(1,1)
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_numeric"),
+    "test must be of length 1."
+  )
+  
+  test <- "a"
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_numeric"),
+    "test must be numeric."
+  )
+  
+  test <- -1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_numeric"),
+    "test must be higher than 0."
+  )
+  
+})
+
+test_that("positive_integer", {
+  
+  test <- c("a","a")
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_integer"),
+    "test must be of length 1."
+  )
+  
+  test <- "a"
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_integer"),
+    "test must be numeric."
+  )
+  
+  test <- 0.1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_integer"),
+    "test must be an integer."
+  )
+  
+  test <- -1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "positive_integer"),
+    "test must be higher than 0."
+  )
+  
+})
+
+test_that("strict_positive_integer", {
+  
+  test <- c("a","a")
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "strict_positive_integer"),
+    "test must be of length 1."
+  )
+  
+  test <- "a"
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "strict_positive_integer"),
+    "test must be numeric."
+  )
+  
+  test <- 0.1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "strict_positive_integer"),
+    "test must be an integer."
+  )
+  
+  test <- -1
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "strict_positive_integer"),
+    "test must be strictly higher than 0."
+  )
+  
+  test <- 0
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "strict_positive_integer"),
+    "test must be strictly higher than 0."
+  )
+  
+})
+
+test_that("list", {
+  
+  test <- c("a","a")
+  expect_error(
+    controls(args = test, 
+             vectors = NULL, 
+             matrices = NULL, 
+             type = "list"),
+    "test must be a list."
+  )
+  
+})
+

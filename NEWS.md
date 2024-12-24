@@ -8,6 +8,8 @@ geographical coordinates.
 
 * Updated `documentation` and `vignette`.
 
+* Updated tests.
+
 # TDLM 1.0.0
 
 This is a list of changes made between TDLM 0.1.0 (CRAN release 2023-03-18) and  
