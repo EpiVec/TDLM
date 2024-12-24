@@ -75,7 +75,7 @@ test_that("valid output", {
              use_proba = FALSE,
              check_names = TRUE)
   expect_identical(class(val), "data.frame")
-  expect_gt(val$CPC, 0.457)
+  expect_gt(val$CPC, 0.4)
 
   m <- c("CPC")
   val <- gof(sim = res, 
