@@ -187,8 +187,7 @@
 #'
 #' mi <- as.numeric(mass[, 1])
 #' mj <- mi
-#' Oi <- as.numeric(mass[, 2])
-#' Dj <- as.numeric(mass[, 3])
+#' N <- 1000
 #'
 #' res <- run_law_model(law = "GravExp",
 #'                      mass_origin = mi, 
@@ -196,12 +195,12 @@
 #'                      distance = distance, 
 #'                      opportunity = NULL, 
 #'                      param = 0.01,
-#'                      model = "DCM", 
-#'                      nb_trips = NULL,
-#'                      out_trips = Oi, 
-#'                      in_trips = Dj,
-#'                      average = FALSE, 
-#'                      nbrep = 3, 
+#'                      model = "UM", 
+#'                      nb_trips = N,
+#'                      out_trips = NULL, 
+#'                      in_trips = NULL,
+#'                      average = TRUE, 
+#'                      nbrep = 2, 
 #'                      maxiter = 50, 
 #'                      mindiff = 0.01,
 #'                      write_proba = FALSE,

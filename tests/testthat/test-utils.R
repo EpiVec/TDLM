@@ -483,7 +483,7 @@ test_that("character", {
              vectors = NULL, 
              matrices = NULL, 
              type = "character_vector"),
-    "test must be a character"
+    "test must be a character."
   )
   
 })

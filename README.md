@@ -14,7 +14,7 @@
 
 The main purpose of the `TDLM` package is to provide a rigorous framework for 
 fairly comparing trip distribution laws and models, as described in 
-[Lenormand *et al.* (2016)](https://www.sciencedirect.com/science/article/abs/pii/S0966692315002422). 
+[Lenormand *et al.* (2016)](https://doi.org/10.1016/j.jtrangeo.2015.12.008). 
 This general framework relies on a two-step approach to generate mobility flows,
 separating the trip distribution law, gravity or intervening opportunities, from
 the modeling approach used to derive flows from this law.

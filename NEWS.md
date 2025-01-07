@@ -1,7 +1,14 @@
-# TDLM 1.0.0.9000
+# TDLM 1.1.0.9000
 
 This is a list of changes made in the development/GitHub version of the package  
-between TDLM 1.0.0 (CRAN release 2023-02-19) and the next CRAN release.
+between TDLM 1.1.0 (CRAN release 2024-01-07) and the next CRAN release.
+
+*
+
+# TDLM 1.1.0
+
+This is a list of changes made between TDLM 1.0.0 (CRAN release 2023-12-19) and  
+TDLM 1.1.0 (CRAN release 2024-01-07).
 
 * Added the function `extract_distances()` to compute distances from 
 geographical coordinates.
