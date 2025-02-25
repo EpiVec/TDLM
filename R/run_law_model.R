@@ -784,6 +784,15 @@ run_law_model <- function(law = "Unif",
     cmd <- paste0("java -jar ", wdjar, "TDLM.jar ", args)
 
     system(cmd)
+    
+    if(!file.exists(paste0(pathtemp, "S_1.csv"))){
+      stop(paste0("The TDLM package depends on Java. It seems that ",
+                  "Java did not run properly or did not produce the expected ",
+                  "outputs. Please ensure that Java is installed and working, ",
+                  "and open an issue at https://github.com/EpiVec/TDLM/issues if ",
+                  "the problem persists."),
+           call. = FALSE)
+    }
 
     for (k in 1:nbrep) {
       mat <- readr::read_delim(paste0(pathtemp, "S_", k, ".csv"),
