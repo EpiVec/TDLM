@@ -1,7 +1,14 @@
-# TDLM 1.1.0.9000
+# TDLM 1.1.1.9000
 
 This is a list of changes made in the development/GitHub version of the package  
-between TDLM 1.1.0 (CRAN release 2025-01-07) and the next CRAN release.
+between TDLM 1.1.1 (CRAN release 2025-03-06) and the next CRAN release.
+
+* 
+
+# TDLM 1.1.1
+
+This is a list of changes made between TDLM 1.1.0 (CRAN release 2025-0107) and  
+TDLM 1.1.1 (CRAN release 2025-03-06).
 
 * Added error messages related to the Java dependency.
 
