@@ -9,6 +9,9 @@
 #' @param id The name or number of the column to use as `rownames` and 
 #' `colnames` for the output distance `matrix` (optional, `NULL` by default). A 
 #' `vector` with a length equal to the number of locations can also be used.
+#' 
+#' @param great_circle A `boolean` indicating whether distances and surface 
+#' areas should be computed using longitude/latitude coordinates (see Details).
 #'
 #' @param show_progress A `boolean` indicating whether a progress bar should be
 #' displayed.
@@ -20,12 +23,14 @@
 #' (in square kilometers).
 #'
 #' @details 
-#' The `geometry` must be projected in a valid coordinate reference
-#' system. It will be reprojected in degrees longitude/latitude to compute the
-#' great-circle distances between centroids of locations using an internal 
-#' function and to compute the surface area using the function 
-#' [st_area][sf::st_area] from the 
-#' [sf](https://cran.r-project.org/package=sf) package.
+#' The `geometry` must be projected in a valid coordinate reference system (CRS). 
+#' By default, if `great_circle = TRUE`, the coordinates will be reprojected in 
+#' degrees longitude/latitude to compute great-circle 
+#' distances between centroids using an internal function, and surface areas 
+#' will be 
+#' calculated using [sf::st_area()]. If `great_circle = FALSE`, the coordinates 
+#' are assumed to be planar (e.g., in meters) and Euclidean distances will 
+#' be used.
 #'
 #' @note 
 #' The outputs are based on the locations contained in `geometry` and
@@ -34,7 +39,7 @@
 
 #'
 #' @seealso 
-#''Associated functions:
+#' Associated functions:
 #' [extract_distances()] [extract_opportunities()]
 #' 
 #' @author
@@ -52,6 +57,7 @@
 #' @export
 extract_spatial_information <- function(geometry,
                                         id = NULL,
+                                        great_circle = FALSE,
                                         show_progress = FALSE) {
   
   # Controls geometry
@@ -136,39 +142,74 @@ extract_spatial_information <- function(geometry,
 
   # Controls show_progress
   controls(args = show_progress, type = "boolean")
-
-  # Project geometry in lon/lat
-  geometry <- sf::st_transform(geometry, 4326)
-
-  # Extract centroids (inspired by sfExtras::st_centroid_coords)
-  lon <- as.numeric(vapply(geometry$geometry,
-    function(x) sf::st_centroid(x)[[1]],
-    FUN.VALUE = double(1)
-  ))
-  lat <- as.numeric(vapply(geometry$geometry,
-    function(x) sf::st_centroid(x)[[2]],
-    FUN.VALUE = double(1)
-  ))
-  lonlat <- cbind(lon, lat)
-
-  # Extract distances
-  if (show_progress) {
-    pb <- utils::txtProgressBar(min = 0, max = dim(lonlat)[1], style = 3)
-    distance <- lapply(1:dim(lonlat)[1], function(k){
-      utils::setTxtProgressBar(pb, k)
-      lonk <- lonlat[k, 1]
-      latk <- lonlat[k, 2]
-      haversine(lonk, latk, lon, lat)
-    })
-    distance <- do.call(rbind, distance)
-    close(pb)
-  } else {
-    distance <- lapply(1:dim(lonlat)[1], function(k){
-      lonk <- lonlat[k, 1]
-      latk <- lonlat[k, 2]
-      haversine(lonk, latk, lon, lat)
-    }) 
-    distance <- do.call(rbind, distance)
+  
+  # Controls great_circle
+  controls(args = great_circle, type = "boolean")
+  
+  # Great circle ?
+  if(great_circle){
+    
+    # Project geometry in lon/lat
+    geometry <- sf::st_transform(geometry, 4326)
+    
+    # Extract centroids (inspired by sfExtras::st_centroid_coords)
+    lon <- as.numeric(vapply(geometry$geometry,
+                             function(x) sf::st_centroid(x)[[1]],
+                             FUN.VALUE = double(1)
+    ))
+    lat <- as.numeric(vapply(geometry$geometry,
+                             function(x) sf::st_centroid(x)[[2]],
+                             FUN.VALUE = double(1)
+    ))
+    lonlat <- cbind(lon, lat)
+    
+    # Extract distances
+    if (show_progress) {
+      
+      pb <- utils::txtProgressBar(min = 0, max = dim(lonlat)[1], style = 3)
+      distance <- lapply(1:dim(lonlat)[1], function(k){
+        utils::setTxtProgressBar(pb, k)
+        lonk <- lonlat[k, 1]
+        latk <- lonlat[k, 2]
+        haversine(lonk, latk, lon, lat)
+      })
+      distance <- do.call(rbind, distance)
+      close(pb)
+      
+    } else {
+      
+      distance <- lapply(1:dim(lonlat)[1], function(k){
+        lonk <- lonlat[k, 1]
+        latk <- lonlat[k, 2]
+        haversine(lonk, latk, lon, lat)
+      }) 
+      distance <- do.call(rbind, distance)
+      
+    }
+    
+  }else{
+    
+    # Extract centroids (inspired by sfExtras::st_centroid_coords)
+    X <- as.numeric(vapply(geometry$geometry,
+                             function(x) sf::st_centroid(x)[[1]],
+                             FUN.VALUE = double(1)
+    ))
+    Y <- as.numeric(vapply(geometry$geometry,
+                             function(x) sf::st_centroid(x)[[2]],
+                             FUN.VALUE = double(1)
+    ))
+    XY <- cbind(X, Y)
+    
+    # Extract distances
+    if (show_progress) {
+      pb <- utils::txtProgressBar(min = 0, max = dim(XY)[1], style = 3)
+      distance <- as.matrix(stats::dist(XY, diag = TRUE, upper = TRUE))
+      close(pb)
+    } else {
+      distance <- as.matrix(stats::dist(XY, diag = TRUE, upper = TRUE))
+    }
+    distance <- distance/1000
+    
   }
 
   # Extract surface area

@@ -4,7 +4,12 @@
 \alias{extract_spatial_information}
 \title{Extract distances and surface areas from a spatial object}
 \usage{
-extract_spatial_information(geometry, id = NULL, show_progress = FALSE)
+extract_spatial_information(
+  geometry,
+  id = NULL,
+  great_circle = FALSE,
+  show_progress = FALSE
+)
 }
 \arguments{
 \item{geometry}{A spatial object that can be handled by the \code{sf} package.}
@@ -12,6 +17,9 @@ extract_spatial_information(geometry, id = NULL, show_progress = FALSE)
 \item{id}{The name or number of the column to use as \code{rownames} and
 \code{colnames} for the output distance \code{matrix} (optional, \code{NULL} by default). A
 \code{vector} with a length equal to the number of locations can also be used.}
+
+\item{great_circle}{A \code{boolean} indicating whether distances and surface
+areas should be computed using longitude/latitude coordinates (see Details).}
 
 \item{show_progress}{A \code{boolean} indicating whether a progress bar should be
 displayed.}
@@ -28,12 +36,14 @@ kilometers) along with a vector of surface areas for the locations (in square
 kilometers).
 }
 \details{
-The \code{geometry} must be projected in a valid coordinate reference
-system. It will be reprojected in degrees longitude/latitude to compute the
-great-circle distances between centroids of locations using an internal
-function and to compute the surface area using the function
-\link[sf:geos_measures]{st_area} from the
-\href{https://cran.r-project.org/package=sf}{sf} package.
+The \code{geometry} must be projected in a valid coordinate reference system (CRS).
+By default, if \code{great_circle = TRUE}, the coordinates will be reprojected in
+degrees longitude/latitude to compute great-circle
+distances between centroids using an internal function, and surface areas
+will be
+calculated using \code{\link[sf:geos_measures]{sf::st_area()}}. If \code{great_circle = FALSE}, the coordinates
+are assumed to be planar (e.g., in meters) and Euclidean distances will
+be used.
 }
 \note{
 The outputs are based on the locations contained in \code{geometry} and
@@ -51,7 +61,7 @@ length(res$surface)
 
 }
 \seealso{
-'Associated functions:
+Associated functions:
 \code{\link[=extract_distances]{extract_distances()}} \code{\link[=extract_opportunities]{extract_opportunities()}}
 }
 \author{

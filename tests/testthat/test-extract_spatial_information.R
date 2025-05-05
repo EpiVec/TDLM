@@ -13,8 +13,19 @@ test_that("valid output", {
   
   res <- extract_spatial_information(county, 
                                      id = "ID", 
+                                     great_circle = TRUE,
                                      show_progress = FALSE)
 
+  expect_identical(class(res), "list")
+  expect_identical(as.numeric(dim(res$distance)), c(105, 105))
+  expect_identical(as.numeric(length(res$surface)), 105)
+  expect_identical(trunc(mean(res$surface)), 2028)
+  
+  res <- extract_spatial_information(county, 
+                                     id = "ID", 
+                                     great_circle = FALSE,
+                                     show_progress = FALSE)
+  
   expect_identical(class(res), "list")
   expect_identical(as.numeric(dim(res$distance)), c(105, 105))
   expect_identical(as.numeric(length(res$surface)), 105)

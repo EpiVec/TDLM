@@ -761,7 +761,7 @@ gofi <- function(sim, obs, distance,
     if ("KS" %in% measures) {
       ks <- Ecume::ks_test(as.vector(distance),
         as.vector(distance),
-        thresh = .001,
+        thresh = 0,
         w_x = as.vector(obs),
         w_y = as.vector(simk)
       )

@@ -3,8 +3,16 @@
 This is a list of changes made in the development/GitHub version of the package  
 between TDLM 1.1.1 (CRAN release 2025-03-06) and the next CRAN release.
 
-* 
+* Added the `great_circle` argument to `extract_spatial_information()` allowing
+the users to use their own projection for computing Euclidean distances 
+(suggested by @PleaseConverge).
 
+* Changed the threshold of `Ecume::ks_test()` used 
+[here](https://github.com/EpiVec/TDLM/blob/master/R/utils.R#L764) 
+from 0.001 to 0 to match 
+the standard definition of the Kolmogorov–Smirnov test (suggested by 
+@PleaseConverge).
+  
 # TDLM 1.1.1
 
 This is a list of changes made between TDLM 1.1.0 (CRAN release 2025-0107) and  
