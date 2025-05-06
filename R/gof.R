@@ -43,9 +43,9 @@
 #' Commuters based on the distance (CPC_d), as described in [Lenormand 
 #' \emph{et al.} (2016)](http://arxiv.org/abs/1506.04889). It also includes 
 #' classical metrics such as the 
-#' [Normalized Root Mean Square Error](https://epivec.github.io/TDLM/articles/TDLM.html#normalized-root-mean-square-error-nrmse) 
+#' [Normalized Root Mean Square Error](https://rtdlm.github.io/TDLM/articles/TDLM.html#normalized-root-mean-square-error-nrmse) 
 #' (NRMSE), the 
-#' [Kullback–Leibler divergence](https://epivec.github.io/TDLM/articles/TDLM.html#kullbackleibler-divergence-ks) 
+#' [Kullback–Leibler divergence](https://rtdlm.github.io/TDLM/articles/TDLM.html#kullbackleibler-divergence-ks) 
 #' (KL), and the Kolmogorov-Smirnov statistic and 
 #' p-value (KS). These measures are based on the observed and simulated flow 
 #' distance distributions and are computed using the [ks_test][Ecume::ks_test] 
@@ -75,7 +75,7 @@
 #' @seealso
 #' For more details illustrated with a practical example, 
 #' see the vignette: 
-#' \url{https://epivec.github.io/TDLM/articles/TDLM.html#goodness-of-fit-measures}.
+#' \url{https://rtdlm.github.io/TDLM/articles/TDLM.html#goodness-of-fit-measures}.
 #' 
 #' Associated functions: 
 #' [run_law()], [run_model()], [run_law_model()].

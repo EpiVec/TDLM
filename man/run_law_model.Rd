@@ -228,7 +228,7 @@ Reports} 4, 5662.
 \seealso{
 For more details illustrated with a practical example,
 see the vignette:
-\url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+\url{https://rtdlm.github.io/TDLM/articles/TDLM.html#run-functions}.
 
 Associated functions:
 \code{\link[=run_law]{run_law()}}, \code{\link[=run_model]{run_model()}}, \code{\link[=gof]{gof()}}.

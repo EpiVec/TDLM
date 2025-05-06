@@ -161,7 +161,7 @@ extract_opportunities <- function(opportunity,
     stop(paste0("The TDLM package depends on Java. It seems that ",
                 "Java did not run properly or did not produce the expected ",
                 "outputs. Please ensure that Java is installed and working, ",
-                "and open an issue at https://github.com/EpiVec/TDLM/issues if ",
+                "and open an issue at https://github.com/RTDLM/TDLM/issues if ",
                 "the problem persists."),
          call. = FALSE)
   }

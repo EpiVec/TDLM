@@ -1,8 +1,14 @@
-# TDLM 1.1.1.9000
+# TDLM 1.1.2.9000
 
 This is a list of changes made in the development/GitHub version of the package  
-between TDLM 1.1.1 (CRAN release 2025-03-06) and the next CRAN release.
+between TDLM 1.1.2 (CRAN release 2025-05-06) and the next CRAN release.
 
+* 
+
+# TDLM 1.1.2
+
+This is a list of changes made between TDLM 1.1.2 (CRAN release 2025-03-06) and  
+TDLM 1.1.2 (CRAN release 2025-05-06).
 
 * Renamed the organization to `RTDLM`.
 
@@ -11,7 +17,7 @@ the users to use their own projection for computing Euclidean distances
 (suggested by @PleaseConverge).
 
 * Changed the threshold of `Ecume::ks_test()` used 
-[here](https://github.com/EpiVec/TDLM/blob/master/R/utils.R#L764) 
+[here](https://github.com/RTDLM/TDLM/blob/master/R/utils.R#L764) 
 from 0.001 to 0 to match 
 the standard definition of the Kolmogorov–Smirnov test (suggested by 
 @PleaseConverge).

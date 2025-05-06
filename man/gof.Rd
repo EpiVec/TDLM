@@ -58,9 +58,9 @@ Several goodness-of-fit measures are considered, such as the Common Part
 of Commuters (CPC), the Common Part of Links (CPL), and the Common Part of
 Commuters based on the distance (CPC_d), as described in \href{http://arxiv.org/abs/1506.04889}{Lenormand \emph{et al.} (2016)}. It also includes
 classical metrics such as the
-\href{https://epivec.github.io/TDLM/articles/TDLM.html#normalized-root-mean-square-error-nrmse}{Normalized Root Mean Square Error}
+\href{https://rtdlm.github.io/TDLM/articles/TDLM.html#normalized-root-mean-square-error-nrmse}{Normalized Root Mean Square Error}
 (NRMSE), the
-\href{https://epivec.github.io/TDLM/articles/TDLM.html#kullbackleibler-divergence-ks}{Kullback–Leibler divergence}
+\href{https://rtdlm.github.io/TDLM/articles/TDLM.html#kullbackleibler-divergence-ks}{Kullback–Leibler divergence}
 (KL), and the Kolmogorov-Smirnov statistic and
 p-value (KS). These measures are based on the observed and simulated flow
 distance distributions and are computed using the \link[Ecume:ks_test]{ks_test}
@@ -126,7 +126,7 @@ distribution laws and models. \emph{Journal of Transport Geography} 51,
 \seealso{
 For more details illustrated with a practical example,
 see the vignette:
-\url{https://epivec.github.io/TDLM/articles/TDLM.html#goodness-of-fit-measures}.
+\url{https://rtdlm.github.io/TDLM/articles/TDLM.html#goodness-of-fit-measures}.
 
 Associated functions:
 \code{\link[=run_law]{run_law()}}, \code{\link[=run_model]{run_model()}}, \code{\link[=run_law_model]{run_law_model()}}.

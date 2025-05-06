@@ -1,4 +1,4 @@
-url: https://epivec.github.io/TDLM/
+url: https://rtdlm.github.io/TDLM/
 
 template:
   bootstrap: 5
@@ -36,13 +36,15 @@ reference:
   
 news:
   releases:
+  - text: "Version 1.1.2"
+    href: https://github.com/RTDLM/TDLM/releases/tag/v1.1.2  
   - text: "Version 1.1.1"
-    href: https://github.com/EpiVec/TDLM/releases/tag/v1.1.1  
+    href: https://github.com/RTDLM/TDLM/releases/tag/v1.1.1  
   - text: "Version 1.1.0"
-    href: https://github.com/EpiVec/TDLM/releases/tag/v1.1.0  
+    href: https://github.com/RTDLM/TDLM/releases/tag/v1.1.0  
   - text: "Version 1.0.0"
-    href: https://github.com/EpiVec/TDLM/releases/tag/v1.0.0
+    href: https://github.com/RTDLM/TDLM/releases/tag/v1.0.0
   - text: "Version 0.1.0"
-    href: https://github.com/EpiVec/TDLM/releases/tag/v0.1.0
+    href: https://github.com/RTDLM/TDLM/releases/tag/v0.1.0
   cran_dates: false  
     

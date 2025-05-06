@@ -140,7 +140,7 @@ distribution laws and models. \emph{Journal of Transport Geography} 51,
 \seealso{
 For more details illustrated with a practical example,
 see the vignette:
-\url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+\url{https://rtdlm.github.io/TDLM/articles/TDLM.html#run-functions}.
 
 Associated functions:
 \code{\link[=run_law_model]{run_law_model()}}, \code{\link[=run_law]{run_law()}}, \code{\link[=gof]{gof()}}.

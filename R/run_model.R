@@ -101,7 +101,7 @@
 #' @seealso 
 #' For more details illustrated with a practical example, 
 #' see the vignette: 
-#' \url{https://epivec.github.io/TDLM/articles/TDLM.html#run-functions}.
+#' \url{https://rtdlm.github.io/TDLM/articles/TDLM.html#run-functions}.
 #' 
 #' Associated functions: 
 #' [run_law_model()], [run_law()], [gof()]. 
@@ -363,7 +363,7 @@ run_model <- function(proba,
     stop(paste0("The TDLM package depends on Java. It seems that ",
                 "Java did not run properly or did not produce the expected ",
                 "outputs. Please ensure that Java is installed and working, ",
-                "and open an issue at https://github.com/EpiVec/TDLM/issues if ",
+                "and open an issue at https://github.com/RTDLM/TDLM/issues if ",
                 "the problem persists."),
          call. = FALSE)
   }
