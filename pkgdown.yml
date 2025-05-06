@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   TDLM: TDLM.html
-last_built: 2025-05-06T11:14Z
+last_built: 2025-05-06T11:17Z
 urls:
   reference: https://rtdlm.github.io/TDLM/reference
   article: https://rtdlm.github.io/TDLM/articles
