@@ -3,6 +3,9 @@
 This is a list of changes made in the development/GitHub version of the package  
 between TDLM 1.1.1 (CRAN release 2025-03-06) and the next CRAN release.
 
+
+* Renamed the organization to `RTDLM`.
+
 * Added the `great_circle` argument to `extract_spatial_information()` allowing
 the users to use their own projection for computing Euclidean distances 
 (suggested by @PleaseConverge).

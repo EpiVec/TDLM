@@ -30,7 +30,7 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
-BugReports: https://github.com/EpiVec/TDLM/issues
+BugReports: https://github.com/RTDLM/TDLM/issues
 Roxygen: list(markdown = TRUE)
-URL: https://epivec.github.io/TDLM/
+URL: https://rtdlm.github.io/TDLM/
 Config/testthat/edition: 3

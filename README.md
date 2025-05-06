@@ -3,8 +3,8 @@
 # Systematic comparison of trip distribution laws and models 
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/EpiVec/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/EpiVec/TDLM/actions)
-[![Codecov test coverage](https://codecov.io/gh/EpiVec/TDLM/branch/master/graph/badge.svg)](https://app.codecov.io/gh/EpiVec/TDLM?branch=master)
+[![R-CMD-check](https://github.com/RTDLM/TDLM/workflows/R-CMD-check/badge.svg)](https://github.com/RTDLM/TDLM/actions)
+[![Codecov test coverage](https://codecov.io/gh/RTDLM/TDLM/branch/master/graph/badge.svg)](https://app.codecov.io/gh/RTDLM/TDLM?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/TDLM)](https://cran.r-project.org/package=TDLM)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/TDLM)](https://r-pkg.org:443/pkg/TDLM)  
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.05434/status.svg)](https://doi.org/10.21105/joss.05434)  
@@ -34,12 +34,12 @@ or from GitHub
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("EpiVec/TDLM", build_vignettes = TRUE)
+devtools::install_github("RTDLM/TDLM", build_vignettes = TRUE)
 ```
 
 ## 3 Tutorial
 
-A tutorial vignette is available [here](https://epivec.github.io/TDLM/articles/TDLM.html).
+A tutorial vignette is available [here](https://rtdlm.github.io/TDLM/articles/TDLM.html).
 
 ## 4 Dependencies
 
