@@ -29,7 +29,7 @@
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/EpiVec/TDLM/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/RTDLM/TDLM/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -38,14 +38,15 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/EpiVec/TDLM/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/RTDLM/TDLM/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1.9000" id="tdlm-1119000">TDLM 1.1.1.9000<a class="anchor" aria-label="anchor" href="#tdlm-1119000"></a></h2>
 <p>This is a list of changes made in the development/GitHub version of the package<br>
 between TDLM 1.1.1 (CRAN release 2025-03-06) and the next CRAN release.</p>
-<ul><li><p>Added the <code>great_circle</code> argument to <code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> allowing the users to use their own projection for computing Euclidean distances (suggested by <a href="https://github.com/PleaseConverge" class="external-link">@PleaseConverge</a>).</p></li>
+<ul><li><p>Renamed the organization to <code>RTDLM</code>.</p></li>
+<li><p>Added the <code>great_circle</code> argument to <code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> allowing the users to use their own projection for computing Euclidean distances (suggested by <a href="https://github.com/PleaseConverge" class="external-link">@PleaseConverge</a>).</p></li>
 <li><p>Changed the threshold of <code><a href="https://rdrr.io/pkg/Ecume/man/ks_test.html" class="external-link">Ecume::ks_test()</a></code> used <a href="https://github.com/EpiVec/TDLM/blob/master/R/utils.R#L764" class="external-link">here</a> from 0.001 to 0 to match the standard definition of the Kolmogorov–Smirnov test (suggested by <a href="https://github.com/PleaseConverge" class="external-link">@PleaseConverge</a>).</p></li>
 </ul></div>
     <div class="section level2">
@@ -67,7 +68,7 @@ TDLM 1.1.0 (CRAN release 2025-01-07).</p>
 <p>This is a list of changes made between TDLM 0.1.0 (CRAN release 2023-03-18) and<br>
 TDLM 1.0.0 (CRAN release 2023-12-19).</p>
 <ul><li><p>Added automated tests (<code>testthat</code> + <code>covr</code>).</p></li>
-<li><p>Fixed a bug in <code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> (reported by <a href="https://github.com/Pachka" class="external-link">@Pachka</a>, <a href="https://github.com/EpiVec/TDLM/issues/1" class="external-link">#1</a>).</p></li>
+<li><p>Fixed a bug in <code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> (reported by <a href="https://github.com/Pachka" class="external-link">@Pachka</a>, <a href="https://github.com/RTDLM/TDLM/issues/1" class="external-link">#1</a>).</p></li>
 <li><p>Optimized <code><a href="../reference/extract_spatial_information.html">extract_spatial_information()</a></code> for significantly improved performance in distance computation (idea proposed by <a href="https://github.com/Pachka" class="external-link">@Pachka</a>).</p></li>
 <li><p>Updated the method for identifying the package folder path in <code><a href="../reference/extract_opportunities.html">extract_opportunities()</a></code>, <code><a href="../reference/run_law_model.html">run_law_model()</a></code>, <code><a href="../reference/run_law.html">run_law()</a></code>, and <code><a href="../reference/run_model.html">run_model()</a></code> (issue identified by <a href="https://github.com/Pachka" class="external-link">@Pachka</a>).</p></li>
 </ul></div>

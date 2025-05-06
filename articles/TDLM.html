@@ -53,7 +53,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/EpiVec/TDLM/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/RTDLM/TDLM/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -70,9 +70,9 @@
                         <h4 data-toc-skip class="author">Maxime
 Lenormand</h4>
             
-            <h4 data-toc-skip class="date">2025-05-05</h4>
+            <h4 data-toc-skip class="date">2025-05-06</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/EpiVec/TDLM/blob/master/vignettes/TDLM.Rmd" class="external-link"><code>vignettes/TDLM.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/RTDLM/TDLM/blob/master/vignettes/TDLM.Rmd" class="external-link"><code>vignettes/TDLM.Rmd</code></a></small>
       <div class="d-none name"><code>TDLM.Rmd</code></div>
     </div>
 
@@ -336,7 +336,7 @@ function from the <a href="https://cran.r-project.org/package=Ecume" class="exte
 illustrate<br>
 the main functions of the package. The dataset comprises three tables
 providing information on commuting flows between the 105 US Kansas
-counties in 2000. The observed OD matrix <a href="https://epivec.github.io/TDLM/reference/od.html">od</a> is a
+counties in 2000. The observed OD matrix <a href="https://rtdlm.github.io/TDLM/reference/od.html" class="external-link">od</a> is a
 zero-diagonal square matrix of integers. Each element of the matrix
 represents the number of commuters between a pair of US Kansas
 counties.</p>
@@ -353,7 +353,7 @@ counties.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">od</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 105 105</span></span></code></pre>
-<p>The aggregated data are composed of the <a href="https://epivec.github.io/TDLM/reference/distance.html">distance</a>
+<p>The aggregated data are composed of the <a href="https://rtdlm.github.io/TDLM/reference/distance.html" class="external-link">distance</a>
 matrix,</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span>
@@ -368,7 +368,7 @@ matrix,</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 105 105</span></span></code></pre>
-<p>and the masses and margins contained in the data.frame <a href="https://epivec.github.io/TDLM/reference/mass.html">mass</a>.</p>
+<p>and the masses and margins contained in the data.frame <a href="https://rtdlm.github.io/TDLM/reference/mass.html" class="external-link">mass</a>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span>
 <span></span>
@@ -400,7 +400,7 @@ matrix,</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Dj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span></code></pre></div>
 <p>The data must always be based on the same number of locations sorted
 in the same<br>
-order. The function <a href="https://epivec.github.io/TDLM/reference/check_format_names.html">check_format_names</a>
+order. The function <a href="https://rtdlm.github.io/TDLM/reference/check_format_names.html" class="external-link">check_format_names</a>
 can be used to verify the validity of all inputs before running the main
 functions of the package.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -408,7 +408,7 @@ functions of the package.</p>
 <span>                   matrices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>od <span class="op">=</span> <span class="va">od</span>, distance <span class="op">=</span> <span class="va">distance</span><span class="op">)</span>,</span>
 <span>                   check <span class="op">=</span> <span class="st">"format_and_names"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## The inputs passed the format_and_names checks successfully!</span></span></code></pre>
-<p>Optional spatial information are also provided here. <a href="https://epivec.github.io/TDLM/reference/county.html">county</a> is
+<p>Optional spatial information are also provided here. <a href="https://rtdlm.github.io/TDLM/reference/county.html" class="external-link">county</a> is
 a spatial object containing the geometry of the 105 US Kansas counties
 in 2000.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -436,8 +436,8 @@ in 2000.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">county</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TDLM_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
-<p><a href="https://epivec.github.io/TDLM/reference/coords.html">coords</a>
-and <a href="https://epivec.github.io/TDLM/reference/coords_xy.html">coords_xy</a>
+<p><a href="https://rtdlm.github.io/TDLM/reference/coords.html" class="external-link">coords</a> and
+<a href="https://rtdlm.github.io/TDLM/reference/coords_xy.html" class="external-link">coords_xy</a>
 are two dataframes providing longitude/latitude and X/Y coordinates for
 each location, respectively.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -470,9 +470,9 @@ each location, respectively.</p>
 <div class="section level3">
 <h3 id="extract-additional-spatial-information">Extract Additional Spatial Information<a class="anchor" aria-label="anchor" href="#extract-additional-spatial-information"></a>
 </h3>
-<p>The functions <a href="https://epivec.github.io/TDLM/reference/extract_distances.html">extract_distances</a>,
-<a href="https://epivec.github.io/TDLM/reference/check_format_names.html">extract_opportunities</a>,
-and <a href="https://epivec.github.io/TDLM/reference/extract_spatial_information.html">extract_spatial_information</a><br>
+<p>The functions <a href="https://rtdlm.github.io/TDLM/reference/extract_distances.html" class="external-link">extract_distances</a>,
+<a href="https://rtdlm.github.io/TDLM/reference/check_format_names.html" class="external-link">extract_opportunities</a>,
+and <a href="https://rtdlm.github.io/TDLM/reference/extract_spatial_information.html" class="external-link">extract_spatial_information</a><br>
 can be used to extract matrices of distances and the number of
 intervening opportunities.</p>
 <p>The first function computes distances in kilometers between pairs of
@@ -571,7 +571,7 @@ laws’ parameter value (see below).</p>
 <div class="section level3">
 <h3 id="run-functions">Run functions<a class="anchor" aria-label="anchor" href="#run-functions"></a>
 </h3>
-<p>The main function of the package is <a href="https://epivec.github.io/TDLM/reference/run_law_model.html">run_law_model</a>.
+<p>The main function of the package is <a href="https://rtdlm.github.io/TDLM/reference/run_law_model.html" class="external-link">run_law_model</a>.
 The function has two sets of arguments, one for the law and another one
 for the model. The inputs (described above) necessary to run this
 function depends on the law (either the matrix of distances or number of
@@ -617,11 +617,11 @@ contain a table <code>info</code> summarizing the simulation run.</p>
 <span><span class="co">##  $ info         :'data.frame':   5 obs. of  2 variables:</span></span>
 <span><span class="co">##   ..$ Argument: chr [1:5] "Law" "Model" "#Replications" "#Parameters" ...</span></span>
 <span><span class="co">##   ..$ Value   : chr [1:5] "NGravExp" "DCM" "3" "1" ...</span></span>
-<span><span class="co">##  $ replication_1: num [1:105, 1:105] 0 23 4 0 2 16 5 103 5 6 ...</span></span>
+<span><span class="co">##  $ replication_1: num [1:105, 1:105] 0 24 4 0 2 15 4 105 5 6 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##  $ replication_2: num [1:105, 1:105] 0 24 5 0 2 15 4 104 6 6 ...</span></span>
+<span><span class="co">##  $ replication_2: num [1:105, 1:105] 0 26 4 0 2 16 4 105 6 6 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##  $ replication_3: num [1:105, 1:105] 0 24 4 0 2 16 5 105 5 6 ...</span></span>
+<span><span class="co">##  $ replication_3: num [1:105, 1:105] 0 24 4 0 2 15 4 102 5 6 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##  $ proba        : num [1:105, 1:105] 0.00 4.31e-05 2.16e-05 3.90e-06 1.81e-05 ...</span></span>
 <span><span class="co">##   ..- attr(*, "dimnames")=List of 2</span></span>
@@ -664,20 +664,20 @@ each parameter value).</p>
 <span><span class="co">##   ..$ Argument: chr [1:6] "Law" "Model" "#Replications" "#Parameters" ...</span></span>
 <span><span class="co">##   ..$ Value   : chr [1:6] "NGravExp" "DCM" "3" "2" ...</span></span>
 <span><span class="co">##  $ parameter_1:List of 4</span></span>
-<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 25 4 0 2 15 4 104 5 6 ...</span></span>
+<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 24 4 1 2 15 4 103 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 23 4 0 2 15 4 104 5 6 ...</span></span>
+<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 24 4 0 2 15 4 105 5 6 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 23 4 0 2 15 4 103 5 6 ...</span></span>
+<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 23 4 0 2 15 4 105 5 6 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##   ..$ proba        : num [1:105, 1:105] 0.00 4.31e-05 2.16e-05 3.90e-06 1.81e-05 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##  $ parameter_2:List of 4</span></span>
-<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 54 2 0 0 38 1 77 5 7 ...</span></span>
+<span><span class="co">##   ..$ replication_1: num [1:105, 1:105] 0 53 2 0 0 39 1 77 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 53 2 0 0 40 1 78 5 7 ...</span></span>
+<span><span class="co">##   ..$ replication_2: num [1:105, 1:105] 0 53 2 0 0 38 1 78 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 53 2 0 0 38 1 77 5 8 ...</span></span>
+<span><span class="co">##   ..$ replication_3: num [1:105, 1:105] 0 56 2 0 0 38 1 76 5 7 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">##   ..$ proba        : num [1:105, 1:105] 0.00 8.13e-05 8.17e-06 7.10e-07 3.16e-06 ...</span></span>
 <span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
@@ -715,15 +715,15 @@ case) will be a matrix of positive real numbers.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span><span class="op">$</span><span class="va">replication_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
-<span><span class="co">##  [1,]    0   34    0    0    0  120    0    1    0     0</span></span>
-<span><span class="co">##  [2,]  576    0    0    0    0   22    0    0    0     0</span></span>
-<span><span class="co">##  [3,]    0    0    0    0    0    0  197    0    0     0</span></span>
+<span><span class="co">##  [1,]    0   32    0    0    0  120    0    1    0     0</span></span>
+<span><span class="co">##  [2,]  566    0    0    0    0   22    0    0    0     0</span></span>
+<span><span class="co">##  [3,]    0    0    0    0    0    0  199    0    0     0</span></span>
 <span><span class="co">##  [4,]    0    0    0    0    0    0    0    0    0     0</span></span>
 <span><span class="co">##  [5,]    0    0    0    1    0    0    0    3    0     0</span></span>
-<span><span class="co">##  [6,]   17    2    0    0    0    0    0    0    0     0</span></span>
+<span><span class="co">##  [6,]   18    2    0    0    0    0    0    0    0     0</span></span>
 <span><span class="co">##  [7,]    0    0  201    0    0    0    0    0    0     0</span></span>
 <span><span class="co">##  [8,]    4    1    1    1   10    5    1    0    0     1</span></span>
-<span><span class="co">##  [9,]    0    0    0    0    0    0    0   40    0     0</span></span>
+<span><span class="co">##  [9,]    0    0    0    0    0    0    0   39    0     0</span></span>
 <span><span class="co">## [10,]    0    0    0    0    0    0    0   13    0     0</span></span></code></pre>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_law_model.html">run_law_model</a></span><span class="op">(</span>law <span class="op">=</span> <span class="st">"Rad"</span>, </span>
@@ -770,26 +770,26 @@ case) will be a matrix of positive real numbers.</p>
 <span><span class="co">##  [8,] 5.040588e+00 1.982879e+00  0.002650424 0.7993806174 1.0370497229</span></span>
 <span><span class="co">##  [9,] 2.296625e-02 1.230871e-02 39.049317001 0.0005691793 0.0015470504</span></span>
 <span><span class="co">## [10,] 6.732294e-02 1.102089e-02 13.987963900 0.0025478503 0.0002716179</span></span></code></pre>
-<p>The functions <a href="https://epivec.github.io/TDLM/reference/run_law.html">run_law</a>
-and <a href="https://epivec.github.io/TDLM/reference/run_model.html">run_model</a>
+<p>The functions <a href="https://rtdlm.github.io/TDLM/reference/run_law.html" class="external-link">run_law</a>
+and <a href="https://rtdlm.github.io/TDLM/reference/run_model.html" class="external-link">run_model</a>
 have been designed to run only one of the two components of the two-step
-approach. They function the same as a <a href="https://epivec.github.io/TDLM/reference/run_law_model.html">run_law_model</a>,
+approach. They function the same as a <a href="https://rtdlm.github.io/TDLM/reference/run_law_model.html" class="external-link">run_law_model</a>,
 but it is worth noting that only inter-location flows are considered for
 the distribution laws, meaning that the matrix of probabilities (and
 associated simulated OD matrices) generated by a given distribution law
-with <a href="https://epivec.github.io/TDLM/reference/run_law_model.html">run_law_model</a>
-or <a href="https://epivec.github.io/TDLM/reference/run_law.html">run_law</a>
+with <a href="https://rtdlm.github.io/TDLM/reference/run_law_model.html" class="external-link">run_law_model</a>
+or <a href="https://rtdlm.github.io/TDLM/reference/run_law.html" class="external-link">run_law</a>
 is a zero-diagonal matrix. Nevertheless, it is possible to generate
-intra-location flows with <a href="https://epivec.github.io/TDLM/reference/run_model.html">run_model</a>
+intra-location flows with <a href="https://rtdlm.github.io/TDLM/reference/run_model.html" class="external-link">run_model</a>
 taking any kind of matrix of probabilities as input.</p>
 </div>
 <div class="section level3">
 <h3 id="parameters-calibration-models-evaluation">Parameters’ calibration &amp; models’ evaluation<a class="anchor" aria-label="anchor" href="#parameters-calibration-models-evaluation"></a>
 </h3>
 <p>The package contains two function to help calibrating and evaluating
-the model. The function <a href="https://epivec.github.io/TDLM/reference/gof.html">gof</a> computes
+the model. The function <a href="https://rtdlm.github.io/TDLM/reference/gof.html" class="external-link">gof</a> computes
 goodness-of-fit measures between observed and simulated OD matrices and
-the function <a href="https://epivec.github.io/TDLM/reference/calib_param.html">calib_param</a>
+the function <a href="https://rtdlm.github.io/TDLM/reference/calib_param.html" class="external-link">calib_param</a>
 that estimates the optimal parameter value for a given law and a given
 spatial distribution of location based on the Figure 8 in <span class="citation">(Lenormand <em>et al.</em>, 2016)</span>.</p>
 <p>Let us illustrate the trip distribution laws and models’ calibration
@@ -826,73 +826,73 @@ goodness-of-fit measure for a wide range of parameter values.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">calib</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       Parameter Parameter_value    Simulation       CPC     NRMSE         KL</span></span>
-<span><span class="co">## 1   parameter_1            0.05 replication_1 0.8163786 10.506334 0.12959589</span></span>
-<span><span class="co">## 2   parameter_1            0.05 replication_2 0.8165034 10.510550 0.12948446</span></span>
-<span><span class="co">## 3   parameter_1            0.05 replication_3 0.8163337 10.498985 0.12967025</span></span>
-<span><span class="co">## 4   parameter_2           0.055 replication_1 0.8317619  9.400138 0.11352553</span></span>
-<span><span class="co">## 5   parameter_2           0.055 replication_2 0.8316072  9.419131 0.11319080</span></span>
-<span><span class="co">## 6   parameter_2           0.055 replication_3 0.8316122  9.421604 0.11328522</span></span>
-<span><span class="co">## 7   parameter_3            0.06 replication_1 0.8438958  8.652907 0.09821787</span></span>
-<span><span class="co">## 8   parameter_3            0.06 replication_2 0.8441254  8.631445 0.09800527</span></span>
-<span><span class="co">## 9   parameter_3            0.06 replication_3 0.8441304  8.625002 0.09796417</span></span>
-<span><span class="co">## 10  parameter_4           0.065 replication_1 0.8519668  8.171437 0.08799202</span></span>
-<span><span class="co">## 11  parameter_4           0.065 replication_2 0.8520816  8.164006 0.08777108</span></span>
-<span><span class="co">## 12  parameter_4           0.065 replication_3 0.8521415  8.174424 0.08806166</span></span>
-<span><span class="co">## 13  parameter_5            0.07 replication_1 0.8551912  7.960820 0.08028067</span></span>
-<span><span class="co">## 14  parameter_5            0.07 replication_2 0.8553060  7.964459 0.08026958</span></span>
-<span><span class="co">## 15  parameter_5            0.07 replication_3 0.8553310  7.957509 0.08016854</span></span>
-<span><span class="co">## 16  parameter_6           0.075 replication_1 0.8556704  7.952719 0.07954942</span></span>
-<span><span class="co">## 17  parameter_6           0.075 replication_2 0.8555806  7.962511 0.07928927</span></span>
-<span><span class="co">## 18  parameter_6           0.075 replication_3 0.8557253  7.954575 0.07916219</span></span>
-<span><span class="co">## 19  parameter_7            0.08 replication_1 0.8549966  8.120059 0.07456592</span></span>
-<span><span class="co">## 20  parameter_7            0.08 replication_2 0.8551313  8.102435 0.07430036</span></span>
-<span><span class="co">## 21  parameter_7            0.08 replication_3 0.8551064  8.117285 0.07433799</span></span>
-<span><span class="co">## 22  parameter_8           0.085 replication_1 0.8529751  8.392804 0.07382928</span></span>
-<span><span class="co">## 23  parameter_8           0.085 replication_2 0.8530899  8.371318 0.07372981</span></span>
-<span><span class="co">## 24  parameter_8           0.085 replication_3 0.8530949  8.378601 0.07370104</span></span>
-<span><span class="co">## 25  parameter_9            0.09 replication_1 0.8498056  8.716578 0.07529957</span></span>
-<span><span class="co">## 26  parameter_9            0.09 replication_2 0.8499553  8.706906 0.07521192</span></span>
-<span><span class="co">## 27  parameter_9            0.09 replication_3 0.8498705  8.716180 0.07526508</span></span>
-<span><span class="co">## 28 parameter_10           0.095 replication_1 0.8463815  9.090134 0.08095543</span></span>
-<span><span class="co">## 29 parameter_10           0.095 replication_2 0.8463017  9.087384 0.08112540</span></span>
-<span><span class="co">## 30 parameter_10           0.095 replication_3 0.8462617  9.104245 0.08110074</span></span>
-<span><span class="co">## 31 parameter_11             0.1 replication_1 0.8424134  9.474920 0.08345803</span></span>
-<span><span class="co">## 32 parameter_11             0.1 replication_2 0.8423186  9.490023 0.08326501</span></span>
-<span><span class="co">## 33 parameter_11             0.1 replication_3 0.8423485  9.483437 0.08345601</span></span>
+<span><span class="co">## 1   parameter_1            0.05 replication_1 0.8163187 10.518782 0.12942664</span></span>
+<span><span class="co">## 2   parameter_1            0.05 replication_2 0.8163187 10.529744 0.12954962</span></span>
+<span><span class="co">## 3   parameter_1            0.05 replication_3 0.8163486 10.526495 0.12958769</span></span>
+<span><span class="co">## 4   parameter_2           0.055 replication_1 0.8317120  9.410106 0.11326469</span></span>
+<span><span class="co">## 5   parameter_2           0.055 replication_2 0.8315273  9.412504 0.11345090</span></span>
+<span><span class="co">## 6   parameter_2           0.055 replication_3 0.8316521  9.414449 0.11320562</span></span>
+<span><span class="co">## 7   parameter_3            0.06 replication_1 0.8441254  8.639775 0.09820489</span></span>
+<span><span class="co">## 8   parameter_3            0.06 replication_2 0.8441155  8.636333 0.09808524</span></span>
+<span><span class="co">## 9   parameter_3            0.06 replication_3 0.8439308  8.645869 0.09878707</span></span>
+<span><span class="co">## 10  parameter_4           0.065 replication_1 0.8520766  8.163423 0.08785126</span></span>
+<span><span class="co">## 11  parameter_4           0.065 replication_2 0.8521216  8.165449 0.08802605</span></span>
+<span><span class="co">## 12  parameter_4           0.065 replication_3 0.8520018  8.174431 0.08789122</span></span>
+<span><span class="co">## 13  parameter_5            0.07 replication_1 0.8553859  7.952930 0.08017319</span></span>
+<span><span class="co">## 14  parameter_5            0.07 replication_2 0.8551463  7.965915 0.08041663</span></span>
+<span><span class="co">## 15  parameter_5            0.07 replication_3 0.8553360  7.961317 0.08025515</span></span>
+<span><span class="co">## 16  parameter_6           0.075 replication_1 0.8555756  7.970646 0.07929563</span></span>
+<span><span class="co">## 17  parameter_6           0.075 replication_2 0.8555307  7.959475 0.07931576</span></span>
+<span><span class="co">## 18  parameter_6           0.075 replication_3 0.8555906  7.962250 0.07926034</span></span>
+<span><span class="co">## 19  parameter_7            0.08 replication_1 0.8550565  8.127074 0.07436270</span></span>
+<span><span class="co">## 20  parameter_7            0.08 replication_2 0.8551313  8.112421 0.07418799</span></span>
+<span><span class="co">## 21  parameter_7            0.08 replication_3 0.8550914  8.111338 0.07421519</span></span>
+<span><span class="co">## 22  parameter_8           0.085 replication_1 0.8530749  8.381344 0.07371564</span></span>
+<span><span class="co">## 23  parameter_8           0.085 replication_2 0.8532346  8.370075 0.07375647</span></span>
+<span><span class="co">## 24  parameter_8           0.085 replication_3 0.8530400  8.381253 0.07393051</span></span>
+<span><span class="co">## 25  parameter_9            0.09 replication_1 0.8499004  8.712252 0.07518139</span></span>
+<span><span class="co">## 26  parameter_9            0.09 replication_2 0.8498505  8.704890 0.07529662</span></span>
+<span><span class="co">## 27  parameter_9            0.09 replication_3 0.8498854  8.707349 0.07520623</span></span>
+<span><span class="co">## 28 parameter_10           0.095 replication_1 0.8464514  9.085914 0.08089806</span></span>
+<span><span class="co">## 29 parameter_10           0.095 replication_2 0.8463266  9.093104 0.08091724</span></span>
+<span><span class="co">## 30 parameter_10           0.095 replication_3 0.8465063  9.081169 0.08091359</span></span>
+<span><span class="co">## 31 parameter_11             0.1 replication_1 0.8423685  9.480635 0.08343605</span></span>
+<span><span class="co">## 32 parameter_11             0.1 replication_2 0.8423635  9.484798 0.08339328</span></span>
+<span><span class="co">## 33 parameter_11             0.1 replication_3 0.8424384  9.473747 0.08347923</span></span>
 <span><span class="co">##          CPL     CPC_d    KS_stat   KS_pval</span></span>
-<span><span class="co">## 1  0.6590965 0.8954314 0.07394171 0.9998142</span></span>
-<span><span class="co">## 2  0.6592593 0.8953166 0.07407648 0.9998070</span></span>
-<span><span class="co">## 3  0.6595955 0.8953166 0.07412639 0.9998047</span></span>
-<span><span class="co">## 4  0.6716883 0.9156713 0.05089170 1.0000000</span></span>
-<span><span class="co">## 5  0.6715215 0.9155914 0.05091666 1.0000000</span></span>
-<span><span class="co">## 6  0.6713432 0.9155615 0.05099153 1.0000000</span></span>
-<span><span class="co">## 7  0.6718877 0.9316536 0.03124579 1.0000000</span></span>
-<span><span class="co">## 8  0.6722507 0.9318083 0.03122582 1.0000000</span></span>
-<span><span class="co">## 9  0.6720692 0.9317235 0.03125078 1.0000000</span></span>
-<span><span class="co">## 10 0.6726710 0.9430788 0.03475470 1.0000000</span></span>
-<span><span class="co">## 11 0.6724866 0.9431337 0.03475470 1.0000000</span></span>
-<span><span class="co">## 12 0.6728604 0.9430837 0.03474971 1.0000000</span></span>
-<span><span class="co">## 13 0.6744594 0.9493878 0.03844829 1.0000000</span></span>
-<span><span class="co">## 14 0.6744526 0.9495725 0.03845827 1.0000000</span></span>
-<span><span class="co">## 15 0.6742623 0.9495725 0.03835346 1.0000000</span></span>
-<span><span class="co">## 16 0.6720867 0.9479803 0.04456268 1.0000000</span></span>
-<span><span class="co">## 17 0.6716867 0.9481200 0.04458764 1.0000000</span></span>
-<span><span class="co">## 18 0.6718891 0.9480801 0.04459762 1.0000000</span></span>
-<span><span class="co">## 19 0.6633633 0.9408776 0.05041253 1.0000000</span></span>
-<span><span class="co">## 20 0.6631546 0.9409175 0.05048740 1.0000000</span></span>
-<span><span class="co">## 21 0.6623336 0.9407079 0.05053233 1.0000000</span></span>
-<span><span class="co">## 22 0.6516067 0.9328265 0.05747528 1.0000000</span></span>
-<span><span class="co">## 23 0.6513849 0.9329913 0.05739542 1.0000000</span></span>
-<span><span class="co">## 24 0.6513849 0.9329563 0.05744034 1.0000000</span></span>
-<span><span class="co">## 25 0.6406504 0.9257189 0.06334510 0.9999989</span></span>
-<span><span class="co">## 26 0.6406504 0.9258487 0.06332513 0.9999989</span></span>
-<span><span class="co">## 27 0.6408588 0.9257538 0.06337005 0.9999988</span></span>
-<span><span class="co">## 28 0.6355202 0.9187060 0.06824160 0.9999913</span></span>
-<span><span class="co">## 29 0.6353097 0.9186911 0.06822663 0.9999914</span></span>
-<span><span class="co">## 30 0.6350679 0.9186262 0.06833644 0.9999910</span></span>
-<span><span class="co">## 31 0.6240271 0.9121624 0.07363724 0.9999478</span></span>
-<span><span class="co">## 32 0.6237724 0.9120476 0.07377201 0.9999454</span></span>
-<span><span class="co">## 33 0.6237724 0.9120626 0.07376202 0.9999458</span></span></code></pre>
+<span><span class="co">## 1  0.6595902 0.8952418 0.07411142 0.9998045</span></span>
+<span><span class="co">## 2  0.6600839 0.8953366 0.07405152 0.9998075</span></span>
+<span><span class="co">## 3  0.6594221 0.8954115 0.07393173 0.9998143</span></span>
+<span><span class="co">## 4  0.6709979 0.9156014 0.05085676 1.0000000</span></span>
+<span><span class="co">## 5  0.6709945 0.9155365 0.05109136 1.0000000</span></span>
+<span><span class="co">## 6  0.6713432 0.9155865 0.05110633 1.0000000</span></span>
+<span><span class="co">## 7  0.6726142 0.9320479 0.03126076 1.0000000</span></span>
+<span><span class="co">## 8  0.6726142 0.9318982 0.03126575 1.0000000</span></span>
+<span><span class="co">## 9  0.6738719 0.9318932 0.03125577 1.0000000</span></span>
+<span><span class="co">## 10 0.6722973 0.9430937 0.03480961 1.0000000</span></span>
+<span><span class="co">## 11 0.6730498 0.9430638 0.03476468 1.0000000</span></span>
+<span><span class="co">## 12 0.6722973 0.9430788 0.03474472 1.0000000</span></span>
+<span><span class="co">## 13 0.6740654 0.9495026 0.03845328 1.0000000</span></span>
+<span><span class="co">## 14 0.6738686 0.9494128 0.03845827 1.0000000</span></span>
+<span><span class="co">## 15 0.6748466 0.9494677 0.03843332 1.0000000</span></span>
+<span><span class="co">## 16 0.6720916 0.9479553 0.04458764 1.0000000</span></span>
+<span><span class="co">## 17 0.6718891 0.9479303 0.04460261 1.0000000</span></span>
+<span><span class="co">## 18 0.6720916 0.9480451 0.04459263 1.0000000</span></span>
+<span><span class="co">## 19 0.6631546 0.9408127 0.05050238 1.0000000</span></span>
+<span><span class="co">## 20 0.6625387 0.9408476 0.05046245 1.0000000</span></span>
+<span><span class="co">## 21 0.6631546 0.9407029 0.05052234 1.0000000</span></span>
+<span><span class="co">## 22 0.6516067 0.9329463 0.05747029 1.0000000</span></span>
+<span><span class="co">## 23 0.6509704 0.9328864 0.05753518 1.0000000</span></span>
+<span><span class="co">## 24 0.6509704 0.9329114 0.05752519 1.0000000</span></span>
+<span><span class="co">## 25 0.6406504 0.9258237 0.06326523 0.9999989</span></span>
+<span><span class="co">## 26 0.6406504 0.9257139 0.06335508 0.9999989</span></span>
+<span><span class="co">## 27 0.6408588 0.9257788 0.06334510 0.9999989</span></span>
+<span><span class="co">## 28 0.6353097 0.9187659 0.06827155 0.9999913</span></span>
+<span><span class="co">## 29 0.6346472 0.9186811 0.06827155 0.9999912</span></span>
+<span><span class="co">## 30 0.6350679 0.9188009 0.06830150 0.9999911</span></span>
+<span><span class="co">## 31 0.6235613 0.9120875 0.07374206 0.9999460</span></span>
+<span><span class="co">## 32 0.6242383 0.9120726 0.07373707 0.9999460</span></span>
+<span><span class="co">## 33 0.6237724 0.9120576 0.07373207 0.9999460</span></span></code></pre>
 <p>All the necessary information is stored in the object calib, most of
 the goodness-of-fit measures agree on a parameter value of 0.075 in that
 case with an associated average Common Part of Commuter equal to
